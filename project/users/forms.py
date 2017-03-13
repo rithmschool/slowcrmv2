@@ -15,5 +15,3 @@ class LoginForm(FlaskForm):
 
 
 
-# class EntryForm(FlaskForm):
-	# pass
