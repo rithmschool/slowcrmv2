@@ -19,13 +19,13 @@ class User(db.Model, UserMixin):
 
 
 
-def __init__(self, email, name, password, phone, created_at, updated_at, is_admin, confirmed):
-	self.email = email
-	self.name = name
-	self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
-	self.phone = phone
-	self.created_at = datetime.now()
-	self.updated_at = datetime.now()
-	self.is_admin = is_admin
-	self.confirmed = confirmed
+	def __init__(self, email, name, password, phone, created_at, updated_at, is_admin, confirmed):
+		self.email = email
+		self.name = name
+		self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
+		self.phone = phone
+		self.created_at = datetime.now()
+		self.updated_at = datetime.now()
+		self.is_admin = is_admin
+		self.confirmed = confirmed
 
