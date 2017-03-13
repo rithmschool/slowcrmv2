@@ -18,7 +18,7 @@ CsrfProtect(app)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
-from project.users import users_blueprint
+from project.users.views import users_blueprint
 
 app.register_blueprint(users_blueprint, url_prefix='/users')
 
