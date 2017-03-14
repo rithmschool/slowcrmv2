@@ -18,6 +18,9 @@ db = SQLAlchemy(app)
 
 
 from project.users.models import User
+from project.users.views import users_blueprint
+
+app.register_blueprint(users_blueprint, url_prefix='/users')
 
 @login_manager.user_loader
 def load_user(user_id):

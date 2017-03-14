@@ -14,4 +14,8 @@ class LoginForm(FlaskForm):
 	password = PasswordField('password', [validators.DataRequired()])
 
 
-
+class InviteUserForm(FlaskForm):
+	username = StringField('Username', [validators.DataRequired()])
+	email = StringField('Email', [validators.DataRequired()])
+	phone = StringField('Phone', [validators.DataRequired()])
+		
