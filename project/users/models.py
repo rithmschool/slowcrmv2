@@ -16,8 +16,8 @@ class User(db.Model, UserMixin):
     name = db.Column(db.Text, nullable=True)
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     is_admin = db.Column(db.Boolean, nullable=False, default=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -47,8 +47,8 @@ class Person(db.Model):
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, nullable=False) 
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now) 
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, email, phone, name, title, description, slow_lp):
         self.email = email
