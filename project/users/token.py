@@ -15,4 +15,3 @@ def confirm_token(token, expiration=86400):
     except:
         return False
     return email
-    
