@@ -5,6 +5,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_wtf.csrf import CsrfProtect
 from flask_mail import Mail
+from project.users.views import users_blueprint
 
 
 app = Flask(__name__)
