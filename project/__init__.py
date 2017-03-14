@@ -14,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or "postg
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
 
 login_manager = LoginManager(app)
 CSRFProtect(app)
@@ -49,3 +50,4 @@ def load_user(user_id):
 @app.route('/')
 def root():
 	return "Welcome to the Root of the Source!"
+    
