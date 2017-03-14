@@ -1,11 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
-
 
 
 
@@ -20,7 +19,6 @@ app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
 login_manager = LoginManager(app)
 CSRFProtect(app)
 db = SQLAlchemy(app)
-
 
 if os.environ.get('ENV') == 'production':
     debug = False
@@ -38,10 +36,18 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 from project.users.views import users_blueprint
-from project.users.models import User
+
 app.register_blueprint(users_blueprint, url_prefix='/users')
 
+
+
+from project.users.models import User
 
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(user_id)
+
+@app.route('/')
+def root():
+	return "Welcome to the Root of the Source!"
+    
