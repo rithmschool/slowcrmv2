@@ -1,6 +1,4 @@
-from project import app 
+from project import app, debug
 
 if __name__ == '__main__':
-  app.run(debug=True, port=3001)
-
-  
+  app.run(debug=debug, port=3001)
