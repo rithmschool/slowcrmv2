@@ -1,7 +1,7 @@
 from project.users.forms import UserForm
 from project.users.forms import LoginForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
-from project.users.models import User
+from project.users.models import User, Person
 from project import db, bcrypt
 
 from sqlalchemy.exc import IntegrityError
@@ -13,6 +13,6 @@ users_blueprint = Blueprint(
 )
 
 
-
+from IPython import embed; embed()
 
 
