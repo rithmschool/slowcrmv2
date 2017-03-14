@@ -35,9 +35,7 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 
-
-
-from project.users.models import User
+from project.models import User
 from project.users.views import users_blueprint
 
 app.register_blueprint(users_blueprint, url_prefix='/users')
