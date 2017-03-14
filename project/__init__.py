@@ -5,7 +5,7 @@ from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
-from project.users.views import users_blueprint
+
 
 
 app = Flask(__name__)
