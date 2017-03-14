@@ -15,6 +15,7 @@ def send_token(subject, html, name, email, confirm_url):
     mail.send(msg)
 
 
+
 users_blueprint = Blueprint(
     'users',
     __name__,
@@ -82,8 +83,6 @@ def confirm_email(token):
 def edit(id):  
     found_user = User.query.get(current_user.id)   
     render_template('users/update.html', form=UserForm(), user=found_user) 
-
-
 
 
 
