@@ -9,7 +9,9 @@ app = Flask(__name__)
 login_manager = LoginManager(app)
 db = SQLAlchemy(app)
 if os.environ.get('ENV') == 'production':
-	debug=False
+    debug = False
+else:
+    debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or "postgres://localhost/slowcrmv2-db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
