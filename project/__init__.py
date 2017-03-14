@@ -4,9 +4,11 @@ import os
 from flask import Flask
 from flask_login import LoginManager
 from flask_mail import Mail
+from project.users.views import users_blueprint
 
 app = Flask(__name__)
 login_manager = LoginManager(app)
+app.register_blueprint(users_blueprint, url_prefix='/users')
 
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or "postgres://localhost/slowcrmv2-db"
