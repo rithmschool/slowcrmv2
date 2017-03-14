@@ -47,8 +47,8 @@ class Person(db.Model):
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow) 
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False) 
+    updated_at = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, email, phone, name, title, description, slow_lp):
         self.email = email
