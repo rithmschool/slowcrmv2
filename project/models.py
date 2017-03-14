@@ -2,7 +2,6 @@ from project import db, bcrypt
 from flask_login import UserMixin
 from datetime import datetime
 
-
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
@@ -19,13 +18,13 @@ class User(db.Model, UserMixin):
 
 
 
-    def __init__(self, email, name, password, phone, created_at, updated_at, is_admin, confirmed):
+    def __init__(self, email, name, password, phone, is_admin, confirmed, created_at=datetime.now(), updated_at=datetime.now()):
         self.email = email
         self.name = name
         self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
         self.phone = phone
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        self.created_at
+        self.updated_at 
         self.is_admin = is_admin
         self.confirmed = confirmed
 
@@ -63,15 +62,14 @@ class Entry(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
     companies = db.relationship('Company', secondary=EntryCompany, backref='entry', lazy='dynamic')
-    # peoples = db.relationship('People', secondary=EntryPeople, backref='entry', lazy='dynamic')
 
 
-    def __init__(self, user_id, title, description, archived, created_at, updated_at):
+    def __init__(self, user_id, title, description, archived, created_at=datetime.now(), updated_at=datetime.now()):
         self.user_id = user_id
         self.title = title
         self.description = description
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        self.created_at
+        self.updated_at 
         self.archived = archived
 
 

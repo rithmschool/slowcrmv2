@@ -34,9 +34,6 @@ app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 bcrypt = Bcrypt(app)
 mail = Mail(app)
 
-from project.users.views import users_blueprint
-
-app.register_blueprint(users_blueprint, url_prefix='/users')
 
 
 from project.users.models import User
