@@ -6,6 +6,7 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
 from project.users.views import users_blueprint
+from project.users.models import User
 
 
 app = Flask(__name__)
@@ -34,13 +35,8 @@ app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
 bcrypt = Bcrypt(app)
 mail = Mail(app)
-
-from project.users.views import users_blueprint
-
 app.register_blueprint(users_blueprint, url_prefix='/users')
 
-
-from project.users.models import User
 
 @login_manager.user_loader
 def load_user(user_id):
