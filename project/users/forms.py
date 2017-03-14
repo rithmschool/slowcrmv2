@@ -16,6 +16,7 @@ class LoginForm(FlaskForm):
 
 
 
+
 class PersonForm(FlaskForm):
     email = StringField('Email', [validators.DataRequired()])
     phone = StringField('Phone', [validators.DataRequired()])
