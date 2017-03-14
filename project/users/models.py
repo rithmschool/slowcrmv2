@@ -48,4 +48,14 @@ class Person(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
 
+    def __init__(self, email, phone, name, title, description, slow_lp):
+        self.email = email
+        self.phone = phone
+        self.name = name
+        self.title = title
+        self.description = description
+        self.slow_lp = slow_lp
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+
     
