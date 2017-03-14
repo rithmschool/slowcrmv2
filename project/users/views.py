@@ -33,10 +33,9 @@ def login():
         return render_template('login.html', form=form)
     return render_template('login.html', form=form)
 
+
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 def entry():
     form = EntryForm()
     return render_template('users/entry.html', entry_form=form)
-
-
 
