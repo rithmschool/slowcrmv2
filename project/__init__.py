@@ -5,8 +5,8 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
-from project.users.views import users_blueprint
-from project.users.models import User
+
+
 
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
 login_manager = LoginManager(app)
 CSRFProtect(app)
 db = SQLAlchemy(app)
+
 
 if os.environ.get('ENV') == 'production':
     debug = False
@@ -35,6 +36,9 @@ app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 
 bcrypt = Bcrypt(app)
 mail = Mail(app)
+
+from project.users.views import users_blueprint
+from project.users.models import User
 app.register_blueprint(users_blueprint, url_prefix='/users')
 
 
