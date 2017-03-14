@@ -33,6 +33,10 @@ class User(db.Model, UserMixin):
         self.is_admin = is_admin
         self.confirmed = confirmed
 
+    def __repr__(self):
+        return "{},{},{},{},{},{},{},{}".format(self.email,self.name,self.password, self.phone,
+            self.created_at, self.updated_at,self.is_admin,self.confirmed)
+
 class Person(db.Model):
     __tablename__ = "persons"
 
@@ -43,10 +47,8 @@ class Person(db.Model):
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
-    # user_created_by = db.Column(db.Integer)
-    # user_primary_poc = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow) 
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     def __init__(self, email, phone, name, title, description, slow_lp):
         self.email = email
@@ -58,4 +60,6 @@ class Person(db.Model):
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
-    
+    def __repr__(self):
+        return "{},{},{},{},{},{},{},{}".format(self.email,self.phone,self.name,
+            self.description,self.slow_lp,self.created_at,self.updated_at)
