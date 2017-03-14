@@ -35,12 +35,12 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 from project.users.views import users_blueprint
+from project.persons.views import persons_blueprint
 
 app.register_blueprint(users_blueprint, url_prefix='/users')
+app.register_blueprint(persons_blueprint, url_prefix='/persons')
 
-
-
-from project.users.models import User
+from project.models import User
 
 @login_manager.user_loader
 def load_user(user_id):

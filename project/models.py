@@ -47,8 +47,8 @@ class Person(db.Model):
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow) 
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow()) 
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, email, phone, name, title, description, slow_lp):
         self.email = email
@@ -61,5 +61,5 @@ class Person(db.Model):
         self.updated_at = datetime.now()
 
     def __repr__(self):
-        return "{},{},{},{},{},{},{},{}".format(self.email,self.phone,self.name,
+        return "{},{},{},{},{},{},{}".format(self.email,self.phone,self.name,
             self.description,self.slow_lp,self.created_at,self.updated_at)
