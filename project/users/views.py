@@ -23,7 +23,8 @@ def login():
                 if authenticated_user:
                     login_user(found_user)
                     name = found_user.name
-                    flash('Welcome, {}').format(name[:name.find(' '):])
+                    first_name = name[:name.find(' '):]
+                    flash('Welcome, {}').format(first_name)
                     return redirect(url_for('users.home'))
         flash('Invalid Credentials')
         return render_template('login.html', form=form)
