@@ -22,5 +22,3 @@ class PersonForm(FlaskForm):
     title = StringField('Title' , [validators.Length(max=20)])
     description = StringField('Description')
     slow_lp = BooleanField('Slow_lp')
-
-    
