@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or "postgres://localhost/slowcrmv2-db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or "Shhhh"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') 
 
 login_manager = LoginManager(app)
 CSRFProtect(app)
@@ -45,7 +45,7 @@ from project.users.models import User
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(user_id)
-    
+
 @app.route('/')
 def root():
 	return "Welcome to the Root of the Source!"
