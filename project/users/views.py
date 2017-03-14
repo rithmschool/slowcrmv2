@@ -1,7 +1,7 @@
 from project.users.forms import UserForm
 from project.users.forms import LoginForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
-from project.users.models import User, Person
+from project.models import User
 from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
