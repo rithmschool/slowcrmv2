@@ -34,8 +34,8 @@ app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 bcrypt = Bcrypt(app)
 mail = Mail(app)
 
-
 from project.models import User
+
 from project.users.views import users_blueprint
 
 app.register_blueprint(users_blueprint, url_prefix='/users')
@@ -47,3 +47,4 @@ def load_user(user_id):
 @app.route('/')
 def root():
 	return "Welcome to the Root of the Source!"
+
