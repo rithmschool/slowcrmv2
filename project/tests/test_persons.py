@@ -4,8 +4,8 @@ from datetime import datetime
 from project.models import Person
 from project import app, db, bcrypt
 
+
 class BaseTestCase(TestCase):
-    render_templates = False
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True
@@ -27,13 +27,13 @@ class BaseTestCase(TestCase):
             title='Awesome',
             description='I am an awesome person',
             slow_lp=True,
-            created_at=datetime.utcnow,
-            updated_at=datetime.utcnow
-            )
+            created_at=datetime.now,
+            updated_at=datetime.now
+            ), follow_redirects=True
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assert_template_used('/users/index.html')
+        self.assert_template_used('/persons/index.html')
 
 if __name__ == '__main__':
     unittest.main()
