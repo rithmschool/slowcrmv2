@@ -51,5 +51,4 @@ def load_user(user_id):
 def root():
 	return "Welcome to the Root of the Source!"
 
-from IPython import embed; embed()
 
