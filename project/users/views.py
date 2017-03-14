@@ -1,6 +1,10 @@
 from project.users.forms import UserForm, LoginForm, EntryForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
+<<<<<<< HEAD
 from project.models import User, Person
+=======
+from project.users.models import User, Person
+>>>>>>> fixed stupid changes
 from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
@@ -29,14 +33,10 @@ def login():
         return render_template('login.html', form=form)
     return render_template('login.html', form=form)
 
-
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 def entry():
     form = EntryForm()
     return render_template('users/entry.html', entry_form=form)
-
-
-
 
 
 
