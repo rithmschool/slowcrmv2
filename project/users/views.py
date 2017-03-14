@@ -57,7 +57,7 @@ def invite():
         flash('The form is incomplete') 
         return "Missing form data"   
 
-@users_blueprint.route('/confirm/<token>')
+@users_blueprint.route('/confirm/<token>', methods=['GET'])
 def confirm_email(token):
     try:
         email = confirm_token(token)
@@ -78,7 +78,7 @@ def confirm_email(token):
         return redirect(url_for('users.edit', id=user.id))
 
 @login_required
-@users_blueprint.route('/<int:id>/edit') 
+@users_blueprint.route('/<int:id>/edit', methods=['GET']) 
 def edit(id):  
     found_user = User.query.get(current_user.id)   
     render_template('users/update.html', form=UserForm(), user=found_user) 
