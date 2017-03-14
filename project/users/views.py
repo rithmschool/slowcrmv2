@@ -75,14 +75,13 @@ def confirm_email(token):
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        flash('You have confirmed your account! Please update your user information.', 'success')
-        return redirect(url_for('users.edit', id=user.id))
+        return render_template('users/edit.html', form=UserForm(), user=user)
 
 @login_required
 @users_blueprint.route('/<int:id>/edit', methods=['GET']) 
 def edit(id):  
     found_user = User.query.get(current_user.id)   
-    render_template('users/update.html', form=UserForm(), user=found_user) 
+    render_template('users/edit.html', form=UserForm(), user=found_user) 
 
 
 
