@@ -1,7 +1,6 @@
-from project.users.forms import UserForm
-from project.users.forms import LoginForm
+from project.users.forms import UserForm, LoginForm, EntryForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
-from project.users.models import User, Person
+from project.models import User, Person
 from project import db, bcrypt, mail
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
@@ -83,5 +82,8 @@ def edit(id):
     found_user = User.query.get(current_user.id)   
     render_template('users/edit.html', form=UserForm(), user=found_user) 
 
-
+@users_blueprint.route('/entries', methods=['GET', 'POST'])
+def entry():
+    form = EntryForm()
+    return render_template('users/entry.html', entry_form=form)
 
