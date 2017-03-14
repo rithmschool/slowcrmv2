@@ -15,8 +15,9 @@ persons_blueprint = Blueprint(
 )
 
 
-@persons_blueprint.route('/persons', methods=['GET, POST'])
-def person_index():
+@persons_blueprint.route('/', methods=['GET', 'POST'])
+def index():
+    from IPython import embed; embed()
     form = PersonForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -34,3 +35,4 @@ def person_index():
             return redirect(url_for('users.index'))
         flash('Please fill in all required fields')
         return render_template('login.html', form=form)
+
