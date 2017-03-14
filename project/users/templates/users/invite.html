@@ -1,9 +1,9 @@
-{%  extends "base.html"  %}
+<!-- {%  extends "base.html"  %}
 
 {%  block content  %}
 	<div class="col-md-6 col-md-offset-3" style="background-color: skyblue;padding:100;padding: 100;padding: 100px;">
 		<h3 style='color:white' class='text-center'>Invite a new user</h3>
-		<form class='text-center' >
+		<form action="{{url_for('users.index')}}" , method='POST' class='text-center' >
 			<div id='form'>
 			{%  for formfield in form  %}
 				<p>{formfield}</p>
@@ -14,7 +14,7 @@
 		</form>
 	</div>
 {%  endblock  %}
-
+ -->
 
 
 <!DOCTYPE html>
@@ -41,7 +41,7 @@
 	<div>
 	<div class="col-md-6 col-md-offset-3" style="background-color: skyblue;padding:100;padding: 100;padding: 100px;">
 		<h3 style='color:white' class='text-center'>Invite a new user</h3>
-		<form class='text-center' >
+		<form action="{{url_for('users.index')}}" , method='POST' class='text-center' >
 			<div id='form'>
 			{%  for formfield in form  %}
 				<p>{formfield}</p>
