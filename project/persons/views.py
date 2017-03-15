@@ -19,22 +19,39 @@ persons_blueprint = Blueprint(
 def index():
     form = PersonForm(request.form)
     if request.method == 'POST':
+        from IPython import embed; embed()
         if form.validate():
-
             new_person = Person(
             email=request.form['email'],
             phone=request.form['phone'],
             name=request.form['name'],
             title=request.form['title'],
             description=request.form['description'],
-            slow_lp=form.data['slow_lp']
-                )
+            slow_lp=form.data['slow_lp'],
+            archived=form.data['archived'])
             db.session.add(new_person)
             db.session.commit()
             flash("Succesfully added new person")
             return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
         return render_template('persons/new.html',form=form)
+    if request.method == 'PATCH':
+        if form.validate():
+            new_person = Person(
+            email=request.form['email'],
+            phone=request.form['phone'],
+            name=request.form['name'],
+            title=request.form['title'],
+            description=request.form['description'],
+            slow_lp=form.data['slow_lp'],
+            archived=form.data['archived']
+                )
+            db.session.add(new_person)
+            db.session.commit()
+            flash("Succesfully added new person")
+            return redirect(url_for('persons.index'))
+        flash('Please fill in all required fields')
+        return render_template('person')
     persons = Person.query.filter_by(archived=False)
     return render_template('persons/index.html', persons=persons)
 
