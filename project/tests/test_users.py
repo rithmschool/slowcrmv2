@@ -4,7 +4,6 @@ from flask import json
 from project.models import User
 from project import app, db, bcrypt
 
-
 class BaseTestCase(TestCase):
     render_templates = False
     def create_app(self):
@@ -24,19 +23,23 @@ class BaseTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-
-
     def testSendInvite(self):
         # Successful Invite
         response = self.client.post('/users/invite',
             data=json.dumps(dict(email='hopmailkins@gmail.com', name='Tommy')), 
             content_type='application/json', follow_redirects=True)
-
         expected_json = 'Invite Sent'
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(User.query.count(),3)
         self.assertEqual(response.json, expected_json)
-        
-
+        # Unsuccessful Invite
+        response = self.client.post('/users/invite',
+            data=json.dumps(dict(name='Tommy')), 
+            content_type='application/json', follow_redirects=True)
+        expected_json = 'Missing form info'
+        self.assertEqual(response.status_code, 422)
+        self.assertEqual(User.query.count(),3)
+        self.assertEqual(response.json, expected_json)
 
 if __name__ == '__main__':
     unittest.main()
