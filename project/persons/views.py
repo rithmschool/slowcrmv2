@@ -15,8 +15,8 @@ persons_blueprint = Blueprint(
 )
 
 
-@persons_blueprint.route('/persons', methods=['GET, POST'])
-def person_index():
+@persons_blueprint.route('/', methods=['GET', 'POST'])
+def index():
     form = PersonForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -31,6 +31,13 @@ def person_index():
             db.session.add(new_person)
             db.session.commit()
             flash("Succesfully added new person")
-            return redirect(url_for('users.index'))
+            return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
-        return render_template('login.html', form=form)
+        return redirect(url_for('persons.new', form=form))
+    persons = Person.query.all()
+    return render_template('persons/index.html', persons=persons)
+
+@persons_blueprint.route('/new')
+def new():
+    form = PersonForm(request.form)
+    return render_template('persons/person.html', form=form)
