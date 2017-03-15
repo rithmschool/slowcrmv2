@@ -1,7 +1,7 @@
-from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import os
+from flask import Flask, render_template, redirect, url_for
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
@@ -45,9 +45,8 @@ app.register_blueprint(persons_blueprint, url_prefix='/persons')
 
 @login_manager.user_loader
 def load_user(user_id):
-	return User.query.get(user_id)
+    return User.query.get(user_id)
 
 @app.route('/')
 def root():
-	return "Welcome to the Root of the Source!"
-
+    return redirect('/users/home')
