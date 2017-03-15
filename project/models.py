@@ -96,8 +96,7 @@ class Entry(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
-    title = db.Column(db.String, nullable=False)
-    description = db.Column(db.Text, nullable=True)
+    content = db.Column(db.String, nullable=False)
     archived = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
@@ -105,10 +104,9 @@ class Entry(db.Model, UserMixin):
     persons = db.relationship('Person', secondary=entry_persons, backref=db.backref('entries'), lazy='dynamic')
 
 
-    def __init__(self, user_id, title, description=None, archived=False, created_at=datetime.utcnow(), updated_at=datetime.utcnow()):
+    def __init__(self, user_id, content, archived=False, created_at=datetime.utcnow(), updated_at=datetime.utcnow()):
         self.user_id = user_id
-        self.title = title
-        self.description = description
+        self.content = content
         self.created_at = created_at
         self.updated_at = updated_at
         self.archived = archived

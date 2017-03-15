@@ -24,5 +24,5 @@ class PersonForm(FlaskForm):
     slow_lp = BooleanField('Slow_lp')
 
 class EntryForm(FlaskForm):
-    post_message = TextAreaField('Send an update to partners $company |person and a *tag')
+    content = TextAreaField('Send an update to partners $company |person and a *tag')
 

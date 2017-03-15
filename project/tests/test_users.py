@@ -5,7 +5,6 @@ from project.models import User
 from project import app, db, bcrypt
 
 class BaseTestCase(TestCase):
-    render_templates = False
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True

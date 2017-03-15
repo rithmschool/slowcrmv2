@@ -87,7 +87,7 @@ def edit(id):
 def entry(user_id):
     form = EntryForm()
     if(request.method == 'POST'):
-        title = request.form['post_message']
+        title = request.form.get('content')
         entry = Entry(user_id, title)
         db.session.add(entry)
         db.session.commit()
