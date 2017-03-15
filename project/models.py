@@ -40,6 +40,7 @@ class Person(db.Model):
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
+    archived = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
         onupdate=db.func.now())
@@ -51,6 +52,7 @@ class Person(db.Model):
         self.title = title
         self.description = description
         self.slow_lp = slow_lp
+        self.archived = False
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
@@ -71,6 +73,7 @@ class Company(db.Model):
     ops_lead = db.Column(db.Text, nullable=True)
     source = db.Column(db.Text, nullable=True)
     round = db.Column(db.Text, nullable=True)
+    archived = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
         onupdate=db.func.now())
@@ -82,6 +85,7 @@ class Company(db.Model):
         self.logo_url = logo_url
         self.partner_lead = partner_lead
         self.ops_lead = ops_lead
+        self.archived = False
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
