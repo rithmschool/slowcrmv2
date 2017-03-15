@@ -35,7 +35,7 @@ class Person(db.Model):
 
     id=db.Column(db.Integer,primary_key=True)
     email = db.Column(db.Text, nullable=True, unique=True)
-    phone = db.Column(db.Integer, nullable=True)
+    phone = db.Column(db.String, nullable=True)
     name = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
@@ -57,7 +57,7 @@ class Person(db.Model):
         self.updated_at = datetime.now()
 
     def __repr__(self):
-        return "{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.email,self.phone,self.name,
+        return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.archived,self.email,self.phone,self.name,
             self.description,self.slow_lp,self.created_at,self.updated_at)
 
 
@@ -92,12 +92,6 @@ class Company(db.Model):
     def __repr__(self):
         return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
-
-
-
-
-
-
 
 
 

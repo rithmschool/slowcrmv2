@@ -3,18 +3,18 @@
 {%  block content  %}
 <div class="col-md-6 col-md-offset-3">
 
-<h2>Person Form</h2>
+<h2>Edit Person Form</h2>
 
-<button><a href = '{{url_for('persons.index')}}''>Person Index</a></button>
+<button><a href = '{{url_for('persons.show', id=person.id)}}''>Back to profile</a></button>
 
-<form action="{{url_for('persons.index')}}" , method='POST'>
+<form action="{{url_for('persons.index')}}?_method=PATCH" , method='POST'>
 
 {{form.hidden_tag()}}
 {%  for field in form if field.widget.input_type != 'hidden' %}
 
 <p>{{field.label}}: {{field}}
-    <span>{%  if form.errors  %}
-            {%  for error in form.errors  %}
+    <span>{%  if field.errors  %}
+            {%  for error in field.errors %}
                 {{error}}
             {%  endfor  %}
         {%  endif  %}
@@ -22,7 +22,7 @@
 </p>
 {%  endfor  %}
 
-<button type='submit'>Add New Person</button>
+<button type='submit'>Edit Profile</button>
 
 </form>
 

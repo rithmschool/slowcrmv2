@@ -1,0 +1,18 @@
+{%  extends 'base.html'  %}
+
+{%  block content  %}
+<h2 class="col-md-2 col-md-offset-5">{{person.name}}'s Page</h2>
+
+<div class="col-md-2 col-md-offset-5">
+    <p>Name: {{person.name}}</p>
+    <p>Title: {{person.title}}</p>
+    <p>Email: {{person.email}}</p>
+    <p>Phone: {{person.phone}}</p>
+    <p>Description: {{person.description}}</p>
+    <p>Slow LP: {{person.slow_lp}}</p>
+    <p>Archived?: {{person.archived}}</p>
+    <p>Created At: {{person.created_at}}</p>
+    <p>Updated At: {{person.updated_at}}</p>
+</div>
+<button class="col-md-4 col-md-offset-4"><a href = '{{url_for('persons.edit', id=person.id)}}''>Edit Profile</a></button>
+{%  endblock  %}

@@ -19,7 +19,8 @@ persons_blueprint = Blueprint(
 def index():
     form = PersonForm(request.form)
     if request.method == 'POST':
-        if form.validate_on_submit():
+        if form.validate():
+
             new_person = Person(
             email=request.form['email'],
             phone=request.form['phone'],
@@ -33,11 +34,23 @@ def index():
             flash("Succesfully added new person")
             return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
-        return redirect(url_for('persons.new', form=form))
-    persons = Person.query.all()
+        return render_template('persons/new.html',form=form)
+    persons = Person.query.filter_by(archived=False)
     return render_template('persons/index.html', persons=persons)
 
 @persons_blueprint.route('/new')
 def new():
     form = PersonForm(request.form)
-    return render_template('persons/person.html', form=form)
+    return render_template('persons/new.html', form=form)
+
+@persons_blueprint.route('/<int:id>', methods=["GET","POST","PATCH"])
+def show(id):
+    person = Person.query.get(id)
+    return render_template('persons/show.html', person=person)
+
+
+@persons_blueprint.route('/<int:id>/edit', methods=["GET"])
+def edit(id):
+    edit_person = Person.query.get(id)
+    form = PersonForm(obj = edit_person)
+    return render_template('persons/edit.html', form=form, person=edit_person)
