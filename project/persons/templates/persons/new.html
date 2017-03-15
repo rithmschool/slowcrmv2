@@ -1,0 +1,32 @@
+{%  extends 'base.html'  %}
+
+{%  block content  %}
+<div class="col-md-6 col-md-offset-3">
+
+<h2>Person Form</h2>
+
+<button><a href = '{{url_for('persons.index')}}''>Person Index</a></button>
+
+<form action="{{url_for('persons.index')}}" , method='POST'>
+
+{{form.hidden_tag()}}
+{%  for field in form if field.widget.input_type != 'hidden' %}
+
+<p>
+    {{field.label}}: 
+    {{field}}
+    <span>{%  if field.errors  %}
+            {%  for error in field.errors %}
+                {{error}}
+            {%  endfor  %}
+        {%  endif  %}
+    </span>
+</p>
+{%  endfor  %}
+
+<button type='submit'>Add New Person</button>
+
+</form>
+
+</div>
+{%  endblock  %}

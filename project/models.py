@@ -35,27 +35,29 @@ class Person(db.Model):
 
     id=db.Column(db.Integer,primary_key=True)
     email = db.Column(db.Text, nullable=True, unique=True)
-    phone = db.Column(db.Integer, nullable=True)
+    phone = db.Column(db.String, nullable=True)
     name = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
+    archived = db.Column(db.Boolean, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
         onupdate=db.func.now())
 
-    def __init__(self, email, phone, name, title, description, slow_lp):
+    def __init__(self, email, phone, name, title, description, slow_lp,archived):
         self.email = email
         self.phone = phone
         self.name = name
         self.title = title
         self.description = description
         self.slow_lp = slow_lp
+        self.archived = archived
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
     def __repr__(self):
-        return "{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.email,self.phone,self.name,
+        return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.archived,self.email,self.phone,self.name,
             self.description,self.slow_lp,self.created_at,self.updated_at)
 
 
@@ -71,6 +73,7 @@ class Company(db.Model):
     ops_lead = db.Column(db.Text, nullable=True)
     source = db.Column(db.Text, nullable=True)
     round = db.Column(db.Text, nullable=True)
+    archived = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
         onupdate=db.func.now())
@@ -82,18 +85,13 @@ class Company(db.Model):
         self.logo_url = logo_url
         self.partner_lead = partner_lead
         self.ops_lead = ops_lead
+        self.archived = False
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
     def __repr__(self):
         return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
-
-
-
-
-
-
 
 
 
