@@ -1,5 +1,6 @@
 from flask_testing import TestCase
 import unittest
+from flask import json
 from project.models import User
 from project import app, db, bcrypt
 
@@ -23,21 +24,19 @@ class BaseTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def testLogin(self):
-        # Successful login
-        response = self.client.post('/users/login',
-            data=dict(email='tommyhopkins@gmail.com',
-            password='password2'
-            )
-        )
+
+
+    def testSendInvite(self):
+        # Successful Invite
+        response = self.client.post('/users/invite',
+            data=json.dumps(dict(email='hopmailkins@gmail.com', name='Tommy')), 
+            content_type='application/json', follow_redirects=True)
+
+        expected_json = 'Invite Sent'
         self.assertEqual(response.status_code, 200)
-        # Unsuccessful
-        response = self.client.post('/login',
-            data=dict(email='tommyhopkins@gmail.com',
-            password='password'
-            )
-        )
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json, expected_json)
+        
+
 
 if __name__ == '__main__':
     unittest.main()
