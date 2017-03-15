@@ -131,7 +131,7 @@ padding:0;
 		justify-content: space-around;
 		align-items: center;
 		height: 100%;
-		background-color: #000034;
+		background-color: #34495E;
 		width: 55%;
 	}
 }
@@ -142,7 +142,7 @@ padding:0;
 		justify-content: space-around;
 		align-items: center;
 		height: 100%;
-		background-color: #000034;
+		background-color: #34495E;
 		width: 55%;
 	}
 }
@@ -192,7 +192,7 @@ padding:0;
 }
 
 @media (max-width: 1920px){
-	form {
+	.myform {
 		display: inline-block;
 		margin: 0 0 0 1.5em;
 		width: 100%; 
@@ -207,7 +207,7 @@ padding:0;
 		font-size: 85%;
 	}
 
-	form::after {
+	.myform::after {
 	    content: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/435840/search.svg');
 	    background-size: 0.9em 0.9em;
 	    display: inline-block;
@@ -221,7 +221,7 @@ padding:0;
 }
 
 @media (min-width: 1921px){
-	form {
+	.myform {
 		display: inline-block;
 		margin: 0 0 0 2.2em;
 		width: 100%; 
@@ -236,7 +236,7 @@ padding:0;
 		font-size: 100%;
 	}
 
-	form::after {
+	.myform::after {
 	    content: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/435840/search.svg');
 	    background-size: 0.9em 0.9em;
 	    display: inline-block;
@@ -388,4 +388,5 @@ padding:0;
 		height: 3px;
 	}
 }
+
 
