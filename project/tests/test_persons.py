@@ -20,21 +20,28 @@ class BaseTestCase(TestCase):
         db.drop_all()
 
     def testNewPerson(self):
-        response = self.client.post('/persons',
+        response = self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
-            phone='4087261650',
+            phone=87261650,
             name='Aaron',
             title='Awesome',
-            description='I am an awesome person',
-            slow_lp=True,
-            created_at=datetime.now,
-            updated_at=datetime.now
+            description='I am an awesome person'
             ), follow_redirects=True
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assert_template_used('/persons/index.html')
-        self.assertEqual(Person.query.filter_by(phone=4087261650).name, 'Aaron')
+        self.assert_template_used('persons/index.html')
+        self.assertEqual(
+            Person.query.filter_by(phone= 87261650).first().name,
+            'Aaron')
+        self.assertFalse(Person.query.filter_by(phone= 87261650).first().slow_lp,
+            False)
+        self.assertEqual(
+            Person.query.filter_by(phone= 87261650).first().email,
+            'aaron.m.manley@gmail.com')
+        self.assertEqual(
+            Person.query.filter_by(phone= 87261650).first().description,
+            "I am an awesome person")
 
 if __name__ == '__main__':
     unittest.main()

@@ -26,7 +26,7 @@ def index():
             name=request.form['name'],
             title=request.form['title'],
             description=request.form['description'],
-            slow_lp=request.form['slow_lp']
+            slow_lp=form.data['slow_lp']
                 )
             db.session.add(new_person)
             db.session.commit()
