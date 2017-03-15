@@ -1,5 +1,5 @@
-from project.users.forms import UserForm, LoginForm, EntryForm
-from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
+from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm
+from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
 from project.models import User, Person
 from project import db, bcrypt, mail
 from flask_login import login_user, logout_user, current_user, login_required
@@ -7,13 +7,12 @@ from sqlalchemy.exc import IntegrityError
 from flask_mail import Message 
 from project.users.token import generate_confirmation_token, confirm_token
 from datetime import datetime
+from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 
 def send_token(subject, html, name, email, confirm_url):
     msg = Message(subject, sender="noreply.slowcrm@gmail.com", recipients=[email])
     msg.html = render_template(html, name = name, confirm_url = confirm_url)
     mail.send(msg)
-
-
 
 users_blueprint = Blueprint(
     'users',
@@ -42,20 +41,20 @@ def login():
 @login_required
 @users_blueprint.route('/invite', methods=['POST'])
 def invite():
-    form = UserForm(request.form)
+    # WTForms needs an ImmutableMultiDict - we have to convert a dict to that below
+    form = InviteForm(ImmutableMultiDict(request.get_json()))
     if form.validate():
-        email = request.form.get('email')
-        name = request.form.get('name')
+        email = request.get_json().get('email')
+        name = request.get_json().get('name')
         token = generate_confirmation_token(email)
-        confirm_url = url_for('user.confirm_email', token=token, _external=True)
+        confirm_url = url_for('users.confirm_email', token=token, _external=True)
         new_user = User(email,name,'temppass','',True,False)
         db.session.add(new_user)
         db.session.commit()
-        send_token("You Have Been Invited To Join Slow CRM", "users.new_user.html", name, email, confirm_url)
-        return "Invite Sent"
-    else:
-        flash('The form is incomplete') 
-        return "Missing form data"   
+        send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
+        return jsonify('Invite Sent'), 200
+    else: 
+        return jsonify("Sorry")       
 
 @users_blueprint.route('/confirm/<token>', methods=['GET'])
 def confirm_email(token):
