@@ -22,7 +22,7 @@ class BaseTestCase(TestCase):
     def testNewEntry(self):
         response = self.client.post('/users/2/entries',
             data=dict(user_id=2,
-                        content='Divya working at Rithm',
+                        content='working at Rithm',
                         created_at=datetime.utcnow,
                         updated_at=datetime.utcnow
             )
