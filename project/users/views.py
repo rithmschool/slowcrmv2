@@ -20,13 +20,14 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
+@login_required
 @users_blueprint.route('/home')
 def home():
     return render_template('users/home.html')
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-    form = UserForm()
+    form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
             found_user = User.query.filter_by(email = form.email.data).first()
@@ -36,7 +37,7 @@ def login():
                     login_user(found_user)
                     name = found_user.name
                     first_name = name[:name.find(' '):]
-                    flash('Welcome, {}').format(first_name)
+                    flash('Welcome, {}'.format(first_name))
                     return redirect(url_for('users.home'))
         flash('Invalid Credentials')
         return render_template('users/login.html', form=form)
@@ -67,20 +68,20 @@ def confirm_email(token):
     except:
         flash('Your confirmation link has expired or is invalid, please ask admin to resend invite.', 'danger')
         return redirect(url_for('users.login'))
-    user = User.query.filter_by(email=email).first_or_404()
-    if user.confirmed:
+    found_user = User.query.filter_by(email=email).first_or_404()
+    if found_user.confirmed:
         flash('Account already confirmed. Please login or reset password', 'success')
         return redirect(url_for('users.login'))
     else:   
-        user.confirmed = True
-        user.updated_at = datetime.now()
-        db.session.add(user)
+        found_user.confirmed = True
+        found_user.updated_at = datetime.now()
+        db.session.add(found_user)
         db.session.commit()
-        login_user(user)
-        return render_template('users/edit.html', form=UserForm(), user=user)
+        login_user(found_user)
+        return render_template('users/edit.html', form=UserForm(), user=found_user)
 
 @login_required
-@users_blueprint.route('/<int:id>/edit', methods=['GET']) 
+@users_blueprint.route('/<int:id>/edit', methods=['GET','POST']) 
 def edit(id):  
     found_user = User.query.get(current_user.id)   
     render_template('users/edit.html', form=UserForm(), user=found_user) 
