@@ -20,6 +20,10 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
+@users_blueprint.route('/home')
+def home():
+    return render_template('users/home.html')
+
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
