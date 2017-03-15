@@ -2,11 +2,6 @@ from project import db, bcrypt
 from flask_login import UserMixin
 from datetime import datetime
 
-entry_persons = db.Table('entries_persons',
-    db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-    db.Column('person_id',db.Integer,db.ForeignKey("persons.id"))
-    )
-
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
