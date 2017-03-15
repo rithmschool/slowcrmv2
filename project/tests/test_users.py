@@ -45,7 +45,7 @@ class BaseTestCase(TestCase):
     def testSendInvite(self):
         # Successful Invite
         response = self.client.post('/users/invite',
-            data=json.dumps(dict(email='hopmailkins@gmail.com', name='Tommy')), 
+            data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
             content_type='application/json', follow_redirects=True)
         expected_json = 'Invite Sent'
         self.assertEqual(response.status_code, 200)
