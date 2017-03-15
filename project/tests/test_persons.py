@@ -4,14 +4,12 @@ from datetime import datetime
 from project.models import Person
 from project import app, db, bcrypt
 
-
 class BaseTestCase(TestCase):
     render_templates = False
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        
+        app.config['WTF_CSRF_ENABLED'] = False      
         return app
 
     def setUp(self):

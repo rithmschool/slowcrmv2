@@ -16,8 +16,6 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, nullable=False, default=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
-
-
     def __init__(self, email, name, password, phone, is_admin, confirmed):
         self.email = email
         self.name = name
@@ -44,7 +42,6 @@ class Person(db.Model):
     slow_lp = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
-
 
     def __init__(self, email, phone, name, title, description, slow_lp):
         self.email = email
