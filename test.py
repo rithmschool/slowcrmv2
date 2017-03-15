@@ -4,10 +4,11 @@ from project.messages.models import Message
 from flask_testing import TestCase
 import unittest
 from flask import json
-import jwt
 
 
-
+class TestApp(TestCase):
+    def _login_user(self, username, password):
+        pass
 
 
 
