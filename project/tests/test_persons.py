@@ -19,6 +19,7 @@ class BaseTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
+    # Test creating a new person that passes all validators
     def testNewPerson(self):
         response = self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
@@ -41,6 +42,22 @@ class BaseTestCase(TestCase):
         self.assertEqual(
             Person.query.filter_by(phone= "4087261650").first().description,
             "I am an awesome person")
+
+    # Test new person that fails form validation, should render persons/new
+    def testNewPersonFailValidation(self):
+        response = self.client.post('/persons/',
+            data=dict(email='aaron.m.manley@gmail.com',
+            phone="",
+            name='Aaron',
+            title='Awesome',
+            description='I am an awesome person'
+            )
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assert_template_used('persons/new.html')
+        
+
 
 if __name__ == '__main__':
     unittest.main()
