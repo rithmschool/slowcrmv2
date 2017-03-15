@@ -20,13 +20,16 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
-@login_required
 @users_blueprint.route('/home')
 def home():
-    return render_template('users/home.html')
+   
+    if current_user.is_authenticated:
+        return render_template('users/home.html')
+    return redirect(url_for('users.login'))
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -35,9 +38,6 @@ def login():
                 authenticated_user = bcrypt.check_password_hash(found_user.password, request.form['password'])
                 if authenticated_user:
                     login_user(found_user)
-                    name = found_user.name
-                    first_name = name[:name.find(' '):]
-                    flash('Welcome, {}'.format(first_name))
                     return redirect(url_for('users.home'))
         flash('Invalid Credentials')
         return render_template('users/login.html', form=form)
@@ -94,7 +94,9 @@ def entry():
 @login_required
 @users_blueprint.route('/logout')
 def logout():
-    flash("Logged out!")
     logout_user()
-    return redirect(url_for('users.home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('users.home'))
+    else:
+        return redirect(url_for('users.home')), 400
 

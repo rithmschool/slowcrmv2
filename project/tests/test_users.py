@@ -95,5 +95,11 @@ class BaseTestCase(TestCase):
         self.assertEqual(User.query.count(),3)
         self.assert_template_used('users/login.html')
 
+    def testLogout(self):
+
+        response = self.client.get('/users/logout')
+        
+        self.assertEqual(response.status_code, 400) 
+
 if __name__ == '__main__':
     unittest.main()
