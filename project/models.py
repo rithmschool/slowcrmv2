@@ -2,11 +2,6 @@ from project import db, bcrypt
 from flask_login import UserMixin
 from datetime import datetime
 
-entry_persons = db.Table('entries_persons',
-    db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-    db.Column('person_id',db.Integer,db.ForeignKey("persons.id"))
-    )
-
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
@@ -20,8 +15,6 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     is_admin = db.Column(db.Boolean, nullable=False, default=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
-
-
 
     def __init__(self, email, name, password, phone, is_admin, confirmed):
         self.email = email
@@ -49,7 +42,6 @@ class Person(db.Model):
     slow_lp = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
-
 
     def __init__(self, email, phone, name, title, description, slow_lp):
         self.email = email
