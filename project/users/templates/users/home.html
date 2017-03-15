@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+<div class="content">
+    <div class="well clearfix">
+        <div class="form-group">
+            <textarea name="tweet-message" id="tweet-message" cols="30" rows="3" class="form-control" placeholder="Send an update to partners.."></textarea>
+        </div>
+        <span class="legend"> $CompanyName$, </span>
+        <span class="legend"> |PersonName|, </span>
+        <span class="legend"> *TagName*</span>
+        <div class="pull-right">
+            <button id="tweet-button" class="btn btn-primary">Post Update</button>
+        </div>
+    </div>
+</div>
+<div class="searchcontent">
+    <div class="myheader">
+        <div class="myheadertext">Search</div>
+        <div class="myheaderbar"></div>
+    </div>
+    <div class="mycontent">
+    </div>
+</div>
+{% endblock %}
