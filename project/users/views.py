@@ -22,7 +22,6 @@ users_blueprint = Blueprint(
 
 @users_blueprint.route('/home')
 def home():
-    print('yo')
     return render_template('users/home.html')
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
