@@ -22,7 +22,7 @@ users_blueprint = Blueprint(
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-    form = UserForm()
+    form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
             found_user = User.query.filter_by(email = form.email.data).first()
@@ -32,11 +32,11 @@ def login():
                     login_user(found_user)
                     name = found_user.name
                     first_name = name[:name.find(' '):]
-                    flash('Welcome, {}').format(first_name)
+                    flash('Welcome, {}'.format(first_name))
                     return redirect(url_for('users.home'))
         flash('Invalid Credentials')
-        return render_template('login.html', form=form)
-    return render_template('login.html', form=form)
+        return render_template('users/login.html', form=form)
+    return render_template('users/login.html', form=form)
 
 @login_required
 @users_blueprint.route('/invite', methods=['POST'])
