@@ -96,3 +96,4 @@ def logout():
     flash("Logged out!")
     logout_user()
     return redirect(url_for('users.home'))
+
