@@ -70,56 +70,14 @@ class Person(db.Model):
 
 
 
-# entry_companies = db.Table('entries_companies',
-#     db.Column('entry_id', db.Integer, db.ForeignKey("entries_id")),
-#     # db.Column('company_id', db.Integer, db.ForeignKey("companies_id"))
-# )
-
-# class EntryCompany(db.Model, UserMixin):
-#     __tablename__ = 'entry_companies'
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     entry_id = db.Column(db.Integer, db.ForeignKey('entries.id', ondelete="CASCADE"))
-#     company_id = db.Column(db.Integer, db.ForeignKey('companies.id', ondelete="CASCADE"))
-
-
-
-#     def __init__(self, entry_id, company_id):
-#         self.entry_id = entry_id
-#         self.company_id = company_id
-
-#     def __repr__(self):
-#         return "entryCompany_id {}".format(self.id)
-
-
-class Entry(db.Model, UserMixin):
-
-    __tablename__ = 'entries'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
-    content = db.Column(db.String, nullable=False)
-    archived = db.Column(db.Boolean, nullable=False, default=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    # companies = db.relationship('Company', secondary=EntryCompany, backref='entry', lazy='dynamic')
-    persons = db.relationship('Person', secondary=entry_persons, backref=db.backref('entries'), lazy='dynamic')
-
-
-    def __init__(self, user_id, content, archived=False, created_at=datetime.utcnow(), updated_at=datetime.utcnow()):
-        self.user_id = user_id
-        self.content = content
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.archived = archived
-
-
-    def __repr__(self):
-        return "id {} title {}".format(self.id, self.title)  
+entry_companies = db.Table('entries_companies',
+    db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
+    db.Column('company_id', db.Integer, db.ForeignKey("companies.id"))
+)
 
 
 class Company(db.Model):
-    __tablename__='companies'
+    __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
@@ -147,6 +105,36 @@ class Company(db.Model):
     def __repr__(self):
         return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
+
+
+
+class Entry(db.Model, UserMixin):
+
+    __tablename__ = 'entries'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False)
+    content = db.Column(db.String, nullable=False)
+    archived = db.Column(db.Boolean, nullable=False, default=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    companies = db.relationship('Company', secondary=entry_companies, backref=db.backref('entries'), lazy='dynamic')
+    persons = db.relationship('Person', secondary=entry_persons, backref=db.backref('entries'), lazy='dynamic')
+
+
+    def __init__(self, user_id, content, archived=False, created_at=datetime.utcnow(), updated_at=datetime.utcnow()):
+        self.user_id = user_id
+        self.content = content
+        self.created_at = created_at
+        self.updated_at = updated_at
+        self.archived = archived
+
+
+    def __repr__(self):
+        return "id {} title {}".format(self.id, self.title)  
+
+
+from IPython import embed; embed()
 
 
 
