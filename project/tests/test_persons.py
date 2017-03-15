@@ -34,6 +34,7 @@ class BaseTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('/persons/index.html')
+        self.assertEqual(Person.query.filter_by(phone=4087261650).name, 'Aaron')
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,7 +17,8 @@ persons_blueprint = Blueprint(
 
 @persons_blueprint.route('/', methods=['GET', 'POST'])
 def index():
-
+    if request.method == 'GET':
+        return render_template('persons/index.html')
     form = PersonForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -34,5 +35,9 @@ def index():
             flash("Succesfully added new person")
             return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
-        return render_template('index.html', form=form)
+        return render_template('persons/index.html', form=form)
 
+@persons_blueprint.route('/new')
+def new():
+    form = PersonForm(request.form)
+    return render_template('persons/person.html', form=form)
