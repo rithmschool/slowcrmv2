@@ -19,5 +19,5 @@
 To run the tests, you will need the environment variables setup in `$VIRTUAL_ENV/bin/postactivate`.  In the root of the project run:
 
 ```
-green project/tests
+green
 ```
