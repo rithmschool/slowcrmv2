@@ -90,3 +90,10 @@ def entry():
     form = EntryForm()
     return render_template('users/entry.html', entry_form=form)
 
+@login_required
+@users_blueprint.route('/logout')
+def logout():
+    flash("Logged out!")
+    logout_user()
+    return redirect(url_for('users.home'))
+
