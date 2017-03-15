@@ -36,18 +36,17 @@ def index():
         return render_template('persons/new.html',form=form)
     if request.method == 'PATCH':
         if form.validate():
-            new_person = Person(
-            email=request.form['email'],
-            phone=request.form['phone'],
-            name=request.form['name'],
-            title=request.form['title'],
-            description=request.form['description'],
-            slow_lp=form.data['slow_lp'],
-            archived=form.data['archived']
-                )
-            db.session.add(new_person)
+            edit_person = Person.query.get(id)
+            edit_person.email=request.form['email'],
+            edit_person.phone=request.form['phone'],
+            edit_person.name=request.form['name'],
+            edit_person.title=request.form['title'],
+            edit_person.description=request.form['description'],
+            edit_person.slow_lp=form.data['slow_lp'],
+            edit_person.archived=form.data['archived']
+            db.session.add(edit_person)
             db.session.commit()
-            flash("Succesfully added new person")
+            flash("Succesfully edited profile")
             return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
         return render_template('person')
