@@ -76,7 +76,7 @@ def confirm_email(token):
         return render_template('users/edit.html', form=UserForm(), user=user)
 
 @login_required
-@users_blueprint.route('/<int:id>/edit', methods=['GET']) 
+@users_blueprint.route('/<int:id>/edit', methods=['GET','POST']) 
 def edit(id):  
     found_user = User.query.get(current_user.id)   
     render_template('users/edit.html', form=UserForm(), user=found_user) 
