@@ -20,6 +20,11 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
+@users_blueprint.route('/home')
+def home():
+    print('yo')
+    return render_template('users/home.html')
+
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = UserForm()
@@ -35,8 +40,8 @@ def login():
                     flash('Welcome, {}').format(first_name)
                     return redirect(url_for('users.home'))
         flash('Invalid Credentials')
-        return render_template('login.html', form=form)
-    return render_template('login.html', form=form)
+        return render_template('users/login.html', form=form)
+    return render_template('users/login.html', form=form)
 
 @login_required
 @users_blueprint.route('/invite', methods=['POST'])
