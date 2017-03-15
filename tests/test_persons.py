@@ -1,14 +1,17 @@
-from project import app, db, bcrypt
-from project.models import Person
 from flask_testing import TestCase
 import unittest
 from datetime import datetime
+from project.models import Person
+from project import app, db, bcrypt
+
 
 class BaseTestCase(TestCase):
     render_templates = False
-    def create_app(self):
+    def createApp(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        # is this working?
         return app
 
     def setUp(self):
@@ -19,7 +22,7 @@ class BaseTestCase(TestCase):
         db.drop_all()
 
     def testNewPerson(self):
-        response = self.client.post('/users/persons',
+        response = self.client.post('/persons',
             data=dict(email='aaron.m.manley@gmail.com',
             phone='4087261650',
             name='Aaron',

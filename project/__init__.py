@@ -49,5 +49,4 @@ def load_user(user_id):
 
 @app.route('/')
 def root():
-    print('hey')
     return redirect('/users/home')

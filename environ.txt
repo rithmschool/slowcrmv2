@@ -1,0 +1,6 @@
+These are the environment variables that need to be added for the tests to pass
+
+export SECRET_KEY=shhhh
+export MAIL_USERNAME='test@gmail.com'
+export MAIL_PASSWORD='password'
+export SECURITY_PASSWORD_SALT='email_confirmation_key'
