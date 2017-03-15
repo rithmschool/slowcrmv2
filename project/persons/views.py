@@ -19,7 +19,6 @@ persons_blueprint = Blueprint(
 def index():
     form = PersonForm(request.form)
     if request.method == 'POST':
-        from IPython import embed; embed()
         if form.validate():
             new_person = Person(
             email=request.form['email'],

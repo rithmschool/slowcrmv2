@@ -40,19 +40,19 @@ class Person(db.Model):
     title = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
-    archived = db.Column(db.Boolean, nullable=True, default=False)
+    archived = db.Column(db.Boolean, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
         onupdate=db.func.now())
 
-    def __init__(self, email, phone, name, title, description, slow_lp):
+    def __init__(self, email, phone, name, title, description, slow_lp,archived):
         self.email = email
         self.phone = phone
         self.name = name
         self.title = title
         self.description = description
         self.slow_lp = slow_lp
-        self.archived = False
+        self.archived = archived
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
