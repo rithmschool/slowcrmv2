@@ -5,7 +5,7 @@
     <p>{{ message }}</p>
     {% endfor %}
 	<h2>Update Your Account Info</h2>
-	<form action="{{url_for('users.edit', id=user.id)}}?_method=PATCH" method="POST">
+	<form action="{{url_for('users.update', id=user.id)}}?_method=PATCH" method="POST">
 	{{ form.csrf_token }}
 	{% if form.email.errors %}
 	{% for error in form.email.errors %}
@@ -43,10 +43,30 @@
       <div class="col-10">
       {{ form.phone(value=user.phone) }}
       </div></div>
-      <p>To confirm changes, enter your current password:</p>
-      {{ form.password(placeholder="Enter your current password to confirm") }}
-      <button type="submit">Confirm</button>
-      <a href="{{ url_for('users.home') }}" class="btn btn-default">Cancel</a>
+      {% if form.password.errors %}
+      {% for error in form.password.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
+        {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.password.label }}
+      <div class="col-10">
+      {{ form.password }}
+      </div></div>
+      {% if form.confirmpassword.errors %}
+      {% for error in form.confirmpassword.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
+        {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.confirmpassword.label }}
+      <div class="col-10">
+      {{ form.confirmpassword }}
+      </div></div>
 	<button type="submit">Submit</button>
 	</form>
 </div>
