@@ -20,7 +20,7 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
-        user1 = User('aricliesenfelt@gmail.com', 'Aric Liesenfelt', 'password1', '9515706209', True, True)
+        user1 = User('aricliesenfelt@gmail.com', 'Aric Liesenfelt', 'password1', '9515706209', True, False)
         user2 = User('tommyhopkins@gmail.com', 'Tommy Hopkins', 'password2', '1111111111', True, True)  
         db.session.add_all([user1,user2])
         db.session.commit()
@@ -97,6 +97,70 @@ class BaseTestCase(TestCase):
             data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
             content_type='application/json', follow_redirects=True)
         self.assertEqual(response.status_code, 401)
+
+    def testEditSuccess(self):
+        self._login_user('tommyhopkins@gmail.com','password2')
+        response = self.client.post('/users/2/edit?_method=PATCH', 
+            data=dict(email='tommyhopkins@gmail.com', 
+            password='password2', name='Bob', phone='4154241512'), follow_redirects=True)
+        user = User.query.get(2)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(user.name,'Bob')
+        self.assert_template_used('users/home.html')
+
+    def testEditWrongPass(self):
+        # The password put in doesn't match db password
+        self._login_user('tommyhopkins@gmail.com','password2')
+        response = self.client.post('/users/2/edit?_method=PATCH', 
+            data=dict(email='tommyhopkins@gmail.com', 
+            password='wrongpassword', name='Bob', phone='4154241512'), follow_redirects=True)
+        self.assertEqual(response.status_code,200)
+        self.assert_template_used('users/edit.html')  
+
+    def testEditNotAuthorized(self):
+        # Logged in user trying to access another user's edit page
+        self._login_user('tommyhopkins@gmail.com','password2')
+        response = self.client.get('/users/1/edit', follow_redirects=True)
+        self.assertEqual(response.status_code,200)
+        self.assert_template_used('users/home.html')  
+
+    def testUpdateGet(self):
+        # Successfully access the page when user is not yet confirmed
+        self._login_user('aricliesenfelt@gmail.com','password1')
+        response = self.client.get('/users/1/update', follow_redirects=True)
+        self.assertEqual(response.status_code,200)
+        self.assert_template_used('users/update.html')
+
+    def testUpdateGetFail(self):
+        # Redirect to login when user already confirmed
+        self._login_user('tommyhopkins@gmail.com','password2')
+        response = self.client.get('/users/2/update', follow_redirects=True)
+        self.assertEqual(response.status_code,200)
+        self.assert_template_used('users/login.html')
+
+    def testUpdatePost(self):
+        self._login_user('aricliesenfelt@gmail.com','password1')
+        response = self.client.post('/users/1/update?_method=PATCH', 
+            data=dict(email='aricliesenfelt@gmail.com', 
+            password='newpassword', confirmpassword='newpassword', 
+            name='NewName', phone='4154241512'), follow_redirects=True)
+        user = User.query.get(1)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(user.name, 'NewName')
+        self.assertEqual(user.confirmed, True)
+        self.assert_template_used('users/home.html')
+
+    def testUpdateFail(self):
+        #Passwords do not match
+        self._login_user('aricliesenfelt@gmail.com','password1')
+        response = self.client.post('/users/1/update?_method=PATCH', 
+            data=dict(email='aricliesenfelt@gmail.com', 
+            password='newpassword', confirmpassword='wrongpassword', 
+            name='NewName', phone='4154241512'), follow_redirects=True)
+        user = User.query.get(1)
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(user.confirmed, False)
+        self.assert_template_used('users/update.html')   
           
 
 
