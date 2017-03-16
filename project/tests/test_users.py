@@ -6,7 +6,6 @@ from project.users.token import generate_confirmation_token, confirm_token
 from project import app, db, bcrypt
 
 class BaseTestCase(TestCase):
-    
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True
