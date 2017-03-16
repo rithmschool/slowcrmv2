@@ -20,7 +20,7 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
-@users_blueprint.route('/home')
+@users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('users/home.html')
 
@@ -86,14 +86,16 @@ def edit(id):
     render_template('users/edit.html', form=UserForm(), user=found_user) 
 
 
-
-@users_blueprint.route('/<int:user_id>/entries', methods=['GET', 'POST'])
-def entry(user_id):
-    form = EntryForm()
+@login_required
+@users_blueprint.route('/entries', methods=['GET', 'POST'])
+def entry():
     if(request.method == 'POST'):
-        title = request.form.get('content')
-        entry = Entry(user_id, title)
+        content = request.get_json().get('content')
+        from IPython import embed; embed()
+        
+        entry = Entry(current_user.id, content)
+
         db.session.add(entry)
         db.session.commit()
-    return render_template('users/entry.html', entry_form=form, user_id=user_id)
+        return '', 200
 

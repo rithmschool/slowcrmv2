@@ -31,4 +31,5 @@ class BaseTestCase(TestCase):
         self.assert_template_used('users/entry.html')       
 
 if __name__ == '__main__':
-    unittest.main()        
+    unittest.main()
+            
