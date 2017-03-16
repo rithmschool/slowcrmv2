@@ -27,3 +27,9 @@ class PersonForm(FlaskForm):
 class EntryForm(FlaskForm):
     post_message = TextAreaField('Send an update to partners $company |person and a *tag')
 
+class EditUserForm(FlaskForm):
+    email = StringField('Email', [validators.DataRequired()])
+    name = StringField('Name', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired()])
+    phone = StringField('Phone', [validators.DataRequired()])    
+
