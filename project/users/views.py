@@ -20,13 +20,16 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
-@login_required
 @users_blueprint.route('/home')
 def home():
-    return render_template('users/home.html')
+   
+    if current_user.is_authenticated:
+        return render_template('users/home.html')
+    return redirect(url_for('users.login'))
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -35,16 +38,14 @@ def login():
                 authenticated_user = bcrypt.check_password_hash(found_user.password, request.form['password'])
                 if authenticated_user:
                     login_user(found_user)
-                    name = found_user.name
-                    first_name = name[:name.find(' '):]
-                    flash('Welcome, {}'.format(first_name))
                     return redirect(url_for('users.home'))
         flash('Invalid Credentials')
         return render_template('users/login.html', form=form)
     return render_template('users/login.html', form=form)
 
-@login_required
+
 @users_blueprint.route('/invite', methods=['POST'])
+@login_required
 def invite():
     # WTForms needs an ImmutableMultiDict - we have to convert a dict to that below
     form = InviteForm(ImmutableMultiDict(request.get_json()))
@@ -80,8 +81,8 @@ def confirm_email(token):
         login_user(found_user)
         return render_template('users/edit.html', form=UserForm(), user=found_user)
 
+@users_blueprint.route('/<int:id>/edit', methods=['GET','POST'])
 @login_required
-@users_blueprint.route('/<int:id>/edit', methods=['GET','POST']) 
 def edit(id):  
     found_user = User.query.get(current_user.id)   
     render_template('users/edit.html', form=UserForm(), user=found_user) 
@@ -91,3 +92,8 @@ def entry():
     form = EntryForm()
     return render_template('users/entry.html', entry_form=form)
 
+@users_blueprint.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('users.home'))
