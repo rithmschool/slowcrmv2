@@ -21,16 +21,16 @@
         <div class="mytitle">
             <span class="mytitletext">SLOW</span>
             <span class="mytitletext2"><img src="http://i.imgur.com/OdbD2CO.png" alt=""></span>
-            <span class="mytitletext">ventures</span>
+            <span class="mytitletext3">ventures</span>
         </div>
         <div class="mypages">
         {% if current_user.is_authenticated %}
-            <span class="mynavitems">Portfolio</span>
-            <span class="mynavitems">New Leads</span>
-            <span class="mynavitems">Live Deals</span>
-            <span class="mynavitems">Needs Discussion</span>
-            <span class="mynavitems">My Profile</span>
-            <span class="mynavitems">Logout</span>
+            <a><span class="mynavitems">Portfolio</span></a>
+            <a><span class="mynavitems">New Leads</span></a>
+            <a><span class="mynavitems">Live Deals</span></a>
+            <a><span class="mynavitems">Needs Discussion</span></a>
+            <a><span class="mynavitems">My Profile</span></a>
+            <a href="{{url_for('users.logout')}}"><span class="mynavitems">Logout</span></a>
         {% else %}
         {% endif %}
         </div>
