@@ -113,6 +113,36 @@ padding:0;
 }
 
 @media (max-width: 1920px){
+	.mytitletext3{
+		font-family: Montserrat;
+		font-size: 30px;
+		color: white;
+		vertical-align: 35%;
+		line-height: 165%;
+		text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+	.mytitletext3:hover{
+		cursor: pointer;
+	}
+}
+
+@media (min-width: 1921px){
+	.mytitletext3{
+		font-family: Montserrat;
+		font-size: 50px;
+		color: white;
+		vertical-align: 30%;
+		line-height: 125%;
+		text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+	.mytitletext3:hover{
+		cursor: pointer;
+	}
+}
+
+@media (max-width: 1920px){
 	img{
 		height: 60%;
 
@@ -152,7 +182,6 @@ padding:0;
 		font-family: Montserrat;
 		font-size: 115%;
 		color: white;
-		vertical-align: 35%;
 	}
 }
 
@@ -161,7 +190,6 @@ padding:0;
 		font-family: Montserrat;
 		font-size: 145%;
 		color: white;
-		vertical-align: 30%;
 	}
 }
 
