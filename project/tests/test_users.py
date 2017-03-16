@@ -6,7 +6,11 @@ from project.users.token import generate_confirmation_token, confirm_token
 from project import app, db, bcrypt
 
 class BaseTestCase(TestCase):
-    
+    def _login_user(self,email,password):
+        return self.client.post('/users/login', 
+            data=dict(email=email, 
+            password=password))
+
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True
@@ -43,9 +47,7 @@ class BaseTestCase(TestCase):
         self.assert_template_used('users/home.html')      
 
     def testSendInvite(self):
-        self.client.post('/users/login', 
-            data=dict(email='tommyhopkins@gmail.com', 
-            password='password2'))
+        self._login_user('tommyhopkins@gmail.com','password2')
         # Successful Invite
         response = self.client.post('/users/invite',
             data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
@@ -72,7 +74,7 @@ class BaseTestCase(TestCase):
         response = self.client.get('/users/confirm/{}'.format(token))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.query.count(),3)
-        self.assert_template_used('users/edit.html')
+        self.assert_template_used('users/update.html')
 
     def testTokenMissingUser(self):
         # Fail Test when email not in db
@@ -87,27 +89,15 @@ class BaseTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('users/login.html')
 
-    def testTokenUserConfirmed(self):    
-        # Test when email is already confirmed
-        user4 = User('confirmedemail@gmail.com', 'Name', 'temppass', '', True, True)
-        db.session.add(user4)
-        db.session.commit()
-        token = generate_confirmation_token('confirmedemail@gmail.com')
-        response = self.client.get('/users/confirm/{}'.format(token), follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(User.query.count(),3)
-        self.assert_template_used('users/login.html')
-
     def testLogout(self):
-        self.client.post('/users/login', 
-            data=dict(email='tommyhopkins@gmail.com', 
-            password='password2'))
+        self._login_user('tommyhopkins@gmail.com','password2')
         response = self.client.get('/users/logout')
         self.assertEqual(response.status_code, 302)
         response = self.client.post('/users/invite',
             data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
             content_type='application/json', follow_redirects=True)
         self.assertEqual(response.status_code, 401)
+          
 
 
 if __name__ == '__main__':
