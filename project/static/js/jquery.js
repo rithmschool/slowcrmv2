@@ -13,7 +13,9 @@ $(function(){
  		}
 	});
 
-<<<<<<< HEAD
+	$('.mynavitems').on('click', function(e){
+		window.location = '/users/logout';
+	})
 
 
 	$('#entry-form').on('submit', function(e){
@@ -40,10 +42,4 @@ $(function(){
 	
 
 });
-=======
-	$('.mynavitems').on('click', function(e){
-		window.location = '/users/logout';
-	})
 
-});
->>>>>>> adbcb6d788d08c3987c16f0be818c4538fbfd6fd
