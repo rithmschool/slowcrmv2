@@ -81,11 +81,29 @@ def confirm_email(token):
         login_user(found_user)
         return render_template('users/edit.html', form=UserForm(), user=found_user)
 
-@users_blueprint.route('/<int:id>/edit', methods=['GET','POST'])
+@users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
 @login_required
-def edit(id):  
-    found_user = User.query.get(current_user.id)   
-    render_template('users/edit.html', form=UserForm(), user=found_user) 
+def edit(id):
+    if id == current_user.id:
+        found_user = User.query.get(id)
+        if request.method ==b"PATCH":
+            form = UserForm(request.form)
+            if form.validate():
+                if request.form['password'] == request.form['confirmpassword']:
+                    flash('You have successfully updated your user info!', 'success')
+                    found_user.name = request.form['name']
+                    found_user.email = request.form['email']
+                    found_user.phone = request.form['phone']
+                    found_user.password = request.form['password']
+                    db.session.add(found_user)
+                    db.session.commit()
+                    return redirect(url_for('users.home'))
+                flash('Passwords do not match. Please try again.', 'danger')
+                return render_template('users/edit.html', form=UserForm(), user=found_user)
+            flash('Missing required information', 'danger')
+        return render_template('users/edit.html', form=UserForm(), user=found_user)
+    flash('Permission Denied')
+    return redirect(url_for('users.home'))
 
 
 @users_blueprint.route('/entries', methods=['GET', 'POST'])

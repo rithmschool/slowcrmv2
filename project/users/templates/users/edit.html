@@ -4,21 +4,69 @@
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
-	<form action="{{url_for('users.edit', id=user.id)}}" method="POST">
+	<h2>Update Your Account Info</h2>
+	<form action="{{url_for('users.edit', id=user.id)}}?_method=PATCH" method="POST">
 	{{ form.csrf_token }}
-	{% for field in form if field.widget.input_type != 'hidden' %}
-	<div class="form-group row">
-    {{ field.label }}  
-    	<div class="col-10">
-    {{ field }}
-    	</div>
-    </div>  
-        {% if field.errors %}
-        {% for error in field.errors %}
-        <font color="red">{{ error }}</font>
+	{% if form.email.errors %}
+	{% for error in form.email.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
         {% endfor %}
-        {% endif %}
-	    {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.email.label }}
+      <div class="col-10">
+      {{ form.email(value=user.email) }}
+      </div></div>
+      {% if form.name.errors %}
+      {% for error in form.name.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
+        {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.name.label }}
+      <div class="col-10">
+      {{ form.name(value=user.name) }}
+      </div></div>
+      {% if form.phone.errors %}
+      {% for error in form.phone.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
+        {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.phone.label }}
+      <div class="col-10">
+      {{ form.phone(value=user.phone) }}
+      </div></div>
+      {% if form.password.errors %}
+      {% for error in form.password.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
+        {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.password.label }}
+      <div class="col-10">
+      {{ form.password }}
+      </div></div>
+      {% if form.confirmpassword.errors %}
+      {% for error in form.confirmpassword.errors %}
+	 <span class="text-danger">
+            {{ error }}
+          </span>
+        {% endfor %}
+      {% endif %}
+      <div class="form-group row">
+      {{ form.confirmpassword.label }}
+      <div class="col-10">
+      {{ form.confirmpassword }}
+      </div></div>
 	<button type="submit">Submit</button>
 	</form>
 </div>
