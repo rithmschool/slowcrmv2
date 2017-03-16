@@ -1,4 +1,4 @@
-from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm
+from project.users.forms import UserForm, LoginForm, InviteForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
 from project.models import User, Person, Entry
 from project import db, bcrypt, mail
