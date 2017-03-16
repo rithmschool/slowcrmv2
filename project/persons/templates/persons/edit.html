@@ -5,14 +5,16 @@
 
 <h2>Edit Person Form</h2>
 
-<button><a href = '{{url_for('persons.show', id=person.id)}}''>Back to profile</a></button>
+<button><a href = '{{url_for('persons.show',id=person.id)}}''>Back to profile</a></button>
 
-<form action="{{url_for('persons.index')}}?_method=PATCH" , method='POST'>
+<form action="{{url_for('persons.show', id=person.id)}}?_method=PATCH", method='POST'>
 
 {{form.hidden_tag()}}
 {%  for field in form if field.widget.input_type != 'hidden' %}
 
-<p>{{field.label}}: {{field}}
+<p>
+    {{field.label}}: 
+    {{field}}
     <span>{%  if field.errors  %}
             {%  for error in field.errors %}
                 {{error}}
