@@ -17,6 +17,7 @@ persons_blueprint = Blueprint(
 
 @persons_blueprint.route('/', methods=['GET', 'POST'])
 def index():
+
     form = PersonForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():

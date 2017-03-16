@@ -43,8 +43,9 @@ def login():
         return render_template('users/login.html', form=form)
     return render_template('users/login.html', form=form)
 
-@login_required
+
 @users_blueprint.route('/invite', methods=['POST'])
+@login_required
 def invite():
     # WTForms needs an ImmutableMultiDict - we have to convert a dict to that below
     form = InviteForm(ImmutableMultiDict(request.get_json()))
@@ -95,8 +96,5 @@ def entry():
 @users_blueprint.route('/logout')
 def logout():
     logout_user()
-    if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
-    else:
-        return redirect(url_for('users.home')), 400
+    return redirect(url_for('users.home'))
 
