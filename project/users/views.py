@@ -129,8 +129,7 @@ def update(id):
             return redirect(url_for('users.login'))
         return render_template('users/update.html', form=UserForm(), user=found_user)
     flash('Permission Denied')
-    return redirect(url_for('users.home'))    
-
+    return redirect(url_for('users.home'))
 
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required

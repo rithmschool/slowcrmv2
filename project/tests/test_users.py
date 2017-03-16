@@ -9,7 +9,7 @@ class BaseTestCase(TestCase):
     def _login_user(self,email,password):
         return self.client.post('/users/login', 
             data=dict(email=email, 
-            password=password))
+            password=password), follow_redirects=True)
 
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
@@ -51,7 +51,7 @@ class BaseTestCase(TestCase):
         # Successful Invite
         response = self.client.post('/users/invite',
             data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
-            content_type='application/json', follow_redirects=True)
+            content_type='application/json')
         expected_json = 'Invite Sent'
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.query.count(),3)
@@ -59,7 +59,7 @@ class BaseTestCase(TestCase):
         # Unsuccessful Invite
         response = self.client.post('/users/invite',
             data=json.dumps(dict(name='Tommy')), 
-            content_type='application/json', follow_redirects=True)
+            content_type='application/json')
         expected_json = 'Missing form info'
         self.assertEqual(response.status_code, 422)
         self.assertEqual(User.query.count(),3)
@@ -95,7 +95,7 @@ class BaseTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         response = self.client.post('/users/invite',
             data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
-            content_type='application/json', follow_redirects=True)
+            content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
     def testEditSuccess(self):
@@ -127,7 +127,7 @@ class BaseTestCase(TestCase):
     def testUpdateGet(self):
         # Successfully access the page when user is not yet confirmed
         self._login_user('aricliesenfelt@gmail.com','password1')
-        response = self.client.get('/users/1/update', follow_redirects=True)
+        response = self.client.get('/users/1/update')
         self.assertEqual(response.status_code,200)
         self.assert_template_used('users/update.html')
 
@@ -156,7 +156,7 @@ class BaseTestCase(TestCase):
         response = self.client.post('/users/1/update?_method=PATCH', 
             data=dict(email='aricliesenfelt@gmail.com', 
             password='newpassword', confirmpassword='wrongpassword', 
-            name='NewName', phone='4154241512'), follow_redirects=True)
+            name='NewName', phone='4154241512'))
         user = User.query.get(1)
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.confirmed, False)
