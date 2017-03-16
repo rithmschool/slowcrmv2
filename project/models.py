@@ -11,8 +11,8 @@ class User(db.Model, UserMixin):
     name = db.Column(db.Text, nullable=True)
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=db.func.now())
     is_admin = db.Column(db.Boolean, nullable=False, default=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
@@ -48,8 +48,8 @@ class Person(db.Model):
     description = db.Column(db.Text, nullable=True)
     slow_lp = db.Column(db.Boolean)
     archived = db.Column(db.Boolean, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
 
     def __init__(self, email, phone, name, title, description, slow_lp, archived):
@@ -89,8 +89,8 @@ class Company(db.Model):
     source = db.Column(db.Text, nullable=True)
     round = db.Column(db.Text, nullable=True)
     archived = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
 
     def __init__(self, name, description, url, logo_url, partner_lead, ops_lead):
@@ -119,26 +119,18 @@ class Entry(db.Model, UserMixin):
     content = db.Column(db.String, nullable=False)
     archived = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now(), onupdate=db.func.now())
     companies = db.relationship('Company', secondary=entry_companies, backref=db.backref('entries'), lazy='dynamic')
     persons = db.relationship('Person', secondary=entry_persons, backref=db.backref('entries'), lazy='dynamic')
 
 
-    def __init__(self, user_id, content, archived=False, created_at=datetime.now(), updated_at=datetime.now()):
+    def __init__(self, user_id, content, archived=False):
         self.user_id = user_id
         self.content = content
-        self.created_at = created_at
-        self.updated_at = updated_at
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
         self.archived = archived
 
 
     def __repr__(self):
-        return "id {} content {}".format(self.id, self.content)  
-
-
-
-
-
-
-
-
+        return "id {} content {}".format(self.id, self.content)

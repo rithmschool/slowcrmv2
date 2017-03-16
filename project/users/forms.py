@@ -22,7 +22,3 @@ class PersonForm(FlaskForm):
     title = StringField('Title' , [validators.Length(max=20)])
     description = StringField('Description')
     slow_lp = BooleanField('Slow_lp')
-
-class EntryForm(FlaskForm):
-    content = TextAreaField('Send an update to partners $company |person and a *tag')
-
