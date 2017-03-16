@@ -3,38 +3,44 @@
 
 <head>
     <meta charset="UTF-8">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet'>
     <link rel="stylesheet" type='text/css' href="/static/css/base.css">
-    <title>Base</title>
+    <title>Slow CRM</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div class="mynav">
         <div class="mytitle">
             <span class="mytitletext">SLOW</span>
-            <span class="mytitletext2"><img src="http://i.imgur.com/OdbD2CO.png" alt=""></span>
+            <span class="mytitletext2"><img src="//i.imgur.com/OdbD2CO.png" alt=""></span>
             <span class="mytitletext">ventures</span>
         </div>
         <div class="mypages">
+        {% if current_user.is_authenticated %}
             <span class="mynavitems">Portfolio</span>
             <span class="mynavitems">New Leads</span>
             <span class="mynavitems">Live Deals</span>
             <span class="mynavitems">Needs Discussion</span>
             <span class="mynavitems">My Profile</span>
             <span class="mynavitems">Logout</span>
+        {% else %}
+        {% endif %}
         </div>
         <div class="mysearch">
-            <form>
+        {% if current_user.is_authenticated %}
+            <form class="myform">
                 <input class="myinput" type="text" name="search">
             </form>
+        {% else %}
+        {% endif %}
         </div>
     </div>
     {% block content %} {% endblock %}
