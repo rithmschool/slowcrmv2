@@ -43,6 +43,9 @@ class BaseTestCase(TestCase):
         self.assert_template_used('users/home.html')      
 
     def testSendInvite(self):
+        self.client.post('/users/login', 
+            data=dict(email='tommyhopkins@gmail.com', 
+            password='password2'))
         # Successful Invite
         response = self.client.post('/users/invite',
             data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
@@ -96,6 +99,9 @@ class BaseTestCase(TestCase):
         self.assert_template_used('users/login.html')
 
     def testLogout(self):
+        self.client.post('/users/login', 
+            data=dict(email='tommyhopkins@gmail.com', 
+            password='password2'))
         response = self.client.get('/users/logout')
         self.assertEqual(response.status_code, 302)
         response = self.client.post('/users/invite',
