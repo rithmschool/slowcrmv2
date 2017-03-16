@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_mail import Message 
 from project.users.token import generate_confirmation_token, confirm_token
 from datetime import datetime
+from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 
 def send_token(subject, html, name, email, confirm_url):
@@ -22,7 +23,6 @@ users_blueprint = Blueprint(
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
-   
     if current_user.is_authenticated:
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
@@ -88,18 +88,15 @@ def edit(id):
     render_template('users/edit.html', form=UserForm(), user=found_user) 
 
 
-@login_required
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
+@login_required
 def entry():
     if(request.method == 'POST'):
         content = request.get_json().get('content')
-        from IPython import embed; embed()
-        
         entry = Entry(current_user.id, content)
-
         db.session.add(entry)
         db.session.commit()
-        return '', 200
+        return json.dumps({'entry_id': entry.id}), 200
 
 @users_blueprint.route('/logout')
 @login_required

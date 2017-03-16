@@ -133,7 +133,7 @@ class Entry(db.Model, UserMixin):
 
 
     def __repr__(self):
-        return "id {} title {}".format(self.id, self.title)  
+        return "id {} content {}".format(self.id, self.content)  
 
 
 
