@@ -1,12 +1,13 @@
 from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm, EditUserForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
-from project.models import User, Person
+from project.models import User, Person, Entry
 from project import db, bcrypt, mail
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
 from flask_mail import Message 
 from project.users.token import generate_confirmation_token, confirm_token
 from datetime import datetime
+from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 
 def send_token(subject, html, name, email, confirm_url):
@@ -20,9 +21,8 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
-@users_blueprint.route('/home')
+@users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
-   
     if current_user.is_authenticated:
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
@@ -131,10 +131,16 @@ def update(id):
     flash('Permission Denied')
     return redirect(url_for('users.home'))    
 
+
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
+@login_required
 def entry():
-    form = EntryForm()
-    return render_template('users/entry.html', entry_form=form)
+    if(request.method == 'POST'):
+        content = request.get_json().get('content')
+        entry = Entry(current_user.id, content)
+        db.session.add(entry)
+        db.session.commit()
+        return json.dumps({'entry_id': entry.id}), 200
 
 @users_blueprint.route('/logout')
 @login_required
