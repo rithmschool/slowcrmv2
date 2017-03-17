@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
-{% block content%} 
+{% block content%}
 <div class="myheader">
-        <div class="myheadertext">Search</div>
-        <div class="myheaderbar"></div>
-      <div class="mycontent">
-      </div>
- </div>
- {% endblock %}
+  <div class="myheadertext">Search</div>
+  <div class="myheaderbar"></div>
+  <div class="mycontent">
+    {% if count > 0 %}
+      {% for r in results %}
+        <div class="searchresult">
+          {{r.content}}
+        </div>
+      {% endfor %}
+    {% else %}
+      Sorry, no results found
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

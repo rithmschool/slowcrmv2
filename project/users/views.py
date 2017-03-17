@@ -27,9 +27,12 @@ def home():
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
 
-@users_blueprint.route('/search', methods=['GET', 'POST'])
+@users_blueprint.route('/search', methods=['GET'])
 def search():
-    return render_template('users/search.html')
+    term = request.args.get('search')
+    results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
+    count = results.count()
+    return render_template('users/search.html', results=results, count=count)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
