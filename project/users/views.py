@@ -83,7 +83,7 @@ def confirm_email(token):
 @users_blueprint.route('/<int:id>')
 @login_required
 def show(id):
-    found_user = User.query.get(id)
+    found_user = User.query.get_or_404(id)
     return render_template('users/show.html', user=found_user)
 
 # for editing users that are not new
@@ -133,7 +133,7 @@ def edit_password(id):
             return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)           
         return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
     flash('Permission Denied')
-    return redirect(url_for('users.show', id=found_user.id))    
+    return redirect(url_for('users.home'))    
 
 
 # Only for new invited users
@@ -192,11 +192,11 @@ def password_recovery(token):
                 flash('Password updated')
                 return redirect(url_for('users.login'))
             flash('Passwords do not match')
-        render_template('users/passwordreser/{}'.format(token))            
+        render_template('users/passwordreset/{}'.format(token))            
     try:
         email = confirm_token(token)
     except:
-        flash('Your confirmation link has expired or is invalid, please ask admin to resend invite.', 'danger')
+        flash('Your confirmation link has expired or is invalid, please reset again if needed.', 'danger')
         return redirect(url_for('users.login'))
     found_user = User.query.filter_by(email=email).first_or_404()
     return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)
