@@ -20,7 +20,7 @@
     <div class="mynav">
         <div class="mytitle">
             <span class="mytitletext">SLOW</span>
-            <span class="mytitletext2"><img src="//i.imgur.com/OdbD2CO.png" alt="rocket ship icon"></span>
+            <span class="mytitletext2"><img class="rocket" src="//i.imgur.com/OdbD2CO.png" alt="rocket ship icon"></span>
             <span class="mytitletext3">ventures</span>
         </div>
         <div class="mypages">
@@ -42,7 +42,28 @@
         {% else %}
         {% endif %}
         </div>
+        <div class="mobilenav">
+            {% if current_user.is_authenticated %}
+            <img class="hamburgericon" src="http://www.clipartkid.com/images/775/search-icon-clip-art-at-clker-com-vector-clip-art-online-royalty-643l5L-clipart.png" alt="search icon">
+            <img class="searchicon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Menu%2C_Web_Fundamentals_(White).svg/2000px-Menu%2C_Web_Fundamentals_(White).svg.png" alt="hamburger">
+            {% else %}
+            {% endif %}
+        </div>
     </div>
+    <div class="mobilenavpages">
+        <a><span class="mobilenavitems">Portfolio</span></a>
+        <a><span class="mobilenavitems">New Leads</span></a>
+        <a><span class="mobilenavitems">Live Deals</span></a>
+        <a><span class="mobilenavitems">Needs Discussion</span></a>
+        <a><span class="mobilenavitems">My Profile</span></a>
+        <a href="{{url_for('users.logout')}}"><span class="mobilenavitems">Logout</span></a>
+    </div>
+    <div class="mobilesearch">
+        <form class="mobileform">
+            <input class="mobileinput" type="text" name="search" placeholder="Search...">
+        </form>
+    </div>
+
     {% block content %} {% endblock %}
 </body>
 
