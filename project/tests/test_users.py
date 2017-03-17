@@ -140,7 +140,7 @@ class BaseTestCase(TestCase):
             data=dict(email='aricliesenfelt@gmail.com', 
             password='newpassword', confirmpassword='newpassword', 
             name='NewName', phone='4154241512'), follow_redirects=True)
-        user = User.query.get(1)
+        user = User.query.filter_by(email='aricliesenfelt@gmail.com').first()
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.name, 'NewName')
         self.assertEqual(user.confirmed, True)
