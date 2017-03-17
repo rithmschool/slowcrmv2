@@ -29,7 +29,7 @@
             <a><span class="mynavitems">New Leads</span></a>
             <a><span class="mynavitems">Live Deals</span></a>
             <a><span class="mynavitems">Needs Discussion</span></a>
-            <a><span class="mynavitems">My Profile</span></a>
+            <a href="/users/{{current_user.id}}"><span class="mynavitems">My Profile</span></a>
             <a href="{{url_for('users.logout')}}"><span class="mynavitems">Logout</span></a>
         {% else %}
         {% endif %}

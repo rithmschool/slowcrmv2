@@ -39,9 +39,11 @@ from project.models import User
 
 from project.users.views import users_blueprint
 from project.persons.views import persons_blueprint
+from project.companies.views import companies_blueprint
 
 app.register_blueprint(users_blueprint, url_prefix='/users')
 app.register_blueprint(persons_blueprint, url_prefix='/persons')
+app.register_blueprint(companies_blueprint, url_prefix='/companies')
 
 @login_manager.user_loader
 def load_user(user_id):
