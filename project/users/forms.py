@@ -33,3 +33,15 @@ class EditUserForm(FlaskForm):
     password = PasswordField('Password', [validators.DataRequired()])
     phone = StringField('Phone', [validators.DataRequired()])    
 
+class ForgotPasswordForm(FlaskForm):
+    email = StringField('Email', [validators.DataRequired()])
+
+class RecoverPasswordForm(FlaskForm):
+    password = PasswordField('Password', [validators.DataRequired()])
+    confirmpassword = PasswordField('Confirm Password', [validators.DataRequired()])
+
+class EditPasswordForm(FlaskForm):
+    newpassword = PasswordField('New Password', [validators.DataRequired()])
+    confirmpassword = PasswordField('Confirm New Password', [validators.DataRequired()])
+    currentpassword = PasswordField('Current Password', [validators.DataRequired()])
+

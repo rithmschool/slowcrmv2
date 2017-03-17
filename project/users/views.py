@@ -1,4 +1,4 @@
-from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm, EditUserForm
+from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
 from project.models import User, Person, Entry
 from project import db, bcrypt, mail
@@ -103,6 +103,25 @@ def edit(id):
     flash('Permission Denied')
     return redirect(url_for('users.home'))
 
+@users_blueprint.route('/<int:id>/editpassword', methods=['GET','PATCH'])
+@login_required
+def edit_password(id):
+    if id == current_user.id:
+        found_user = User.query.get(id)
+        if request.method == b"PATCH":
+            form = EditPasswordForm(request.form)
+            if form.validate():
+                if bcrypt.check_password_hash(found_user.password, request.form['currentpassword']):
+                   if request.form['newpassword'] == request.form['confirmpassword']:
+                    found_user.password = bcrypt.generate_password_hash(request.form['newpassword']).decode('UTF-8')
+                    db.session.add(found_user)
+                    db.session.commit()
+                    flash('Password updated')
+                    return redirect(url_for('users.home')) 
+        return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
+    flash('Permission Denied')
+    return redirect(url_for('users.home'))    
+
 @users_blueprint.route('/<int:id>/update', methods=['GET','PATCH'])
 @login_required
 def update(id):
@@ -116,7 +135,7 @@ def update(id):
                     found_user.name = request.form['name']
                     found_user.email = request.form['email']
                     found_user.phone = request.form['phone']
-                    found_user.password = request.form['password']
+                    found_user.password = bcrypt.generate_password_hash(request.form['password']).decode('UTF-8')
                     found_user.confirmed = True
                     db.session.add(found_user)
                     db.session.commit()
@@ -130,6 +149,43 @@ def update(id):
         return render_template('users/update.html', form=UserForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))
+
+@users_blueprint.route('/passwordreset', methods=['GET','POST'])
+def reset():
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.form)
+        if form.validate():
+            found_user = User.query.filter_by(email=request.form['email']).first()
+            if found_user:
+                flash('Email Sent!')
+                token = generate_confirmation_token(found_user.email)
+                confirm_url = url_for('users.password_recovery', token=token, _external=True)
+                send_token("Reset your password on Slow CRM", "users/password_reset_email.html", found_user.name, found_user.email, confirm_url)
+                return redirect(url_for('users.login'))
+            flash('Email Not Found') 
+    return render_template('users/forgot.html', form=ForgotPasswordForm())
+
+@users_blueprint.route('/passwordreset/<token>', methods=['GET','PATCH'])
+def password_recovery(token):
+    if request.method ==b"PATCH":
+        form = RecoverPasswordForm(request.form)
+        if form.validate():
+            found_user = User.query.filter_by(email=confirm_token(token)).first_or_404()
+            if request.form['password'] == request.form['confirmpassword']:
+                found_user.password = bcrypt.generate_password_hash(request.form['password']).decode('UTF-8')
+                db.session.add(found_user)
+                db.session.commit()
+                flash('Password updated')
+                return redirect(url_for('users.login'))
+            flash('Passwords do not match')
+        render_template('users/passwordreser/{}'.format(token))            
+    try:
+        email = confirm_token(token)
+    except:
+        flash('Your confirmation link has expired or is invalid, please ask admin to resend invite.', 'danger')
+        return redirect(url_for('users.login'))
+    found_user = User.query.filter_by(email=email).first_or_404()
+    return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)
 
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required
