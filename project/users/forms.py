@@ -23,3 +23,13 @@ class PersonForm(FlaskForm):
     title = StringField('Title' , [validators.Length(max=20)])
     description = StringField('Description')
     slow_lp = BooleanField('Slow_lp')
+
+class EntryForm(FlaskForm):
+    post_message = TextAreaField('Send an update to partners $company |person and a *tag')
+
+class EditUserForm(FlaskForm):
+    email = StringField('Email', [validators.DataRequired()])
+    name = StringField('Name', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.DataRequired()])
+    phone = StringField('Phone', [validators.DataRequired()])    
+
