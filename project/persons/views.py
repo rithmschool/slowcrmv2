@@ -13,7 +13,6 @@ persons_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
-
 @persons_blueprint.route('/', methods=['GET', 'POST'])
 def index():
 

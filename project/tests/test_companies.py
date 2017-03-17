@@ -3,7 +3,6 @@ import unittest
 from project.models import Company
 from project import app, db
 
-
 class BaseTestCase(TestCase):
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
@@ -25,7 +24,6 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-
 
     # Should create a new company, redirect to index, and add to the db
     def testCreateNewCompany(self):

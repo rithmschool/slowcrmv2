@@ -94,9 +94,3 @@ class Company(db.Model):
     def __repr__(self):
         return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.archived,self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
-
-
-
-
-
-
