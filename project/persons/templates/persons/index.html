@@ -1,6 +1,7 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
+<div style='margin-top:10em'>
 <h2 class="col-md-2 col-md-offset-5">Persons Page Index</h2>
 {%  for person in persons  %}
 
@@ -8,4 +9,6 @@
 
 {%  endfor  %}
 <button class="col-md-4 col-md-offset-4"><a href = '{{url_for('persons.new')}}''>Add A New Person</a></button>
+<div>
 {%  endblock  %}
+
