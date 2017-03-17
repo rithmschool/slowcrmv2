@@ -1,13 +1,84 @@
 {%  extends 'base.html'  %}
 {%  block content  %}
 
+<!-- Prepare all future AJAX with CSRF token -->
+<script type="text/javascript">
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
+</script>
+
+<!-- AJAX for modal invite form -->
+<script type="text/javascript">
+$(function() {
+
+$("#invite-modal-submit").on('click', function(e) {
+    e.preventDefault();
+    $("#modal-message").html('<p>This might take a moment...</p>');
+    var email = $("#invite-email").val();
+    var name = $("#invite-name").val();
+    $.ajax({
+        type: "POST",
+        url: "{{url_for('users.invite')}}",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({name: name, email: email}),
+        success: function(response) {
+             $("#modal-message").html('<p>Succesfully sent invite!</p>')
+        },
+        error: function(e) {
+            console.log(e)
+            console.log(e.responseText)
+            if (JSON.parse(e.responseText) == "Missing form info") { 
+            $("#modal-message").html('<span style="color:red">Please fill in name and email</span>');
+            }
+            if (JSON.parse(e.responseText) == "Email already exists") { 
+            $("#modal-message").html('<span style="color:red">Invite already sent to this email</span>')
+            }
+        }
+    });
+    });
+});
+</script>
+
+
+<div class="content">
+
 <div style='margin-top:10em' class="col-md-4 col-md-offset-4">
 <h2>User {{user.name}} Profile Page</h2>
 
-<button style='float:right' data-toggle='modal' data-target='invite-modal'>Invite User</button>
+<button type="button" class="btn btn-info btn-sm" data-toggle="modal" 
+ data-target="#invite-modal">Invite New User</button>
 
-<div id='invite-modal' class='modal fade' role='dialog'>
-    <div>
+<!-- Invite User Modal with AJAX -->
+<div id="invite-modal" class="modal fade" role="dialog" style="margin-top:10em">
+    <div class="modal-dialog" style="background-color: white">
+        <div class="modal-content" style="height:10em; border-radius: 0">
+              <button label="close" type="button" class="close" data-dismiss="modal" style="padding-right: 10px;font-size: 50px">&times;</button>
+            <div class="model-header" style="text-align:center;padding-left:15px">
+
+                <h4 style="margin-top:1.5em">Invite New User</h4>
+            </div>
+        <div class="modal-body" style="text-align:center">
+            <form class="invite-form" action="#">
+
+            <input id="invite-name" label="Name" name="name" style="width:30%" type="text" placeholder="Name"></input>
+            <input id="invite-email" label="Email" name="email" style="width:40%" type="text" placeholder="Email Address"></input>
+            <button label= "submit" id="invite-modal-submit">Submit</button>
+            </form>
+        </div>
+        <div class="modal-footer" style="border:none;margin-top:-18px">
+           <!--  <button class="btn btn-default" type="button" data-dismiss="modal">Close
+            </button>   -->
+            <div id="modal-message" style="text-align:center">I am a message</div>
+        </div>
+        </div>
     </div>
 </div>
 
@@ -21,5 +92,16 @@
 <p>Confirmed: {{user.confirmed}}</p>
 <button>Update Password</button>
 <div>
+
+
+</div>
+<div class="searchcontent">
+    <div class="myheader">
+        <div class="myheadertext">Search</div>
+        <div class="myheaderbar"></div>
+      <div class="mycontent">
+      </div>
+  </div>
+</div>
 
 {%  endblock  %}

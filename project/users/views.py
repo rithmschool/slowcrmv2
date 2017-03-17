@@ -55,12 +55,15 @@ def invite():
         token = generate_confirmation_token(email)
         confirm_url = url_for('users.confirm_email', token=token, _external=True)
         new_user = User(email,name,'temppass','',True,False)
-        db.session.add(new_user)
-        db.session.commit()
-        send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
-        return jsonify('Invite Sent'), 200
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
+            return jsonify('Invite Sent'), 200
+        except IntegrityError as e:
+            return jsonify("Email already exists"), 500
     else: 
-        return jsonify("Missing form info"), 422       
+        return jsonify("Missing form info"), 422
 
 @users_blueprint.route('/confirm/<token>', methods=['GET'])
 def confirm_email(token):
