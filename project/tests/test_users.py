@@ -102,7 +102,7 @@ class BaseTestCase(TestCase):
         user = User.query.get(2)
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.name,'Bob')
-        self.assert_template_used('users/home.html')
+        self.assert_template_used('users/show.html')
 
     def testEditWrongPass(self):
         # The password put in doesn't match db password
@@ -156,9 +156,7 @@ class BaseTestCase(TestCase):
         user = User.query.get(1)
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.confirmed, False)
-        self.assert_template_used('users/update.html')   
-          
-
+        self.assert_template_used('users/update.html')       
 
 if __name__ == '__main__':
     unittest.main()

@@ -108,7 +108,7 @@ def edit(id):
             flash('Missing required information', 'danger')
         return render_template('users/edit.html', form=EditUserForm(), user=found_user)
     flash('Permission Denied')
-    return redirect(url_for('users.show', id=found_user.id))
+    return redirect(url_for('users.home'))
 
 
 @users_blueprint.route('/<int:id>/editpassword', methods=['GET','PATCH'])
