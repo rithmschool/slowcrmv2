@@ -14,9 +14,6 @@
 </script>
 
 <div class="content">
-    {% for message in get_flashed_messages() %}
-        <p>{{ message }}</p>
-    {% endfor %}
     <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
         <div class="form-group">
             <textarea name="tweet-message" id="tweet-message" cols="30" rows="3" class="form-control" placeholder="Send an update to partners.."></textarea>
@@ -40,3 +37,4 @@
     </div>
 </div>
 {% endblock %}
+

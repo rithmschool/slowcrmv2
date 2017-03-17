@@ -3,11 +3,11 @@
 {%  block content  %}
 <div style='margin-top:10em' class="col-md-4 col-md-offset-4">
 
-<h2>Edit Person Form</h2>
+<h2>New Company Form</h2>
 
-<button style='margin-top: 2em;margin-bottom: 2em'><a href = '{{url_for('persons.show',id=person.id)}}''>Back to profile</a></button>
+<button style='margin-top:2em;margin-bottom:2em'><a href = '{{url_for('companies.index')}}''>Companies Index</a></button>
 
-<form  action="{{url_for('persons.show', id=person.id)}}?_method=PATCH", method='POST'>
+<form action="{{url_for('companies.index')}}" , method='POST'>
 
 {{form.hidden_tag()}}
 {%  for field in form if field.widget.input_type != 'hidden' %}
@@ -24,7 +24,7 @@
 </p>
 {%  endfor  %}
 
-<button style='margin-top: 2em;margin-bottom: 2em' type='submit'>Edit Profile</button>
+<button style='margin-top:2em' type='submit'>Add New Company</button>
 
 </form>
 

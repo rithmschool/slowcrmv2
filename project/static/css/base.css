@@ -2,11 +2,150 @@
 @import url('//fonts.googleapis.com/css?family=Nunito');
 
 html, body {
-margin:0;
-padding:0;
+	margin:0;
+	padding:0;
+	background-color: #E8E8EE;
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1000px){
+
+	.mynav{
+		display: flex;
+		position: fixed;
+		top: 0px;
+		height: 10vw;
+		background-color: #34495E;
+		width: 100%;
+		justify-content: space-between;
+	}
+	.mytitle{
+		height: 100%;
+		text-align: center;
+		width:45%;
+		background-color: #34495E;
+		text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+	.mytitletext{
+		font-family: Montserrat;
+		font-size: 8vw;
+		color: white;
+		vertical-align: 100%;
+		line-height: 10vw;
+		text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+	.mytitletext:hover{
+		cursor: pointer;
+	}
+	.rocket{
+		height: 8vw;
+		margin-top: -25vw;
+	}
+	.rocket:hover{
+		cursor: pointer;
+	}
+	.mytitletext3{
+		display: none;
+	}
+	.mypages{
+		display: none;
+	}
+	.mysearch{
+		display: none;
+	}
+	.mobilenav{
+		width: 25%;
+		float: right;
+	}
+	.hamburgericon{
+		margin-top: 1.5vw;
+		width: 7vw;
+		margin-right: 4vw;
+	}
+	.hamburgericon:hover{
+		cursor:pointer;
+	}
+	.searchicon{
+		margin-top: 1.4vw;
+		width: 8vw;
+		margin-right: 2vw;
+	}
+	.searchicon:hover{
+		cursor:pointer;
+	}
+	.mobilenavpages{
+		display: none;
+		margin-top: 10vw;
+		width: 100%;
+		height: 54vh;
+		background-color: lightgrey;
+	}
+	.mobilenavitems{
+		display: block;
+		background-color: black;
+		color: white;
+		text-align: center;
+		height: 9vh;
+		font-size: 5rem;
+	}
+	.mobilesearch{
+		display: none;
+		width: 100vw;
+		margin-left: 0;
+	}
+	.mobileform{
+		margin-top: 11vw;
+		width: 100%;
+	}
+	.mobileinput{
+		height: 5vh;
+		width: 100%;
+		font-size: 2.75em;
+	}
+	.searchcontent{
+		margin-top:10vh;
+		display: none;
+		font-family: Nunito;
+		width: 100%;
+		min-height: 100vh;
+		background-color: #E5E5E5;
+		margin-left: 0%;
+		padding-right: 0.5%;
+		padding-left: 0.5%;
+		padding-top: 0.5%;
+	}
+	.content{
+		margin-top:10vw;
+		font-family: Nunito;
+		min-height: 100vh;
+		width: 100%;
+		background-color: #E5E5E5;
+		margin-left: 0%;
+		padding-right: 0.5%;
+		padding-left: 0.5%;
+		padding-top: 0.5%;
+	}
+	#tweet-message{
+		height: 15vh;
+	}
+	#tweet-button{
+		width: 20vw;
+		margin-right: 1vw;
+	}
+	.myheadertext{
+		height: 90%;
+		font-size: 4em;
+		font-weight: lighter;
+		color: black;
+	}
+	.myheaderbar{
+		background-color: black;
+		height: 1.5px;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mynav{
 		position: fixed;
 		top: 0px;
@@ -28,7 +167,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mytitle{
 		display: inline-block;
 		height: 100%;
@@ -52,7 +191,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mytitletext{
 		font-family: Montserrat;
 		font-size: 30px;
@@ -82,7 +221,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mytitletext2{
 		font-family: Montserrat;
 		font-size: 30px;
@@ -112,7 +251,37 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
+	.mytitletext3{
+		font-family: Montserrat;
+		font-size: 30px;
+		color: white;
+		vertical-align: 35%;
+		line-height: 165%;
+		text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+	.mytitletext3:hover{
+		cursor: pointer;
+	}
+}
+
+@media (min-width: 1921px){
+	.mytitletext3{
+		font-family: Montserrat;
+		font-size: 50px;
+		color: white;
+		vertical-align: 30%;
+		line-height: 125%;
+		text-overflow: ellipsis;
+    	overflow: hidden;
+	}
+	.mytitletext3:hover{
+		cursor: pointer;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
 	img{
 		height: 60%;
 
@@ -125,7 +294,46 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
+	.mobilenav{
+		display: none;
+
+	}
+}
+
+@media (min-width: 1921px){
+	.mobilenav{
+		display: none;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	.mobilenavpages{
+		display: none;
+
+	}
+}
+
+@media (min-width: 1921px){
+	.mobilenavpages{
+		display: none;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	.mobilesearch{
+		display: none;
+
+	}
+}
+
+@media (min-width: 1921px){
+	.mobilesearch{
+		display: none;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mypages{
 		display: flex;
 		justify-content: space-around;
@@ -147,12 +355,11 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mynavitems{
 		font-family: Montserrat;
 		font-size: 115%;
 		color: white;
-		vertical-align: 35%;
 	}
 }
 
@@ -161,11 +368,10 @@ padding:0;
 		font-family: Montserrat;
 		font-size: 145%;
 		color: white;
-		vertical-align: 30%;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mynavitems:hover{
 		cursor: pointer;
 	}
@@ -177,7 +383,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.mysearch{
 		font-family: Montserrat;
 		width: 25%;
@@ -191,7 +397,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.myform {
 		display: inline-block;
 		margin: 0 0 0 1.5em;
@@ -249,14 +455,14 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.content{
 		margin-top:50px;
 		font-family: Nunito;
 		min-height: 100vh;
-		width: 55%;
+		width: 75%;
 		background-color: #E5E5E5;
-		margin-left: 22%;
+		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
 		padding-top: 0.5%;
@@ -268,16 +474,16 @@ padding:0;
 		margin-top: 75px;
 		font-family: Nunito;
 		min-height: 100vh;
-		width: 55%;
+		width: 75%;
 		background-color: #E5E5E5;
-		margin-left: 22%;
+		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
 		padding-top: 0.5%;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.legend{
 		font-family: Nunito;
 		font-size: 1.2em;
@@ -291,7 +497,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	#tweet-message{
 		font-size: 1.25em;
 	}
@@ -303,7 +509,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	#tweet-button{
 		font-size: 1em;
 	}
@@ -322,15 +528,15 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.searchcontent{
 		margin-top:50px;
 		display: none;
 		font-family: Nunito;
-		width: 55%;
+		width: 75%;
 		min-height: 100vh;
 		background-color: #E5E5E5;
-		margin-left: 22%;
+		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
 		padding-top: 0.5%;
@@ -342,17 +548,17 @@ padding:0;
 		margin-top:75px;
 		display: none;
 		font-family: Nunito;
-		width: 55%;
+		width: 75%;
 		min-height: 100vh;
 		background-color: #E5E5E5;
-		margin-left: 22%;
+		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
 		padding-top: 0.5%;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.myheader{
 		height: 70px;
 	}
@@ -364,7 +570,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.myheadertext{
 		height: 90%;
 		font-size: 3.5em;
@@ -382,7 +588,7 @@ padding:0;
 	}
 }
 
-@media (max-width: 1920px){
+@media (max-width: 1920px) and (min-width: 1000px){
 	.myheaderbar{
 		background-color: black;
 		height: 1.5px;
@@ -395,5 +601,4 @@ padding:0;
 		height: 3px;
 	}
 }
-
 

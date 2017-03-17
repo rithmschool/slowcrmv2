@@ -67,22 +67,24 @@ class BaseTestCase(TestCase):
             description='I am an awesome person'
             ))
 
-        person_id = Person.query.filter_by(phone= "4087261650").first().id
-
         response = self.client.post('/persons/1?_method=PATCH',
             data=dict(email='notaaron@rithmschool.com',
             phone="9992223333",
-            name='Manley',
             title='Murky',
+            name='Aaron',
             description='I am a Frog')
             ,follow_redirects=True
             )
 
+        self.assertEqual(len(Person.query.all()), 1)
         self.assertEqual(response.status_code,200)
         self.assert_template_used('persons/show.html')
         self.assertEqual(
+            Person.query.filter_by(phone= "9992223333").first().id,
+            1)
+        self.assertEqual(
             Person.query.filter_by(phone= "9992223333").first().name,
-            'Manley')
+            'Aaron')
         self.assertFalse(Person.query.filter_by(phone= "9992223333").first().slow_lp,
             False)
         self.assertEqual(

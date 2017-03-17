@@ -93,21 +93,23 @@ class Company(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
 
-    def __init__(self, name, description=None, url=None, logo_url=None, partner_lead=None, ops_lead=None):
+
+    def __init__(self, name, description=None, url=None, logo_url=None, partner_lead=None, ops_lead=None, source=None, round=None, archived=None):
         self.name = name
         self.description = description
         self.url = url
         self.logo_url = logo_url
         self.partner_lead = partner_lead
         self.ops_lead = ops_lead
-        self.archived = False
+        self.source = source
+        self.round = round 
+        self.archived = archived
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
     def __repr__(self):
-        return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.name,self.description,self.url,
+        return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.archived,self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
-
 
 
 class Entry(db.Model, UserMixin):
@@ -134,3 +136,4 @@ class Entry(db.Model, UserMixin):
 
     def __repr__(self):
         return "id {} content {}".format(self.id, self.content)
+
