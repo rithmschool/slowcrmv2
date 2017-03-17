@@ -7,21 +7,13 @@ html, body {
 	background-color: #E8E8EE;
 }
 
-a:hover{
-	text-decoration: none;
-}
-
-a{
+a, a:hover{
 	text-decoration: none;
 }
 
 @media (max-width: 1000px){
 
-	a:hover{
-		text-decoration: none !important;
-	}
-
-	a{
+	a, a:hover{
 		text-decoration: none !important;
 	}
 
@@ -193,11 +185,7 @@ a{
 		text-overflow: ellipsis;
     	overflow: hidden;
 	}
-	a:hover{
-		text-decoration: none !important;
-	}
-
-	a{
+	a, a:hover{
 		text-decoration: none !important;
 	}
 }
@@ -212,11 +200,7 @@ a{
 		text-overflow: ellipsis;
     	overflow: hidden;
 	}
-	a:hover{
-		text-decoration: none !important;
-	}
-
-	a{
+	a, a:hover{
 		text-decoration: none !important;
 	}
 }
