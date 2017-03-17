@@ -7,7 +7,15 @@ html, body {
 	background-color: #E8E8EE;
 }
 
+a, a:hover{
+	text-decoration: none;
+}
+
 @media (max-width: 1000px){
+
+	a, a:hover{
+		text-decoration: none !important;
+	}
 
 	.mynav{
 		display: flex;
@@ -177,6 +185,9 @@ html, body {
 		text-overflow: ellipsis;
     	overflow: hidden;
 	}
+	a, a:hover{
+		text-decoration: none !important;
+	}
 }
 
 @media (min-width: 1921px){
@@ -188,6 +199,9 @@ html, body {
 		background-color: #34495E;
 		text-overflow: ellipsis;
     	overflow: hidden;
+	}
+	a, a:hover{
+		text-decoration: none !important;
 	}
 }
 
@@ -592,6 +606,118 @@ html, body {
 	.myheaderbar{
 		background-color: black;
 		height: 3px;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	#formrow{
+		margin-top: 2%;
+		margin-bottom: 0.5%;
+		margin-left: 33.33%;
+		font-size: 1em;
+	}
+}
+
+@media (min-width: 1921px){
+	#formrow{
+		margin-top: 2%;
+		margin-bottom: 0.5%;
+		margin-left: 33.33%;
+		font-size: 1em;
+	}
+}
+
+@media (max-width: 1000px){
+	#formrow{
+		margin-top: 2%;
+		margin-bottom: 0.5%;
+		margin-left: 15%;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	#email{
+		width: 50%;
+		height: 3vh;
+		font-size: 1em;
+	}
+}
+
+@media (min-width: 1921px){
+	#email{
+		width: 50%;
+		height: 3vh;
+		font-size: 1em;
+	}
+}
+
+@media (max-width: 1000px){
+	#email{
+		width: 75%;
+		height: 3.5vh;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	label{
+		font-size: 1em;
+	}
+}
+
+@media (min-width: 1921px){
+	label{
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 1000px){
+	label{
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	#password{
+		width: 50%;
+		height: 3vh;
+		margin-bottom: 1%;
+	}
+}
+
+@media (min-width: 1921px){
+	#password{
+		width: 50%;
+		height: 3vh;
+		margin-bottom: 1%;
+	}
+}
+
+@media (max-width: 1000px){
+	#password{
+		width: 75%;
+		height: 3.5vh;
+		margin-bottom: 1%;
+	}
+}
+
+@media (max-width: 1920px) and (min-width: 1000px){
+	#postbutton{
+		margin-left: 45%;
+		width: 10%;
+	}
+}
+
+@media (min-width: 1921px){
+	#postbutton{
+		margin-left: 45%;
+		width: 10%;
+	}
+}
+
+@media (max-width: 1000px){
+	#postbutton{
+		margin-left: 30%;
+		width: 25%;
 	}
 }
 

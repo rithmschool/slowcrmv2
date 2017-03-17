@@ -19,9 +19,9 @@
 <body>
     <div class="mynav">
         <div class="mytitle">
-            <span class="mytitletext">SLOW</span>
-            <span class="mytitletext2"><img class="rocket" src="//i.imgur.com/OdbD2CO.png" alt="rocket ship icon"></span>
-            <span class="mytitletext3">ventures</span>
+            <a href="/users/home"><span class="mytitletext">SLOW</span></a>
+            <a href="/users/home"><span class="mytitletext2"><img class="rocket" src="//i.imgur.com/OdbD2CO.png" alt="rocket ship icon"></span></a>
+            <a href="/users/home"><span class="mytitletext3">ventures</span></a>
         </div>
         <div class="mypages">
         {% if current_user.is_authenticated %}
@@ -36,7 +36,7 @@
         </div>
         <div class="mysearch">
         {% if current_user.is_authenticated %}
-            <form class="myform">
+            <form action="{{url_for('users.search')}}" class="myform">
                 <input class="myinput" type="text" name="search">
             </form>
         {% else %}
@@ -59,12 +59,13 @@
         <a href="{{url_for('users.logout')}}"><span class="mobilenavitems">Logout</span></a>
     </div>
     <div class="mobilesearch">
-        <form class="mobileform">
-            <input class="mobileinput" type="text" name="search" placeholder="Search...">
+        <form action="{{url_for('users.search')}}" class="mobileform">
+            <input class="mobileinput" type="submit" name="search" placeholder="Search...">
         </form>
     </div>
-
+<div class="content">
     {% block content %} {% endblock %}
+    </div>
 </body>
 
 </html>
