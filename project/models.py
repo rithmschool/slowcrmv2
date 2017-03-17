@@ -81,7 +81,7 @@ class Company(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
-    description = db.Column(db.Text, nullable=True)
+    description = db.Column(db.Text, nullable=False)
     url = db.Column(db.Text, nullable=True)
     logo_url = db.Column(db.Text, nullable=True)
     partner_lead = db.Column(db.Text, nullable=True)
@@ -93,21 +93,22 @@ class Company(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
 
-    def __init__(self, name, description, url, logo_url, partner_lead, ops_lead):
+    def __init__(self, name, description, url, logo_url, partner_lead, ops_lead, source, round, archived):
         self.name = name
         self.description = description
         self.url = url
         self.logo_url = logo_url
         self.partner_lead = partner_lead
         self.ops_lead = ops_lead
-        self.archived = False
+        self.source = source
+        self.round = round 
+        self.archived = archived
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
     def __repr__(self):
-        return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.name,self.description,self.url,
+        return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.archived,self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
-
 
 
 class Entry(db.Model, UserMixin):
@@ -134,3 +135,4 @@ class Entry(db.Model, UserMixin):
 
     def __repr__(self):
         return "id {} content {}".format(self.id, self.content)
+

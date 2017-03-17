@@ -1,0 +1,25 @@
+{%  extends 'base.html'  %}
+{%  block content  %}
+
+<div style='margin-top:10em' class="col-md-4 col-md-offset-4">
+<h2>User {{user.name}} Profile Page</h2>
+
+<button style='float:right' data-toggle='modal' data-target='invite-modal'>Invite User</button>
+
+<div id='invite-modal' class='modal fade' role='dialog'>
+    <div>
+    </div>
+</div>
+
+
+<p>Name: {{user.name}}</p>
+<p>Email: {{user.email}}</p>
+<p>Phone: {{user.phone}}</p>
+<p>Created: {{user.created_at}}</p>
+<p>Updated: {{user.updated_at}}</p>
+<p>Admin: {{user.is_admin}}</p>
+<p>Confirmed: {{user.confirmed}}</p>
+<button>Update Password</button>
+<div>
+
+{%  endblock  %}
