@@ -7,7 +7,23 @@ html, body {
 	background-color: #E8E8EE;
 }
 
+a:hover{
+	text-decoration: none;
+}
+
+a{
+	text-decoration: none;
+}
+
 @media (max-width: 1000px){
+
+	a:hover{
+		text-decoration: none !important;
+	}
+
+	a{
+		text-decoration: none !important;
+	}
 
 	.mynav{
 		display: flex;
@@ -177,6 +193,13 @@ html, body {
 		text-overflow: ellipsis;
     	overflow: hidden;
 	}
+	a:hover{
+		text-decoration: none !important;
+	}
+
+	a{
+		text-decoration: none !important;
+	}
 }
 
 @media (min-width: 1921px){
@@ -188,6 +211,13 @@ html, body {
 		background-color: #34495E;
 		text-overflow: ellipsis;
     	overflow: hidden;
+	}
+	a:hover{
+		text-decoration: none !important;
+	}
+
+	a{
+		text-decoration: none !important;
 	}
 }
 
@@ -687,21 +717,21 @@ html, body {
 }
 
 @media (max-width: 1920px) and (min-width: 1000px){
-	.btn{
+	#postbutton{
 		margin-left: 45%;
 		width: 10%;
 	}
 }
 
 @media (min-width: 1921px){
-	.btn{
+	#postbutton{
 		margin-left: 45%;
 		width: 10%;
 	}
 }
 
 @media (max-width: 1000px){
-	.btn{
+	#postbutton{
 		margin-left: 30%;
 		width: 25%;
 	}
