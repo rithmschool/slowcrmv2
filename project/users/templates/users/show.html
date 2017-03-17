@@ -1,8 +1,10 @@
 {%  extends 'base.html'  %}
 {%  block content  %}
 
+{% if current_user.id == user.id  %}
+
 <div style='margin-top:10em' class="col-md-4 col-md-offset-4">
-<h2>User {{user.name}} Profile Page</h2>
+<h2>User {{user.name}} Profile Page</h2><a href="/users/{{user.id}}/edit">Edit</a>
 
 <button style='float:right' data-toggle='modal' data-target='invite-modal'>Invite User</button>
 
@@ -11,6 +13,25 @@
     </div>
 </div>
 
+<p>Name: {{user.name}}</p>
+<p>Email: {{user.email}}</p>
+<p>Phone: {{user.phone}}</p>
+<p>Created: {{user.created_at}}</p>
+<p>Updated: {{user.updated_at}}</p>
+<p>Admin: {{user.is_admin}}</p>
+<p>Confirmed: {{user.confirmed}}</p>
+<button><a href="/users/{{user.id}}/editpassword">Update Password</a></button>
+<div>
+
+{% else %}
+
+<div style='margin-top:10em' class="col-md-4 col-md-offset-4">
+<h2>User {{user.name}} Profile Page</h2>
+
+<div id='invite-modal' class='modal fade' role='dialog'>
+    <div>
+    </div>
+</div>
 
 <p>Name: {{user.name}}</p>
 <p>Email: {{user.email}}</p>
@@ -19,7 +40,6 @@
 <p>Updated: {{user.updated_at}}</p>
 <p>Admin: {{user.is_admin}}</p>
 <p>Confirmed: {{user.confirmed}}</p>
-<button>Update Password</button>
 <div>
-
+{% endif %}
 {%  endblock  %}
