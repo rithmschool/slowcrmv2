@@ -58,8 +58,7 @@ class BaseTestCase(TestCase):
                 partner_lead='Big Shot',
                 ops_lead='another big shot',
                 source='',
-                round="",
-                archived=False
+                round=""
                 ), follow_redirects=True
             )
 
@@ -68,10 +67,12 @@ class BaseTestCase(TestCase):
         self.assert_template_used('companies/show.html')
         self.assertEqual(response.status_code, 200)
 
+    # Should allow a user profile to be archived; name must be sent
+    # due to validater (will normally prepopulate in form)
     def testArchiveCompany(self):
         response = self.client.post('/companies/2?_method=PATCH',
             data = dict(
-                name = '',
+                name = 'Hack Rector',
                 description = '',
                 url='',
                 logo_url="",
@@ -82,11 +83,10 @@ class BaseTestCase(TestCase):
                 archived=True
                 ), follow_redirects=True
             )
-        from IPython import embed; embed()
-        self.assertEqual(len(Company.query.filter_by(archived=False).all()), 1)
-        self.assert_template_used('companies/show.html')
-        self.assertEqual(response.status_code, 200)
 
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Company.query.get(2).archived)
+        self.assert_template_used('companies/show.html')
 
 if __name__ == '__main__':
     unittest.main()

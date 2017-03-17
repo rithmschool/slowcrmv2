@@ -54,7 +54,6 @@ def show(id):
             company.source=request.form['source']
             company.round=request.form['round']
             company.archived=form.archived.data
-            from IPython import embed; embed()
             db.session.add(company)
             db.session.commit()
             flash("Succesfully edited company")
