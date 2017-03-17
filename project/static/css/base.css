@@ -130,9 +130,9 @@ a, a:hover{
 		width: 100%;
 		background-color: #E5E5E5;
 		margin-left: 0%;
-		padding-right: 0.5%;
-		padding-left: 0.5%;
-		padding-top: 0.5%;
+		padding-right: 5%;
+		padding-left: 5%;
+		padding-top: 2%;
 	}
 	#tweet-message{
 		height: 15vh;
@@ -477,9 +477,9 @@ a, a:hover{
 		width: 75%;
 		background-color: #E5E5E5;
 		margin-left: 12.5%;
-		padding-right: 0.5%;
-		padding-left: 0.5%;
-		padding-top: 0.5%;
+		padding-right: 6%;
+		padding-left: 6%;
+		padding-top: 2%;
 	}
 }
 
@@ -491,9 +491,9 @@ a, a:hover{
 		width: 75%;
 		background-color: #E5E5E5;
 		margin-left: 12.5%;
-		padding-right: 0.5%;
-		padding-left: 0.5%;
-		padding-top: 0.5%;
+		padding-right: 6%;
+		padding-left: 6%;
+		padding-top: 2%;
 	}
 }
 
