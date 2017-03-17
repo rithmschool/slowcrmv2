@@ -1,8 +1,7 @@
 from project.users.forms import UserForm
-from project.users.forms import LoginForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
 from project.models import Person
-from project import db, bcrypt
+from project import db
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
 from project.persons.forms import PersonForm
@@ -13,7 +12,6 @@ persons_blueprint = Blueprint(
     __name__,
     template_folder = 'templates'
 )
-
 
 @persons_blueprint.route('/', methods=['GET', 'POST'])
 def index():
@@ -49,16 +47,14 @@ def show(id):
     form = PersonForm(request.form)
     if request.method == b'PATCH':
         if form.validate():
-            edit_person = Person(
-            email=request.form['email'] or person.email,
-            phone=request.form['phone'],
-            name=request.form['name'],
-            title=request.form['title'],
-            description=request.form['description'],
-            slow_lp=form.slow_lp.data,
-            archived=form.archived.data
-            )
-            db.session.add(edit_person)
+            person.email=request.form['email']
+            person.phone=request.form['phone']
+            person.name=request.form['name']
+            person.title=request.form['title']
+            person.description=request.form['description']
+            person.slow_lp=form.slow_lp.data
+            person.archived=form.archived.data
+            db.session.add(person)
             db.session.commit()
             flash("Succesfully edited profile")
             return redirect(url_for('persons.show', id=person.id))
