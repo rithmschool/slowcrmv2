@@ -12,8 +12,4 @@ $(function(){
  		}
 	});
 
-	$('.mynavitems').on('click', function(e){
-		window.location = '/users/logout';
-	})
-
 });

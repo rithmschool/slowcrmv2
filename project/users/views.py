@@ -1,12 +1,13 @@
-from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm
+from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm, EditUserForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
-from project.models import User, Person
+from project.models import User, Person, Entry
 from project import db, bcrypt, mail
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
 from flask_mail import Message 
 from project.users.token import generate_confirmation_token, confirm_token
 from datetime import datetime
+from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 
 def send_token(subject, html, name, email, confirm_url):
@@ -20,9 +21,8 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
-@users_blueprint.route('/home')
+@users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
-   
     if current_user.is_authenticated:
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
@@ -74,23 +74,72 @@ def confirm_email(token):
         flash('Account already confirmed. Please login or reset password', 'success')
         return redirect(url_for('users.login'))
     else:   
-        found_user.confirmed = True
         found_user.updated_at = datetime.now()
         db.session.add(found_user)
         db.session.commit()
         login_user(found_user)
-        return render_template('users/edit.html', form=UserForm(), user=found_user)
+        return render_template('users/update.html', form=UserForm(), user=found_user)
 
-@users_blueprint.route('/<int:id>/edit', methods=['GET','POST'])
+@users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
 @login_required
-def edit(id):  
-    found_user = User.query.get(current_user.id)   
-    render_template('users/edit.html', form=UserForm(), user=found_user) 
+def edit(id):
+    if id == current_user.id:
+        found_user = User.query.get(id)
+        if request.method ==b"PATCH":
+            form = EditUserForm(request.form)
+            if form.validate():
+                if bcrypt.check_password_hash(found_user.password, request.form['password']):
+                    flash('You have successfully updated your user info!', 'success')
+                    found_user.name = request.form['name']
+                    found_user.email = request.form['email']
+                    found_user.phone = request.form['phone']
+                    db.session.add(found_user)
+                    db.session.commit()
+                    return redirect(url_for('users.home'))
+                flash('Password Incorrect', 'danger')
+                return render_template('users/edit.html', form=EditUserForm(), user=found_user)   
+            flash('Missing required information', 'danger')
+        return render_template('users/edit.html', form=EditUserForm(), user=found_user)
+    flash('Permission Denied')
+    return redirect(url_for('users.home'))
+
+@users_blueprint.route('/<int:id>/update', methods=['GET','PATCH'])
+@login_required
+def update(id):
+    if id == current_user.id:
+        found_user = User.query.get(id)
+        if request.method ==b"PATCH":
+            form = UserForm(request.form)
+            if form.validate():
+                if request.form['password'] == request.form['confirmpassword']:
+                    flash('You have successfully updated your user info!', 'success')
+                    found_user.name = request.form['name']
+                    found_user.email = request.form['email']
+                    found_user.phone = request.form['phone']
+                    found_user.password = request.form['password']
+                    found_user.confirmed = True
+                    db.session.add(found_user)
+                    db.session.commit()
+                    return redirect(url_for('users.home'))
+                flash('Passwords do not match. Please try again.', 'danger')
+                return render_template('users/update.html', form=UserForm(), user=found_user)
+            flash('Missing required information', 'danger')
+        if found_user.confirmed:
+            flash('Your account has already been confirmed, please log in')
+            return redirect(url_for('users.login'))
+        return render_template('users/update.html', form=UserForm(), user=found_user)
+    flash('Permission Denied')
+    return redirect(url_for('users.home'))
 
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
+@login_required
 def entry():
-    form = EntryForm()
-    return render_template('users/entry.html', entry_form=form)
+    if(request.method == 'POST'):
+        content = request.get_json().get('content')
+        entry = Entry(current_user.id, content)
+        db.session.add(entry)
+        db.session.commit()
+        return json.dumps({'entry_id': entry.id}), 200
 
 @users_blueprint.route('/logout')
 @login_required

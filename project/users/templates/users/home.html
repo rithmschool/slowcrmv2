@@ -1,6 +1,22 @@
 {% extends 'base.html' %} {% block content %}
+
+<script type="text/javascript">
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
+</script>
+
 <div class="content">
-    <div class="well clearfix">
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
         <div class="form-group">
             <textarea name="tweet-message" id="tweet-message" cols="30" rows="3" class="form-control" placeholder="Send an update to partners.."></textarea>
         </div>
@@ -8,9 +24,9 @@
         <span class="legend"> |PersonName|, </span>
         <span class="legend"> *TagName*</span>
         <div class="pull-right">
-            <button id="tweet-button" class="btn btn-primary">Post Update</button>
+            <button id="tweet-button" type="submit" class="btn btn-primary">Post Update</button>
         </div>
-    </div>
+    </form>
 </div>
 <div class="searchcontent">
     <div class="myheader">
