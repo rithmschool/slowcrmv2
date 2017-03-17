@@ -46,4 +46,20 @@ $(function(){
  		}
 	});
 
+	$(window).on('resize', function(){
+      var win = $(this); //this = window
+      if (win.width() > 1000) { 
+      	$('.content').css('margin-top', '50px')
+      	$('.searchcontent').css('margin-top', '50px')
+      }
+      if (win.width() < 1000) { 
+      	$('.content').css('margin-top', '10vw')
+      	$('.searchcontent').css('margin-top', '10vw')
+      }
+      if (win.width() > 1920) { 
+      	$('.content').css('margin-top', '75px')
+      	$('.searchcontent').css('margin-top', '75px')
+      }
+	});
+
 });
