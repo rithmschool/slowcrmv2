@@ -102,13 +102,13 @@ def edit(id):
                     found_user.phone = request.form['phone']
                     db.session.add(found_user)
                     db.session.commit()
-                    return redirect(url_for('users.home'))
+                    return redirect(url_for('users.show', id=found_user.id))
                 flash('Password Incorrect', 'danger')
                 return render_template('users/edit.html', form=EditUserForm(), user=found_user)   
             flash('Missing required information', 'danger')
         return render_template('users/edit.html', form=EditUserForm(), user=found_user)
     flash('Permission Denied')
-    return redirect(url_for('users.home'))
+    return redirect(url_for('users.show', id=found_user.id))
 
 
 @users_blueprint.route('/<int:id>/editpassword', methods=['GET','PATCH'])
@@ -125,7 +125,7 @@ def edit_password(id):
                         db.session.add(found_user)
                         db.session.commit()
                         flash('Password updated')
-                        return redirect(url_for('users.home'))
+                        return redirect(url_for('users.show', id=found_user.id))
                     flash('Passwords do not match')
                     return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
                 flash('Current password is incorrect')
@@ -133,7 +133,7 @@ def edit_password(id):
             return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)           
         return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
     flash('Permission Denied')
-    return redirect(url_for('users.home'))    
+    return redirect(url_for('users.show', id=found_user.id))    
 
 
 # Only for new invited users
