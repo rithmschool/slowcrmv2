@@ -79,7 +79,7 @@ entry_companies = db.Table('entries_companies',
 class Company(db.Model):
     __tablename__ = 'companies'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text, nullable=False)
     url = db.Column(db.Text, nullable=True)

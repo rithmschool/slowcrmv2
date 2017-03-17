@@ -12,10 +12,10 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
-        c1 = Company(name='App Academy',description='Another Bootcamp',
-            url='galvanize.com',logo_url=None,partner_lead='Some guy',
+        c1 = Company(name='Intel',description='Computer Chip Maker',
+            url='intel.com',logo_url=None,partner_lead='Some guy',
             ops_lead='some other guy',source='no where',round='B',archived=False)
-        c2 = Company(name='Hack Reactor',description='Yet Another Bootcamp',
+        c2 = Company(name='AMD',description='Yet Another Computer Chip Maker',
             url='7.com',logo_url=None,partner_lead='Some guy',
             ops_lead='some other guy',source='no where',round='Angel',archived=False)        
         db.session.add_all([c1,c2])
@@ -49,7 +49,7 @@ class BaseTestCase(TestCase):
     def testEditCompany(self):  
         response = self.client.post('/companies/2?_method=PATCH',
             data = dict(
-                name = 'Not Hack Reactor anymore',
+                name = 'Not Intel anymore',
                 description = 'A changed name',
                 url='a new url',
                 logo_url="None",
@@ -61,7 +61,7 @@ class BaseTestCase(TestCase):
             )
 
         self.assertEqual(len(Company.query.all()), 2)
-        self.assertEqual(Company.query.get(2).name, 'Not Hack Reactor anymore')
+        self.assertEqual(Company.query.get(2).name, 'Not Intel anymore')
         self.assert_template_used('companies/show.html')
         self.assertEqual(response.status_code, 200)
 
@@ -70,7 +70,7 @@ class BaseTestCase(TestCase):
     def testArchiveCompany(self):
         response = self.client.post('/companies/2?_method=PATCH',
             data = dict(
-                name = 'Hack Rector',
+                name = 'OnePlus',
                 description = '',
                 url='',
                 logo_url="",

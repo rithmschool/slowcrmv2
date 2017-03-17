@@ -80,6 +80,13 @@ def confirm_email(token):
         login_user(found_user)
         return render_template('users/update.html', form=UserForm(), user=found_user)
 
+@users_blueprint.route('/<int:id>')
+@login_required
+def show(id):
+    found_user = User.query.get(id)
+    return render_template('users/show.html', user=found_user)
+
+# for editing users that are not new
 @users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
 @login_required
 def edit(id):
@@ -103,6 +110,7 @@ def edit(id):
     flash('Permission Denied')
     return redirect(url_for('users.home'))
 
+# Only for new invited users
 @users_blueprint.route('/<int:id>/update', methods=['GET','PATCH'])
 @login_required
 def update(id):
