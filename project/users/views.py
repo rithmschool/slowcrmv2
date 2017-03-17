@@ -1,6 +1,6 @@
-from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm
+from project.users.forms import UserForm, LoginForm, InviteForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
-from project.models import User, Person, Entry
+from project.models import User, Person, Entry, Company
 from project import db, bcrypt, mail
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
@@ -20,6 +20,7 @@ users_blueprint = Blueprint(
     __name__,
     template_folder = 'templates'
 )
+
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
@@ -88,15 +89,81 @@ def edit(id):
     render_template('users/edit.html', form=UserForm(), user=found_user) 
 
 
-@users_blueprint.route('/entries', methods=['GET', 'POST'])
+@users_blueprint.route('/entries', methods=['POST'])
 @login_required
 def entry():
-    if(request.method == 'POST'):
-        content = request.get_json().get('content')
+    content = request.get_json().get('content')
+    if content:
+        persons_companies_tuples = get_persons_companies(content)
         entry = Entry(current_user.id, content)
+        add_person_data_db(persons_companies_tuples[0], content, entry)
+        add_company_data_db(persons_companies_tuples[1], content, entry)
         db.session.add(entry)
         db.session.commit()
-        return json.dumps({'entry_id': entry.id}), 200
+        # return json.dumps({'entry_id': entry.id}), 200
+        return json.dumps({
+             'data' : get_links(entry.content)
+        })
+    else:
+        raise ValueError('content is empty')
+
+
+def get_persons_companies(content):
+    all_pipe_idx = [i for i,x in enumerate(content) if x == '|']
+    pipe_arrayof_tuples = list(zip(all_pipe_idx[::2], all_pipe_idx[1::2]))
+    all_dollar_idx = [i for i,x in enumerate(content) if x == '$']
+    doller_arrayof_tuples = list(zip(all_dollar_idx[::2], all_dollar_idx[1::2]))
+    return [pipe_arrayof_tuples, doller_arrayof_tuples]
+
+
+def get_links(content):
+    stripped_content = content.strip()
+    arr = stripped_content.split(" ")
+    links = ""
+    for val in arr:
+        if val[0] == '|' and val[-1] == '|':
+            if val[1:-1]:
+                links = links + get_person_link(val[1:-1])
+        elif val[0] == '$' and val[-1] == '$':
+            if val[1:-1]:
+                links = links + get_company_link(val[1:-1])
+        else:
+            links = links + val 
+    return links                
+
+def get_person_link(person_name):
+    person = Person.query.filter_by(name=person_name).first()
+    return '<a href="/persons/{}">{}</a>'.format(person.id, person_name)
+
+def get_company_link(company_name):
+    company = Company.query.filter_by(name=company_name).first()
+    return '<a href="/companies/{}">{}</a>'.format(company.id, company_name)
+
+
+def add_person_data_db(persons_arr, content, entry):
+    for val in persons_arr:
+        person_name = content[val[0]+1 : val[1]]
+        if(not Person.query.filter_by(name=person_name).first()):
+            person = Person(person_name)
+            db.session.add(person)
+            db.session.commit()
+            entry.persons.append(person)
+            db.session.commit()
+        else:
+            entry.persons.append(Person.query.filter_by(name=person_name).first())
+
+def add_company_data_db(companies_arr, content, entry):
+    for val in companies_arr:
+        company_name = content[val[0]+1 : val[1]]
+        if(not Company.query.filter_by(name=company_name).first()):
+            company = Company(company_name)
+            db.session.add(company)
+            db.session.commit()
+            entry.companies.append(company)
+            db.session.commit()
+        else:
+            entry.companies.append(Company.query.filter_by(name=company_name).first())    
+
 
 @users_blueprint.route('/logout')
 @login_required

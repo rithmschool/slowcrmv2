@@ -15,4 +15,24 @@ $(function(){
 	$('.mynavitems').on('click', function(e){
 		window.location = '/users/logout';
 	})
+
+	$('#entry-form').on('submit', function(e){
+		e.preventDefault()
+		if($('#tweet-message').val() === ""){
+			$('.flashes').prepend('<div>please enter person, company or tag</div')
+		}
+		else{
+			$.ajax({
+				type: "POST",
+				url: "/users/entries",
+				data: JSON.stringify({
+					content: $('#tweet-message').val()
+				}),
+				dataType: "json",
+				contentType: "application/json"
+			}).then(function(response){
+				console.log(response);
+			});
+		}
+	});
 });
