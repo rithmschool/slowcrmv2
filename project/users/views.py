@@ -211,7 +211,8 @@ def entry():
         db.session.commit()
         # return json.dumps({'entry_id': entry.id}), 200
         return json.dumps({
-             'data' : get_links(entry.content)
+             'data' : get_links(entry.content),
+             'entry_id': entry.id
         })
     else:
         raise ValueError('content is empty')
