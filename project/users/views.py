@@ -201,4 +201,4 @@ def entry():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('users.home'))
+    return redirect(url_for('users.login'))
