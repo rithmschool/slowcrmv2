@@ -112,12 +112,17 @@ def edit_password(id):
             form = EditPasswordForm(request.form)
             if form.validate():
                 if bcrypt.check_password_hash(found_user.password, request.form['currentpassword']):
-                   if request.form['newpassword'] == request.form['confirmpassword']:
-                    found_user.password = bcrypt.generate_password_hash(request.form['newpassword']).decode('UTF-8')
-                    db.session.add(found_user)
-                    db.session.commit()
-                    flash('Password updated')
-                    return redirect(url_for('users.home')) 
+                    if request.form['newpassword'] == request.form['confirmpassword']:
+                        found_user.password = bcrypt.generate_password_hash(request.form['newpassword']).decode('UTF-8')
+                        db.session.add(found_user)
+                        db.session.commit()
+                        flash('Password updated')
+                        return redirect(url_for('users.home'))
+                    flash('Passwords do not match')
+                    return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
+                flash('Current password is incorrect')
+                return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
+            return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)           
         return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))    
@@ -127,6 +132,9 @@ def edit_password(id):
 def update(id):
     if id == current_user.id:
         found_user = User.query.get(id)
+        if found_user.confirmed:
+            flash('Your account has already been confirmed, please log in')
+            return redirect(url_for('users.login'))
         if request.method ==b"PATCH":
             form = UserForm(request.form)
             if form.validate():
@@ -142,10 +150,6 @@ def update(id):
                     return redirect(url_for('users.home'))
                 flash('Passwords do not match. Please try again.', 'danger')
                 return render_template('users/update.html', form=UserForm(), user=found_user)
-            flash('Missing required information', 'danger')
-        if found_user.confirmed:
-            flash('Your account has already been confirmed, please log in')
-            return redirect(url_for('users.login'))
         return render_template('users/update.html', form=UserForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))
