@@ -595,3 +595,45 @@ html, body {
 	}
 }
 
+/*Profile Page*/
+
+#container {
+	margin-top:10em;
+}
+
+#invite-modal{
+	margin-top:10em;
+}
+
+
+.modal-content{
+	height:10em;
+	border:none;
+}
+
+#close-button {
+	padding-right: 10px;
+	font-size: 50px;
+}
+
+.model-header{
+	text-align:center;
+	padding-left:15px;
+}
+
+.modal-heading{
+	margin-top: 1.5em;
+}
+
+#invite-name{
+	width:30%;	
+}
+
+#invite-email{
+	width:40%;
+}
+
+.modal-footer{
+	margin-top:-18px;
+	border-top: none !important;
+}
