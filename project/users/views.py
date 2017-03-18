@@ -56,13 +56,21 @@ def invite():
     if form.validate():
         email = request.get_json().get('email')
         name = request.get_json().get('name')
+        user_exists = User.query.filter_by(email=email).first()
         token = generate_confirmation_token(email)
         confirm_url = url_for('users.confirm_email', token=token, _external=True)
-        new_user = User(email,name,'temppass','',True,False)
-        db.session.add(new_user)
-        db.session.commit()
-        send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
-        return jsonify('Invite Sent'), 200
+        if bool(user_exists):
+            if user_exists.confirmed:
+                return jsonify("User with this email is already confirmed")
+            else:    
+                send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
+                return jsonify('Invite Sent'), 200
+        else:
+            new_user = User(email,name,'temppass','',True,False)
+            db.session.add(new_user)
+            db.session.commit()
+            send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
+            return jsonify('Invite Sent'), 200
     else: 
         return jsonify("Missing form info"), 422       
 
