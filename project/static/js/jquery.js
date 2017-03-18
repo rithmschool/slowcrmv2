@@ -63,10 +63,12 @@ $(function(){
 					content: $('#tweet-message').val()
 				}),
 				dataType: "json",
-				contentType: "application/json"
+				contentType: "application/json",
 			}).then(function(response){
 				console.log(response);
-			});
+			}).catch(function(error){
+				console.log(error)
+			})
 		}
 	});
 });
