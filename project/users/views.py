@@ -28,6 +28,13 @@ def home():
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
 
+@users_blueprint.route('/search', methods=['GET'])
+def search():
+    term = request.args.get('search')
+    results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
+    count = results.count()
+    return render_template('users/search.html', results=results, count=count)
+
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -84,7 +91,7 @@ def confirm_email(token):
 @users_blueprint.route('/<int:id>')
 @login_required
 def show(id):
-    found_user = User.query.get(id)
+    found_user = User.query.get_or_404(id)
     return render_template('users/show.html', user=found_user)
 
 # for editing users that are not new
@@ -103,7 +110,7 @@ def edit(id):
                     found_user.phone = request.form['phone']
                     db.session.add(found_user)
                     db.session.commit()
-                    return redirect(url_for('users.home'))
+                    return redirect(url_for('users.show', id=found_user.id))
                 flash('Password Incorrect', 'danger')
                 return render_template('users/edit.html', form=EditUserForm(), user=found_user)   
             flash('Missing required information', 'danger')
@@ -121,12 +128,17 @@ def edit_password(id):
             form = EditPasswordForm(request.form)
             if form.validate():
                 if bcrypt.check_password_hash(found_user.password, request.form['currentpassword']):
-                   if request.form['newpassword'] == request.form['confirmpassword']:
-                    found_user.password = bcrypt.generate_password_hash(request.form['newpassword']).decode('UTF-8')
-                    db.session.add(found_user)
-                    db.session.commit()
-                    flash('Password updated')
-                    return redirect(url_for('users.home')) 
+                    if request.form['newpassword'] == request.form['confirmpassword']:
+                        found_user.password = bcrypt.generate_password_hash(request.form['newpassword']).decode('UTF-8')
+                        db.session.add(found_user)
+                        db.session.commit()
+                        flash('Password updated')
+                        return redirect(url_for('users.show', id=found_user.id))
+                    flash('Passwords do not match')
+                    return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
+                flash('Current password is incorrect')
+                return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
+            return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)           
         return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))    
@@ -138,6 +150,9 @@ def edit_password(id):
 def update(id):
     if id == current_user.id:
         found_user = User.query.get(id)
+        if found_user.confirmed:
+            flash('Your account has already been confirmed, please log in')
+            return redirect(url_for('users.login'))
         if request.method ==b"PATCH":
             form = UserForm(request.form)
             if form.validate():
@@ -153,10 +168,6 @@ def update(id):
                     return redirect(url_for('users.home'))
                 flash('Passwords do not match. Please try again.', 'danger')
                 return render_template('users/update.html', form=UserForm(), user=found_user)
-            flash('Missing required information', 'danger')
-        if found_user.confirmed:
-            flash('Your account has already been confirmed, please log in')
-            return redirect(url_for('users.login'))
         return render_template('users/update.html', form=UserForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))
@@ -189,11 +200,11 @@ def password_recovery(token):
                 flash('Password updated')
                 return redirect(url_for('users.login'))
             flash('Passwords do not match')
-        render_template('users/passwordreser/{}'.format(token))            
+        render_template('users/passwordreset/{}'.format(token))            
     try:
         email = confirm_token(token)
     except:
-        flash('Your confirmation link has expired or is invalid, please ask admin to resend invite.', 'danger')
+        flash('Your confirmation link has expired or is invalid, please reset again if needed.', 'danger')
         return redirect(url_for('users.login'))
     found_user = User.query.filter_by(email=email).first_or_404()
     return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)

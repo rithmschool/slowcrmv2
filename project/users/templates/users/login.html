@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% block content%} 
-<div class="content">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
   <form action="{{url_for('users.login')}}" method="POST">
   {{ form.csrf_token }}
   {% for field in form if field.widget.input_type != 'hidden' %}
-  <div class="form-group row">
+  <div class="form-group row" id="formrow">
     {{ field.label }}  
       <div class="col-10">
     {{ field }}
@@ -19,16 +18,7 @@
         {% endfor %}
         {% endif %}
       {% endfor %}
-  <button type="submit" class="btn btn-default">Submit</button>
+  <button type="submit" id="postbutton" class="btn btn-default">Submit</button>
   <a href="/users/passwordreset">Forgot Password?</a>
   </form>
-</div>
-<div class="searchcontent">
-    <div class="myheader">
-        <div class="myheadertext">Search</div>
-        <div class="myheaderbar"></div>
-      <div class="mycontent">
-      </div>
-  </div>
-</div>
 {% endblock %}
