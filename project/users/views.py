@@ -29,7 +29,6 @@ def search():
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
