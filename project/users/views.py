@@ -1,6 +1,6 @@
-from project.users.forms import UserForm, LoginForm, EntryForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
+from project.users.forms import UserForm, LoginForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
-from project.models import User, Person, Entry
+from project.models import User, Person, Entry, Company
 from project import db, bcrypt, mail
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
@@ -21,15 +21,19 @@ users_blueprint = Blueprint(
     template_folder = 'templates'
 )
 
+
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
     if current_user.is_authenticated:
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
 
-@users_blueprint.route('/search', methods=['GET', 'POST'])
+@users_blueprint.route('/search', methods=['GET'])
 def search():
-    return render_template('users/search.html')
+    term = request.args.get('search')
+    results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
+    count = results.count()
+    return render_template('users/search.html', results=results, count=count)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -213,15 +217,109 @@ def password_recovery(token):
     found_user = User.query.filter_by(email=email).first_or_404()
     return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)
 
-@users_blueprint.route('/entries', methods=['GET', 'POST'])
+
+@users_blueprint.route('/entries', methods=['POST'])
 @login_required
 def entry():
-    if(request.method == 'POST'):
-        content = request.get_json().get('content')
-        entry = Entry(current_user.id, content)
-        db.session.add(entry)
-        db.session.commit()
-        return json.dumps({'entry_id': entry.id}), 200
+    content = request.get_json().get('content')
+    if content:
+        try:
+            pipes_dollars_tuples = get_pipes_dollars_tuples(content)
+            entry = Entry(current_user.id, content)
+            add_person_data_db(pipes_dollars_tuples[0], content, entry)
+            add_company_data_db(pipes_dollars_tuples[1], content, entry)
+            db.session.add(entry)
+            db.session.commit()
+        except ValueError as e:
+            return json.dumps({
+                    'message': str(e)
+                }), 400
+
+        return json.dumps({
+             'data' : get_links(entry.content, pipes_dollars_tuples),
+             'entry_id': entry.id
+        })
+    else:
+        raise ValueError('content is empty')
+
+
+def get_pipes_dollars_tuples(content):
+    all_pipe_idx = []
+    all_dollar_idx = []
+    for idx, char in enumerate(content):
+        if char == '|':
+            all_pipe_idx.append(idx)
+        elif char == '$':
+            all_dollar_idx.append(idx)
+    check_correct_pipes_dollars(all_pipe_idx, all_dollar_idx)
+    pipe_arrayof_tuples = list(zip(all_pipe_idx[::2], all_pipe_idx[1::2]))
+    doller_arrayof_tuples = list(zip(all_dollar_idx[::2], all_dollar_idx[1::2]))
+    return [pipe_arrayof_tuples, doller_arrayof_tuples]
+
+
+def check_correct_pipes_dollars(pipes_idx_arr, dollar_idx_arr):
+    if(len(pipes_idx_arr) % 2 != 0):
+        raise ValueError('| is missing!')
+    if(len(dollar_idx_arr) % 2 != 0):
+        raise ValueError('$ is missing!') 
+
+
+def get_links(content, pipes_dollars_tuples):
+    pipes_tuples_arr = pipes_dollars_tuples[0]
+    dollars_tuples_arr = pipes_dollars_tuples[1]
+    stripped_content = content.strip()
+    links = ""
+    idx = 0
+    while idx < len(stripped_content):    
+        if pipes_tuples_arr and idx in [pipes_tuples_arr[0][0]]:
+            person_name = stripped_content[pipes_tuples_arr[0][0]+1: pipes_tuples_arr[0][1]]
+            links = links + get_person_link(person_name)
+            idx = idx + pipes_tuples_arr[0][1]+1
+            pipes_tuples_arr.pop(0)
+        elif dollars_tuples_arr and idx in [dollars_tuples_arr[0][0]]:
+            company_name = stripped_content[dollars_tuples_arr[0][0]+1: dollars_tuples_arr[0][1]] 
+            links = links + get_company_link(company_name)
+            idx = idx + dollars_tuples_arr[0][1]+1
+            dollars_tuples_arr.pop(0)
+        else:
+            links = links + stripped_content[idx] 
+            idx = idx + 1 
+    return links.strip()                
+
+def get_person_link(person_name):
+    person = Person.query.filter_by(name=person_name).first()
+    return '<a href="/persons/{}">{}</a>'.format(person.id, person_name)
+
+def get_company_link(company_name):
+    company = Company.query.filter_by(name=company_name).first()
+    return '<a href="/companies/{}">{}</a>'.format(company.id, company_name)
+
+
+def add_person_data_db(pipes_tuples_arr, content, entry):
+    for val in pipes_tuples_arr:
+        person_name = content[val[0]+1 : val[1]]
+        if(not Person.query.filter_by(name=person_name).first()):
+            person = Person(person_name)
+            db.session.add(person)
+            db.session.commit()
+            entry.persons.append(person)
+            db.session.commit()
+        else:
+            entry.persons.append(Person.query.filter_by(name=person_name).first())
+
+
+def add_company_data_db(dollars_tuples_arr, content, entry):
+    for val in dollars_tuples_arr:
+        company_name = content[val[0]+1 : val[1]]
+        if(not Company.query.filter_by(name=company_name).first()):
+            company = Company(company_name)
+            db.session.add(company)
+            db.session.commit()
+            entry.companies.append(company)
+            db.session.commit()
+        else:
+            entry.companies.append(Company.query.filter_by(name=company_name).first())    
+
 
 @users_blueprint.route('/logout')
 @login_required
