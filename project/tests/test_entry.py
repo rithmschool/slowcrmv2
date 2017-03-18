@@ -2,8 +2,7 @@ from flask_testing import TestCase
 import unittest
 from flask import json
 from project.models import User
-from datetime import datetime
-from project import app, db, bcrypt
+from project import app, db
 from project.models import Entry
 
 class BaseTestCase(TestCase):
@@ -46,6 +45,48 @@ class BaseTestCase(TestCase):
         self.assertEqual(entry.content, content)
         self.assertEqual(response.status_code, 200) 
 
+    def testEntryEmpty(self):    
+        content = ""
+        with self.assertRaises(ValueError) as e:
+            self.client.post('/users/entries',
+                data=json.dumps(dict(
+                    content=content
+                )),
+                content_type='application/json'
+            )
+            self.assertEqual(e.message, 'content is empty')
+
+    def testNewPersonInEntry(self):
+        person_name = 'Sundar'
+        content = "|{}| is a Google CEO".format(person_name)
+        response = self.client.post('/users/entries',
+            data=json.dumps(dict(
+                content=content,
+            )),
+            content_type='application/json'
+        )
+        entry_id = response.json['entry_id']
+        entry = Entry.query.get(entry_id)
+        person_from_db = [p.name for p in entry.persons]
+        self.assertEqual(person_from_db, [person_name])
+        self.assertEqual(response.status_code, 200)
+
+
+    def testNewPersonCompanyInEntry(self):
+        content = "|Sundar| is a $Google$ CEO and |Satya| is a $Microsoft$ CEO"
+        response = self.client.post('/users/entries',
+            data=json.dumps(dict(
+                content=content,
+            )),
+            content_type='application/json'
+        )
+        entry_id = response.json['entry_id']
+        entry = Entry.query.get(entry_id)
+        person_from_db = [p.name for p in entry.persons]
+        company_from_db = [c.name for c in entry.companies]
+        self.assertEqual(person_from_db, ['Sundar', 'Satya'])
+        self.assertEqual(company_from_db, ['Google', 'Microsoft'])
+        self.assertEqual(response.status_code, 200)
+
 if __name__ == '__main__':
     unittest.main()
-            

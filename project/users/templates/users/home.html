@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 
 <script type="text/javascript">
     var csrf_token = "{{ csrf_token() }}";
@@ -23,11 +24,13 @@
         <span class="legend"> $CompanyName$, </span>
         <span class="legend"> |PersonName|, </span>
         <span class="legend"> *TagName*</span>
+        <div class="flashes"></div>
         <div class="pull-right">
             <button id="tweet-button" type="submit" class="btn btn-primary">Post Update</button>
         </div>
     </form>
 </div>
+
 <div class="searchcontent">
     <div class="myheader">
         <div class="myheadertext">Search</div>
@@ -35,6 +38,6 @@
     </div>
     <div class="mycontent">
     </div>
-</div>
+
 {% endblock %}
 

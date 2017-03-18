@@ -102,7 +102,7 @@ class BaseTestCase(TestCase):
         user = User.query.get(2)
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.name,'Bob')
-        self.assert_template_used('users/home.html')
+        self.assert_template_used('users/show.html')
 
     def testEditWrongPass(self):
         # The password put in doesn't match db password
@@ -140,7 +140,7 @@ class BaseTestCase(TestCase):
             data=dict(email='aricliesenfelt@gmail.com', 
             password='newpassword', confirmpassword='newpassword', 
             name='NewName', phone='4154241512'), follow_redirects=True)
-        user = User.query.get(1)
+        user = User.query.filter_by(email='aricliesenfelt@gmail.com').first()
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.name, 'NewName')
         self.assertEqual(user.confirmed, True)
@@ -153,11 +153,55 @@ class BaseTestCase(TestCase):
             data=dict(email='aricliesenfelt@gmail.com', 
             password='newpassword', confirmpassword='wrongpassword', 
             name='NewName', phone='4154241512'))
-        user = User.query.get(1)
+        user = User.query.filter_by(email='aricliesenfelt@gmail.com').first()
         self.assertEqual(response.status_code,200)
         self.assertEqual(user.confirmed, False)
-        self.assert_template_used('users/update.html')   
-          
+        self.assert_template_used('users/update.html')
+
+    def testPasswordRecoverySendSuccess(self):
+        # Successful when email exists in db
+        response = self.client.post('/users/passwordreset',
+        data=dict(email='tommyhopkins@gmail.com'), follow_redirects=True)
+        self.assertEqual(response.status_code,200)
+        self.assert_template_used('users/login.html')
+
+    def testPasswordRecoverySendFail(self):
+        # Fail when email doesn't exists in db
+        response = self.client.post('/users/passwordreset',
+        data=dict(email='bademail@gmail.com'), follow_redirects=True)
+        self.assertEqual(response.status_code,200)
+        self.assert_template_used('users/forgot.html')
+
+    def testResetPWTokenValid(self):
+        # Success when accessing page sent in email to reset pw
+        token = generate_confirmation_token('aricliesenfelt@gmail.com')
+        response = self.client.get('/users/passwordreset/{}'.format(token))
+        self.assertEqual(response.status_code, 200)
+        self.assert_template_used('users/password_recover.html')
+
+    def testResetPWTokenInvalid(self):
+        # Fail when token is invalid or expired
+        response = self.client.get('/users/passwordreset/invalidtoken', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assert_template_used('users/login.html')
+
+    def testEditPassword(self):
+        # Logged In User Editing Password
+        self._login_user('tommyhopkins@gmail.com','password2')
+        response = self.client.post('/users/2/editpassword?_method=PATCH',
+            data=dict(newpassword='newpass', confirmpassword='newpass',
+            currentpassword='password2'), follow_redirects=True)
+        user = User.query.filter_by(email='tommyhopkins@gmail.com').first()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bcrypt.check_password_hash(user.password, 'newpass'),True)
+        self.assert_template_used('users/show.html')
+
+    def testEditPasswordNoAuth(self):
+        # Logged In User Cannot Access Another's Reset PW page
+        self._login_user('tommyhopkins@gmail.com','password2', follow_redirects=True)
+        response = self.client.get('/users/1/editpassword')
+        self.assertEqual(response.status_code, 302)
+        self.assert_template_used('users/home.html')
 
 
 if __name__ == '__main__':

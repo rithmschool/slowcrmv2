@@ -26,26 +26,46 @@ $(function(){
 		}
 	})
 
-	$('.mobileinput').on('input',function(e){
- 		if($('.mobileinput').val() !== ''){
- 			$('.content').css("display", "none");
-			$('.searchcontent').css("display", "block");
- 		}else{
- 			$('.searchcontent').css("display", "none");
-			$('.content').css("display", "block");
- 		}
+	$(window).on('resize', function(){
+      var win = $(this); //this = window
+      if (win.width() > 1000) { 
+      	$('.content').css('margin-top', '50px')
+      	$('.searchcontent').css('margin-top', '50px')
+      }
+      if (win.width() < 1000) { 
+      	$('.content').css('margin-top', '10vw')
+      	$('.searchcontent').css('margin-top', '10vw')
+      }
+      if (win.width() > 1920) { 
+      	$('.content').css('margin-top', '75px')
+      	$('.searchcontent').css('margin-top', '75px')
+      }
 	});
 
-	$('.searchcontent').hide()
+	$('.mynavitems').on('click', function(e){
+		window.location = '/users/logout';
+	})
 
-	$('.myinput').on('input',function(e){
- 		if($('.myinput').val() !== ''){
- 			$('.content').css("display", "none");
-			$('.searchcontent').css("display", "block");
- 		}else{
- 			$('.searchcontent').css("display", "none");
-			$('.content').css("display", "block");
- 		}
+	$('#entry-form').on('submit', function(e){
+		e.preventDefault()
+		if($('#tweet-message').val() === ""){
+			$('.flashes').prepend('<div>please enter person, company or tag</div')
+		}
+		else{
+			$.ajax({
+				type: "POST",
+				url: "/users/entries",
+				data: JSON.stringify({
+					content: $('#tweet-message').val()
+				}),
+				dataType: "json",
+				contentType: "application/json",
+			}).then(function(response){
+				console.log(response);
+			}).catch(function(error){
+				console.log(error)
+			})
+		}
 	});
 
 // Invite User Modal Form
@@ -80,7 +100,6 @@ $("#invite-modal-submit").on('click', function(e) {
     });
     });
 });
-
 
 
 });

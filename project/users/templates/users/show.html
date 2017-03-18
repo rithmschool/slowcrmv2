@@ -19,6 +19,11 @@
 
 <div id="container" class="col-md-4 col-md-offset-4">
 <h2>User {{user.name}} Profile Page</h2>
+{% if current_user.id == user.id  %}
+
+<div class="col-md-4 col-md-offset-4">
+<a href="/users/{{user.id}}/edit">Edit</a>
+
 
 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" 
  data-target="#invite-modal">Invite New User</button>
@@ -52,7 +57,7 @@
 <p>Updated: {{user.updated_at}}</p>
 <p>Admin: {{user.is_admin}}</p>
 <p>Confirmed: {{user.confirmed}}</p>
-<button>Update Password</button>
+<button><a href="/users/{{user.id}}/editpassword">Update Password</a></button>
 <div>
 
 
@@ -66,4 +71,22 @@
   </div>
 </div>
 
+
+{% else %}
+
+<div>
+<div id='invite-modal' class='modal fade' role='dialog'>
+    <div>
+    </div>
+</div>
+
+<p>Name: {{user.name}}</p>
+<p>Email: {{user.email}}</p>
+<p>Phone: {{user.phone}}</p>
+<p>Created: {{user.created_at}}</p>
+<p>Updated: {{user.updated_at}}</p>
+<p>Admin: {{user.is_admin}}</p>
+<p>Confirmed: {{user.confirmed}}</p>
+<div>
+{% endif %}
 {%  endblock  %}
