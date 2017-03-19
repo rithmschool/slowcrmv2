@@ -1,26 +1,18 @@
 from project.users.forms import UserForm, LoginForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
 from project.models import User, Person, Entry, Company
-from project import db, bcrypt, mail
+from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
-from sqlalchemy.exc import IntegrityError
-from flask_mail import Message 
-from project.users.token import generate_confirmation_token, confirm_token
+from project.users.token import generate_confirmation_token, confirm_token, send_token
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
-
-def send_token(subject, html, name, email, confirm_url):
-    msg = Message(subject, sender="noreply.slowcrm@gmail.com", recipients=[email])
-    msg.html = render_template(html, name = name, confirm_url = confirm_url)
-    mail.send(msg)
 
 users_blueprint = Blueprint(
     'users',
     __name__,
     template_folder = 'templates'
 )
-
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
