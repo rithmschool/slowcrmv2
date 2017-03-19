@@ -230,7 +230,7 @@ def entry():
         return json.dumps({
              'data' : get_links(entry.content, pipes_dollars_tuples),
              'entry_id': entry.id
-        })
+        }), 200
     else:
         raise ValueError('content is empty')
 
@@ -251,9 +251,9 @@ def get_pipes_dollars_tuples(content):
 
 def check_correct_pipes_dollars(pipes_idx_arr, dollar_idx_arr):
     if(len(pipes_idx_arr) % 2 != 0):
-        raise ValueError('| is missing!')
+        raise ValueError('"|" is missing!')
     if(len(dollar_idx_arr) % 2 != 0):
-        raise ValueError('$ is missing!') 
+        raise ValueError('"$" is missing!') 
 
 
 def get_links(content, pipes_dollars_tuples):

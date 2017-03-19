@@ -61,7 +61,7 @@ $(function(){
 			}).then(function(response){
 				console.log(response);
 			}).catch(function(error){
-				console.log(error)
+				$('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div')
 			})
 		}
 	});
