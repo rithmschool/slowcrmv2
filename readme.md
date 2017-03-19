@@ -13,6 +13,9 @@
 - `createdb slowcrmv2_db`
 - Open the file at  `$VIRTUAL_ENV/bin/postactivate`
 - Add the needed environment variables. A list of what is needed can be found in `environ.txt`
+- Migrate the database `python manager.py db upgrade`
+- Seed the database `python seed.py`
+- Start the server `python app.py`
 
 ### Testing
 
