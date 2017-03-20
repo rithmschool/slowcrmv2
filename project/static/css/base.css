@@ -673,14 +673,28 @@ a, a:hover{
 	border-top: none !important;
 }
 
-@media (max-width: 1920px) and (min-width: 1000px){
-	#formrow{
-		margin-top: 2%;
-		margin-bottom: 0.5%;
-		margin-left: 33.33%;
-		font-size: 1em;
+@media (max-width: 1000px) {
+	.modal-content {
+		height:30%;
 	}
 }
+
+@media (max-width: 1000px) {
+	#invite-name {
+		display: block;
+		margin: 75px auto;
+		border: 1px solid grey;
+	}
+}
+
+@media (max-width: 1000px) {
+	#invite-email {
+		display: block;
+		margin: 75px auto;
+		border: 1px solid grey;
+	}
+}
+
 
 @media (min-width: 1921px){
 	#formrow{
