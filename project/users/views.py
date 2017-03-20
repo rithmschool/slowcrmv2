@@ -1,26 +1,18 @@
 from project.users.forms import UserForm, LoginForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
 from project.models import User, Person, Entry, Company
-from project import db, bcrypt, mail
+from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
-from sqlalchemy.exc import IntegrityError
-from flask_mail import Message 
-from project.users.token import generate_confirmation_token, confirm_token
+from project.users.token import generate_confirmation_token, confirm_token, send_token, random_password
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
-
-def send_token(subject, html, name, email, confirm_url):
-    msg = Message(subject, sender="noreply.slowcrm@gmail.com", recipients=[email])
-    msg.html = render_template(html, name = name, confirm_url = confirm_url)
-    mail.send(msg)
 
 users_blueprint = Blueprint(
     'users',
     __name__,
     template_folder = 'templates'
 )
-
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
@@ -60,16 +52,22 @@ def invite():
     if form.validate():
         email = request.get_json().get('email')
         name = request.get_json().get('name')
+        user_exists = User.query.filter_by(email=email).first()
         token = generate_confirmation_token(email)
         confirm_url = url_for('users.confirm_email', token=token, _external=True)
-        new_user = User(email,name,'temppass','',True,False)
-        try:
+        if bool(user_exists):
+            if user_exists.confirmed:
+                return jsonify("User with this email is already confirmed")
+            else:    
+                send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
+                return jsonify('Invite Sent'), 200
+        else:
+            password = random_password()
+            new_user = User(email,name,password,'',True,False)
             db.session.add(new_user)
             db.session.commit()
             send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
             return jsonify('Invite Sent'), 200
-        except IntegrityError as e:
-            return jsonify("Email already exists"), 500
     else: 
         return jsonify("Missing form info"), 422
 
