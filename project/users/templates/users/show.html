@@ -14,20 +14,6 @@
     });
 </script>
 
-
-<div class="content">
-
-<div>
-<h2>User {{user.name}} Profile Page</h2>
-{% if current_user.id == user.id  %}
-
-<div>
-<a href="/users/{{user.id}}/edit">Edit</a>
-
-
-<button type="button" class="btn btn-primary" data-toggle="modal" 
- data-target="#invite-modal">Invite New User</button>
-
 <!-- Invite User Modal with AJAX -->
 <div id="invite-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -52,26 +38,39 @@
     </div>
 </div>
 
-<p>Name: {{user.name}}</p>
-<p>Email: {{user.email}}</p>
-<p>Phone: {{user.phone}}</p>
-<p>Created: {{user.created_at}}</p>
-<p>Updated: {{user.updated_at}}</p>
-<p>Admin: {{user.is_admin}}</p>
-<p>Confirmed: {{user.confirmed}}</p>
 
-<button class="btn btn-primary" ><a href="/users/{{user.id}}/editpassword" style="color:white">Update Password</a></button>
-<div>
+<div class="content">
 
+<div class="row">
+    <div class = "col-md-6 col-xs-11">
+        {% if current_user.id == user.id  %}
+        <span><h2>User {{user.name}}'s Profile Page</h2><a href="/users/{{user.id}}/edit">Edit</a></span>
 
+        <div>
+            <p>Name: {{user.name}}</p>
+            <p>Email: {{user.email}}</p>
+            <p>Phone: {{user.phone}}</p>
+            <p>Created: {{user.created_at}}</p>
+            <p>Updated: {{user.updated_at}}</p>
+            <p>Admin: {{user.is_admin}}</p>
+            <p>Confirmed: {{user.confirmed}}</p>
+            <button class="btn btn-primary" ><a href="/users/{{user.id}}/editpassword" style="color:white">Update Password</a></button>
+        </div>
+    </div>
+
+    <div class="col-md-6 text-right col-xs-11">
+        <button type="button" class="btn btn-primary invite-button float-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
+    </div>
 </div>
-<div class="searchcontent">
-    <div class="myheader">
-        <div class="myheadertext">Search</div>
-        <div class="myheaderbar"></div>
-      <div class="mycontent">
+
+    <div class="searchcontent">
+        <div class="myheader">
+            <div class="myheadertext">Search</div>
+            <div class="myheaderbar"></div>
+          <div class="mycontent">
+          </div>
       </div>
-  </div>
+    </div>
 </div>
 
 
