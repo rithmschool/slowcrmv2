@@ -8,7 +8,7 @@
 <a href = "{{url_for('persons.show',id=person.id)}}">Back to Person Page</a>
 <br><br>
 
-<form action="{{url_for('persons.index')}}" method='POST'>
+<form action="{{url_for('persons.show', id=person.id)}}?_method=PATCH" method='POST'>
 
 {{form.hidden_tag()}}
 

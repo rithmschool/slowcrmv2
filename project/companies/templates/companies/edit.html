@@ -11,7 +11,7 @@
 <a href = "{{url_for('companies.show', id=company.id)}}">Back To Company Page</a>
 <br><br>
 
-<form action="{{url_for('companies.index')}}" , method='POST'>
+<form action="{{url_for('companies.show', id=company.id)}}?_method=PATCH" , method='POST'>
 
 {{form.hidden_tag()}}
 {% if form.name.errors %}
