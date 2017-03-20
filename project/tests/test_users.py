@@ -87,12 +87,9 @@ class BaseTestCase(TestCase):
 
     def testLogout(self):
         self._login_user('tommyhopkins@gmail.com','password2')
-        response = self.client.get('/users/logout')
-        self.assertEqual(response.status_code, 302)
-        response = self.client.post('/users/invite',
-            data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
-            content_type='application/json')
-        self.assertEqual(response.status_code, 401)
+        response = self.client.get('/users/logout', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assert_template_used('users/login.html')
 
     def testEditSuccess(self):
         self._login_user('tommyhopkins@gmail.com','password2')
