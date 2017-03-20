@@ -1,45 +1,45 @@
 $(function() {
 
-    let $content = $('content').css
-    let $searchContent = $('searchcontent').css
+    let $content = $('content');
+    let $searchContent = $('searchcontent');
 
     $('.searchicon').on('click', function(e) {
         if ($('.mobilenavpages').css('display').toLowerCase() == 'none') {
             $('.mobilenavpages').show()
-            $content.('margin-top', '0px')
-            $searchContent.('margin-top', '0px')
+            $content.css('margin-top', '0px')
+            $searchContent.css('margin-top', '0px')
         } else {
             $('.mobilenavpages').hide()
-            $content.('margin-top', '10vw')
-            $searchContent.('margin-top', '10vw')
+            $content.css('margin-top', '10vh')
+            $searchContent.css('margin-top', '10vh')
         }
     })
 
     $('.hamburgericon').on('click', function(e) {
         if ($('.mobilesearch').css('display').toLowerCase() == 'none') {
             $('.mobilesearch').show()
-            $content.('margin-top', '0px')
-            $searchContent.('margin-top', '0px')
+            $content.css('margin-top', '0px')
+            $searchContent.css('margin-top', '0px')
         } else {
             $('.mobilesearch').hide()
-            $content.('margin-top', '10vw')
-            $searchContent.('margin-top', '10vw')
+            $content.css('margin-top', '10vh')
+            $searchContent.css('margin-top', '10vh')
         }
     })
 
     $(window).on('resize', function() {
         var win = $(this); //this = window
         if (win.width() > 1000) {
-            $content.('margin-top', '50px')
-            $searchContent.('margin-top', '50px')
+            $content.css('margin-top', '50px')
+            $searchContent.css('margin-top', '50px')
         }
         if (win.width() < 1000) {
-            $content.('margin-top', '10vw')
-            $searchContent.('margin-top', '10vw')
+            $content.css('margin-top', '10vw')
+            $searchContent.css('margin-top', '10vw')
         }
         if (win.width() > 1920) {
-            $content.('margin-top', '75px')
-            $searchContent.('margin-top', '75px')
+            $content.css('margin-top', '75px')
+            $searchContent.css('margin-top', '75px')
         }
     });
 
