@@ -282,11 +282,11 @@ def get_links(content, pipes_dollars_tuples):
 
 def get_person_link(person_name):
     person = Person.query.filter_by(name=person_name).first()
-    return '<a class="hyperlink" href="/persons/{}">{}</a>'.format(person.id, person_name)
+    return '<a href="/persons/{}">{}</a>'.format(person.id, person_name)
 
 def get_company_link(company_name):
     company = Company.query.filter_by(name=company_name).first()
-    return '<a class="hyperlink" href="/companies/{}">{}</a>'.format(company.id, company_name)
+    return '<a href="/companies/{}">{}</a>'.format(company.id, company_name)
 
 
 def add_person_data_db(pipes_tuples_arr, content, entry):
