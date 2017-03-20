@@ -630,14 +630,71 @@ a, a:hover{
 	}
 }
 
-@media (max-width: 1920px) and (min-width: 1000px){
-	#formrow{
-		margin-top: 2%;
-		margin-bottom: 0.5%;
-		margin-left: 33.33%;
-		font-size: 1em;
+/*Profile Page*/
+
+#container {
+	margin-top:10em;
+}
+
+#invite-modal{
+	margin-top:10em;
+}
+
+
+.modal-content{
+	height:10em;
+	border:none;
+}
+
+#close-button {
+	padding-right: 10px;
+	font-size: 50px;
+}
+
+.model-header{
+	text-align:center;
+	padding-left:15px;
+}
+
+.modal-heading{
+	margin-top: 1.5em;
+}
+
+#invite-name{
+	width:30%;	
+}
+
+#invite-email{
+	width:40%;
+}
+
+.modal-footer{
+	margin-top:-18px;
+	border-top: none !important;
+}
+
+@media (max-width: 1000px) {
+	.modal-content {
+		height:30%;
 	}
 }
+
+@media (max-width: 1000px) {
+	#invite-name {
+		display: block;
+		margin: 75px auto;
+		border: 1px solid grey;
+	}
+}
+
+@media (max-width: 1000px) {
+	#invite-email {
+		display: block;
+		margin: 75px auto;
+		border: 1px solid grey;
+	}
+}
+
 
 @media (min-width: 1921px){
 	#formrow{
@@ -741,4 +798,3 @@ a, a:hover{
 		width: 25%;
 	}
 }
-
