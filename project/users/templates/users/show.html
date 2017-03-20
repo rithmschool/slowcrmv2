@@ -44,17 +44,18 @@
 <div class="row">
     <div class = "col-md-6 col-xs-11">
         {% if current_user.id == user.id  %}
-        <span><h2>User {{user.name}}'s Profile Page</h2><a href="/users/{{user.id}}/edit">Edit</a></span>
+        <h2>User {{user.name}}'s Profile Page
+        <a class="btn btn-info btn-sm" href="/users/{{user.id}}/edit">Edit</a>
+        </h2>
 
         <div>
-            <p>Name: {{user.name}}</p>
             <p>Email: {{user.email}}</p>
             <p>Phone: {{user.phone}}</p>
-            <p>Created: {{user.created_at}}</p>
-            <p>Updated: {{user.updated_at}}</p>
+            <p>Created: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p>Updated: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
             <p>Admin: {{user.is_admin}}</p>
             <p>Confirmed: {{user.confirmed}}</p>
-            <button class="btn btn-primary" ><a href="/users/{{user.id}}/editpassword" style="color:white">Update Password</a></button>
+            <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
         </div>
     </div>
 
@@ -76,17 +77,18 @@
 
 {% else %}
 
+<h2>User {{user.name}}'s Profile Page</h2>
+
 <div>
 <div id='invite-modal' class='modal fade' role='dialog'>
     <div>
     </div>
 </div>
 
-<p>Name: {{user.name}}</p>
 <p>Email: {{user.email}}</p>
 <p>Phone: {{user.phone}}</p>
-<p>Created: {{user.created_at}}</p>
-<p>Updated: {{user.updated_at}}</p>
+<p>Created: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+<p>Updated: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
 <p>Admin: {{user.is_admin}}</p>
 <p>Confirmed: {{user.confirmed}}</p>
 <div>

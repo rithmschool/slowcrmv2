@@ -519,8 +519,8 @@ li{
 		width: 75%;
 		background-color: #fcf9f9;
 		margin-left: 12.5%;
-		padding-right: 6%;
-		padding-left: 6%;
+		/*padding-right: 6%;
+		padding-left: 6%;*/
 		padding-top: 2%;
 	}
 }
@@ -660,6 +660,11 @@ li{
 
 /*Profile Page*/
 
+
+
+
+/*Profile Page Invite Modal*/
+
 #container {
 	margin-top:10em;
 }
@@ -688,6 +693,10 @@ li{
 	margin-top: 1.5em;
 }
 
+.modal-body{
+	padding-bottom: 0px !important;
+}
+
 #invite-name{
 	width:30%;	
 }
@@ -699,6 +708,11 @@ li{
 .modal-footer{
 	margin-top:-18px;
 	border-top: none !important;
+	padding-top: 6px !important;
+}
+
+.invite-button{
+	margin-top: 20px;`
 }
 
 @media (max-width: 1000px) {
