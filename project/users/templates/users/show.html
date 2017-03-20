@@ -48,7 +48,7 @@
     <!-- begin left box -->
         <div class="container-fluid">
 
-        {% if current_user.id == user.id  %}
+    {% if current_user.id == user.id  %}
         <div class="row user-row">
             <span class="user-header">User {{user.name}}'s Profile Page
             <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
@@ -59,26 +59,29 @@
         <div>
             <p><b>Email:</b> {{user.email}}</p>
             <p>Phone: {{user.phone}}</p>
-            <p>Created: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-            <p>Updated: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p>Created On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p>Updated On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
             <p>Admin: {{user.is_admin}}</p>
             <p>Confirmed: {{user.confirmed}}</p>
             <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
         </div>
+
         </div>
     </div>
-   
-
 <!-- end top row -->
 </div>
 
 <!-- Posts container -->
     <div class="col-md-12">
-        <h3 class="">{{user.name}}'s Posts</h3>
-        {%  if user.entries  %}
-        <div class="profile-box">
-            {{user.entries}}
-        </div>
+        <h3 class="">{{user.name}}'s Entries</h3>
+        {%  if entries.first()  %}
+              {%  for entry in entries[::-1]  %}
+            <div class="entry-post">
+                <p class="entry-post-content">{{entry.content}}</p>
+                <p class="entry-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates">Updated On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
         {%  else  %}
         <p class="text-center">No posts to show right now</p>
         {%  endif  %}
@@ -98,22 +101,35 @@
 </div>
 
 
-{% else %}
+    {% else %}
 
 <h2>User {{user.name}}'s Profile Page</h2>
 
 <div>
-<div id='invite-modal' class='modal fade' role='dialog'>
-    <div>
-    </div>
+    <p>Email: {{user.email}}</p>
+    <p>Phone: {{user.phone}}</p>
+    <p>Created On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+    <p>Updated On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+    <p>Admin: {{user.is_admin}}</p>
+    <p>Confirmed: {{user.confirmed}}</p>
 </div>
+</div>
+</div>
+    <!-- Posts container -->
+    <div class="col-md-12">
+        <h3 class="">{{user.name}}'s Entries</h3>
+        {%  if entries.first()  %}
+              {%  for entry in entries[::-1]  %}
+            <div class="entry-post">
+                <p class="entry-post-content">{{entry.content}}</p>
+                <p class="entry-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates">Updated On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
+        {%  else  %}
+        <p class="text-center">No posts to show right now</p>
+        {%  endif  %}
+    </div>
 
-<p>Email: {{user.email}}</p>
-<p>Phone: {{user.phone}}</p>
-<p>Created: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-<p>Updated: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-<p>Admin: {{user.is_admin}}</p>
-<p>Confirmed: {{user.confirmed}}</p>
-<div>
-{% endif %}
+    {% endif %}
 {%  endblock  %}

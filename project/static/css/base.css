@@ -58,7 +58,7 @@ li{
 
 	.mynav{
 		display: flex;
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		height: 10vw;
 		background-color: #34495E;
@@ -195,7 +195,7 @@ li{
 
 @media (max-width: 1920px) and (min-width: 1000px){
 	.mynav{
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		display: flex;
 		height: 50px;
@@ -207,7 +207,7 @@ li{
 
 @media (min-width: 1921px){
 	.mynav{
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		display: flex;
 		height: 75px;
@@ -675,6 +675,7 @@ li{
 	padding-right: 30px !important;
 	padding-bottom: 30px;
 	box-shadow: 5px 5px 5px #888888;
+	border: 1px solid #ddd;
 }
 
 .invite-button {
@@ -691,7 +692,7 @@ li{
 
 .edit-button{
 	font-size: 20px !important;
-	margin-bottom: 5px;
+	margin-bottom: 6px !important;
 }
 
 .user-row{
@@ -700,6 +701,27 @@ li{
     padding-left: 15px !important;
 }
 
+.entry-post{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 15px;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    box-shadow: 1px 1px 5px #888888;
+}
+
+.entry-post-content {
+	padding-top: 20px;
+}
+
+.entry-post-dates {
+	display: inline-block;
+	padding-bottom: 7px;
+	padding-right: 30px;
+
+}
 /*Profile Page Invite Modal*/
 
 #container {
@@ -884,6 +906,7 @@ li{
 	min-width: 450px;
 	color: dimgray;
 	border-style:initial;
+	border: 1px solid #ddd;
 }
 
 .editform {

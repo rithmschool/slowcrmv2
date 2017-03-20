@@ -58,7 +58,7 @@ class BaseTestCase(TestCase):
         self.assert_template_used('persons/new.html')
 
     def testEditUser(self):
-        # create new user to test editing on
+        # create new person to test editing on
         new_person = self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
             phone="4087261650",
