@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('persons',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.Text(), nullable=True),
-    sa.Column('phone', sa.Integer(), nullable=True),
+    sa.Column('phone', sa.String(), nullable=True),
     sa.Column('name', sa.Text(), nullable=False),
     sa.Column('title', sa.Text(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
