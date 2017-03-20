@@ -47,7 +47,7 @@ $(function(){
 	$('#entry-form').on('submit', function(e){
 		e.preventDefault()
 		if($('#tweet-message').val() === ""){
-			$('.flashes').prepend('<div>please enter person, company or tag</div')
+			$('.flashes').prepend('<div>please enter person, company or tag</div>')
 		}
 		else{
 			$.ajax({
@@ -61,7 +61,7 @@ $(function(){
 			}).then(function(response){
 				console.log(response);
 			}).catch(function(error){
-				console.log(error)
+				$('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
 			})
 		}
 	});

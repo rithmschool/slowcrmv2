@@ -1,9 +1,10 @@
 from flask_testing import TestCase
 import unittest
 from flask import json
-from project.models import User
+from project.models import User, Person
 from project import app, db
 from project.models import Entry
+from project.users.views import get_pipes_dollars_tuples
 
 class BaseTestCase(TestCase):
     def create_app(self):
@@ -18,6 +19,7 @@ class BaseTestCase(TestCase):
         self.user = User('divya@gmail.com', 'Divya', self.password, '123456789', True, True)
         db.session.add(self.user)
         db.session.commit()
+    
         self.login_user()
 
     def tearDown(self):
@@ -87,6 +89,42 @@ class BaseTestCase(TestCase):
         self.assertEqual(person_from_db, ['Sundar', 'Satya'])
         self.assertEqual(company_from_db, ['Google', 'Microsoft'])
         self.assertEqual(response.status_code, 200)
+
+    def createPerson(self, name):
+        p = Person(name)
+        db.session.add(p)
+        db.session.commit()
+        return p.id
+
+    def testPersonExist(self):
+        person_id = self.createPerson('Divya')
+        content = "If |Divya| already exist dont add to db"
+        response = self.client.post('/users/entries',
+            data=json.dumps(dict(
+                content=content
+            )),
+            content_type='application/json'
+        )
+        entry_id = response.json['entry_id']
+        entry = Entry.query.get(entry_id)
+        self.assertEqual(person_id, entry.persons[0].id)
+
+
+    def testOddPipes(self):
+        content = "|person in a $company$"
+        response = self.client.post('/users/entries',
+            data=json.dumps(dict(
+                content=content,
+            )),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+
+    def testGetPipesDollarsTuples(self):
+        result = get_pipes_dollars_tuples("|Sundar| is a $Google$ CEO")
+        expected = [[(0,7)], [(14,21)]]
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
