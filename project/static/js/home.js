@@ -62,6 +62,10 @@ $(function() {
                 contentType: "application/json",
             }).then(function(response) {
                 console.log(response);
+                $('ul li:last-child').remove();
+                $('ul').prepend('<li class="entry" data="' + response.entry_id + '">' + 
+                    '<a class="nameanchor" href="/users/' + response.id + '"><div class="name">' + response.name +
+                     '</div></a>' + '<div class="text">' + response.data + '</div>' + '</li>')
             }).catch(function(error) {
                 $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
             })
