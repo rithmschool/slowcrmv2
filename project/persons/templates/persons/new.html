@@ -1,28 +1,101 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
-<div class="col-md-6 col-md-offset-3">
+<div class="col-md-6 col-md-offset-2">
 
 <h2>Person Form</h2>
 
-<button><a href = '{{url_for('persons.index')}}''>Person Index</a></button>
+<button><a href = "{{url_for('persons.index')}}">Person Index</a></button>
+<br><br>
 
-<form action="{{url_for('persons.index')}}" , method='POST'>
+<form action="{{url_for('persons.index')}}" method='POST'>
 
 {{form.hidden_tag()}}
-{%  for field in form if field.widget.input_type != 'hidden' %}
 
-<p>
-    {{field.label}}: 
-    {{field}}
-    <span>{%  if field.errors  %}
-            {%  for error in field.errors %}
-                {{error}}
-            {%  endfor  %}
-        {%  endif  %}
+{% if form.name.errors %}
+	{% for error in form.name.errors %}
+	<span class="text-danger">
+        {{ error }}
     </span>
-</p>
-{%  endfor  %}
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.name.label }}
+    <div class="col-10">
+        {{ form.name(value=term) }}
+    </div></div>
+{% if form.email.errors %}
+	{% for error in form.email.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.email.label }}
+    <div class="col-10">
+        {{ form.email }}
+    </div></div>    
+{% if form.phone.errors %}
+	{% for error in form.phone.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.phone.label }}
+    <div class="col-10">
+        {{ form.phone }}
+    </div></div>
+{% if form.title.errors %}
+	{% for error in form.title.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.title.label }}
+    <div class="col-10">
+        {{ form.title }}
+    </div></div>
+{% if form.description.errors %}
+	{% for error in form.description.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.description.label }}
+    <div class="col-10">
+        {{ form.description }}
+    </div></div>
+{% if form.slow_lp.errors %}
+	{% for error in form.slow_lp.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.slow_lp.label }}
+    <div class="col-10">
+        {{ form.slow_lp }}
+    </div></div>
+{% if form.archived.errors %}
+	{% for error in form.archived.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.archived.label }}
+    <div class="col-10">
+        {{ form.archived }}
+    </div></div>
 
 <button type='submit'>Add New Person</button>
 

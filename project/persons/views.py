@@ -39,7 +39,10 @@ def index():
 @persons_blueprint.route('/new')
 def new():
     form = PersonForm(request.form)
-    return render_template('persons/new.html', form=form)
+    term = ''
+    if 'term' in request.args:
+        term = request.args['term']
+    return render_template('persons/new.html', form=form, term=term)
 
 @persons_blueprint.route('/<int:id>', methods=["GET","POST","PATCH"])
 def show(id):

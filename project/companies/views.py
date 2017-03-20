@@ -37,7 +37,10 @@ def index():
 @companies_blueprint.route('/new')
 def new():
     form = CompanyForm(request.form)
-    return render_template('companies/new.html', form=form)
+    term = ''
+    if 'term' in request.args:
+        term = request.args['term']
+    return render_template('companies/new.html', form=form, term=term)
 
 @companies_blueprint.route('/<int:id>', methods=['GET','PATCH'])
 def show(id):

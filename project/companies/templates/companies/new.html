@@ -1,28 +1,124 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
-<div style='margin-top:10em' class="col-md-4 col-md-offset-4">
+<div class="col-md-6 col-md-offset-2">
 
-<h2>New Company Form</h2>
+<h2>Company Form</h2>
 
-<button style='margin-top:2em;margin-bottom:2em'><a href = '{{url_for('companies.index')}}''>Companies Index</a></button>
+<button><a href = "{{url_for('companies.index')}}">Company Index</a></button>
+<br><br>
 
 <form action="{{url_for('companies.index')}}" , method='POST'>
 
 {{form.hidden_tag()}}
-{%  for field in form if field.widget.input_type != 'hidden' %}
-
-<p>
-    {{field.label}}: 
-    {{field}}
-    <span>{%  if field.errors  %}
-            {%  for error in field.errors %}
-                {{error}}
-            {%  endfor  %}
-        {%  endif  %}
+{% if form.name.errors %}
+	{% for error in form.name.errors %}
+	<span class="text-danger">
+        {{ error }}
     </span>
-</p>
-{%  endfor  %}
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.name.label }}
+    <div class="col-10">
+        {{ form.name(value=term) }}
+    </div></div>
+{% if form.description.errors %}
+	{% for error in form.description.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.description.label }}
+    <div class="col-10">
+        {{ form.description }}
+    </div></div>
+{% if form.url.errors %}
+	{% for error in form.url.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.url.label }}
+    <div class="col-10">
+        {{ form.url }}
+    </div></div>
+{% if form.logo_url.errors %}
+	{% for error in form.logo_url.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.logo_url.label }}
+    <div class="col-10">
+        {{ form.logo_url }}
+    </div></div>
+{% if form.partner_lead.errors %}
+	{% for error in form.partner_lead.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.partner_lead.label }}
+    <div class="col-10">
+        {{ form.partner_lead }}
+    </div></div>
+{% if form.ops_lead.errors %}
+	{% for error in form.ops_lead.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.ops_lead.label }}
+    <div class="col-10">
+        {{ form.ops_lead }}
+    </div></div>
+{% if form.source.errors %}
+	{% for error in form.source.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.source.label }}
+    <div class="col-10">
+        {{ form.source }}
+    </div></div>
+{% if form.round.errors %}
+	{% for error in form.round.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.round.label }}
+    <div class="col-10">
+        {{ form.round }}
+    </div></div>
+{% if form.archived.errors %}
+	{% for error in form.archived.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group row">
+        {{ form.archived.label }}
+    <div class="col-10">
+        {{ form.archived }}
+    </div></div>                                  
 
 <button style='margin-top:2em' type='submit'>Add New Company</button>
 
