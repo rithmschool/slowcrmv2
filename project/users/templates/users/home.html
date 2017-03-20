@@ -13,7 +13,6 @@
     });
 </script>
 
-<div class="content">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
@@ -29,15 +28,12 @@
             <button id="tweet-button" type="submit" class="btn btn-primary">Post Update</button>
         </div>
     </form>
-</div>
+    <div class="entries">
+        <ul class="entrieslist">
+            
+        </ul>
+    </div>
 
-<div class="searchcontent">
-    <div class="myheader">
-        <div class="myheadertext">Search</div>
-        <div class="myheaderbar"></div>
-    </div>
-    <div class="mycontent">
-    </div>
 
 {% endblock %}
 
