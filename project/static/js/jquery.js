@@ -1,7 +1,5 @@
 $(function(){
 
-	console.log("This loaded")
-
 	$('.searchicon').on('click', function(e){
 		if ($('.mobilenavpages').css('display').toLowerCase() == 'none'){
 			$('.mobilenavpages').show()
