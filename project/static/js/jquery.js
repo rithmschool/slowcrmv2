@@ -83,12 +83,10 @@ $("#invite-modal-submit").on('click', function(e) {
         contentType: "application/json",
         data: JSON.stringify({name: name, email: email}),
         success: function(response) {
-            console.log(response)
             $("modal-message").modal("show");
             $("#modal-message").html('<p>Succesfully sent invite!</p>');
         },
         error: function(e) {
-            console.log(e)
             if (JSON.parse(e.responseText) === "Missing form info") {
                 $("#modal-message").html('<span style="color:red">Please fill in name and email</span>');
                 }
