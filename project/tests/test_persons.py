@@ -48,7 +48,7 @@ class BaseTestCase(TestCase):
         response = self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
             phone="",
-            name='Aaron',
+            name='',
             title='Awesome',
             description='I am an awesome person'
             )
