@@ -3,7 +3,7 @@ from flask import Blueprint, redirect, render_template, request, flash, url_for,
 from project.models import User, Person, Entry, Company
 from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
-from project.users.token import generate_confirmation_token, confirm_token, send_token
+from project.users.token import generate_confirmation_token, confirm_token, send_token, random_password
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
@@ -62,7 +62,8 @@ def invite():
                 send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
                 return jsonify('Invite Sent'), 200
         else:
-            new_user = User(email,name,'temppass','',True,False)
+            password = random_password()
+            new_user = User(email,name,password,'',True,False)
             db.session.add(new_user)
             db.session.commit()
             send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)

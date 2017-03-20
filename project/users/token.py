@@ -3,6 +3,8 @@ from project import app, mail
 from flask_mail import Message
 from flask import render_template, current_app
 from threading import Thread
+from string import digits, ascii_uppercase
+from random import choices
 
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
@@ -27,3 +29,6 @@ def send_token(subject, html, name, email, confirm_url):
     thr = Thread(target=send_async_email, args=[app,msg])
     thr.start()
     return thr
+
+def random_password():
+    return ''.join(choices(ascii_uppercase + digits, k=8))    
