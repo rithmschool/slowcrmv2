@@ -138,8 +138,3 @@ class Entry(db.Model, UserMixin):
         return "id {} content {}".format(self.id, self.content)
 
 
-# class Tags(db.Model, UserMixin):
-#     __tablename__ = 'tags'
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     tag = 

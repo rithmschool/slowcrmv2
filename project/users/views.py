@@ -264,7 +264,6 @@ def get_links(content, pipes_dollars_tuples):
     stripped_content = content.strip()
     links = ""
     idx = 0
-    # import pdb; pdb.set_trace()
     while idx < len(stripped_content):    
         if pipes_tuples_arr and idx in [pipes_tuples_arr[0][0]]:
             person_name = stripped_content[pipes_tuples_arr[0][0]+1: pipes_tuples_arr[0][1]]
