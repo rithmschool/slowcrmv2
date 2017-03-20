@@ -798,3 +798,17 @@ a, a:hover{
 		width: 25%;
 	}
 }
+
+.editfield {
+	align-items: center;
+	font-size: 20px;
+	width: 60%;
+	height: 4vh;
+	border-radius: 5px;
+	padding-left: 20px;
+	min-width: 450px
+}
+
+.editform {
+	margin-left: 8vh
+}
