@@ -1,61 +1,69 @@
 $(function(){
 
-	let $content = $('content').css
-	let $searchContent = $('searchcontent').css
+    $('.searchicon').on('click', function(e){
+        if ($('.mobilenavpages').css('display').toLowerCase() == 'none'){
+            $('.mobilenavpages').show()
+            $('.content').css('margin-top', '0px')
+            $('.searchcontent').css('margin-top', '0px')
+        }else{
+            $('.mobilenavpages').hide()
+            $('.content').css('margin-top', '10vw')
+            $('.searchcontent').css('margin-top', '10vw')
+        }
+    })
 
-	$('.searchicon').on('click', function(e){
-		if ($('.mobilenavpages').css('display').toLowerCase() == 'none'){
-			$('.mobilenavpages').show()
-			$content.('margin-top', '0px')
-			$searchContent.('margin-top', '0px')
-		}else{
-			$('.mobilenavpages').hide()
-			$content.('margin-top', '10vw')
-			$searchContent.('margin-top', '10vw')
-		}
-	})
+    $('.hamburgericon').on('click', function(e){
+        if ($('.mobilesearch').css('display').toLowerCase() == 'none'){
+            $('.mobilesearch').show()
+            $('.content').css('margin-top', '0px')
+            $('.searchcontent').css('margin-top', '0px')
+        }else{
+            $('.mobilesearch').hide()
+            $('.content').css('margin-top', '10vw')
+            $('.searchcontent').css('margin-top', '10vw')
+        }
+    })
 
-	$('.hamburgericon').on('click', function(e){
-		if ($('.mobilesearch').css('display').toLowerCase() == 'none'){
-			$('.mobilesearch').show()
-			$content.('margin-top', '0px')
-			$searchContent.('margin-top', '0px')
-		}else{
-			$('.mobilesearch').hide()
-			$content.('margin-top', '10vw')
-			$searchContent.('margin-top', '10vw')
-		}
-	})
-
-	$(window).on('resize', function(){
+    $(window).on('resize', function(){
       var win = $(this); //this = window
       if (win.width() > 1000) { 
-      	$content.('margin-top', '50px')
-      	$searchContent.('margin-top', '50px')
+          $('.content').css('margin-top', '50px')
+          $('.searchcontent').css('margin-top', '50px')
       }
       if (win.width() < 1000) { 
-      	$content.('margin-top', '10vw')
-      	$searchContent.('margin-top', '10vw')
+          $('.content').css('margin-top', '10vw')
+          $('.searchcontent').css('margin-top', '10vw')
       }
       if (win.width() > 1920) { 
-      	$content.('margin-top', '75px')
-      	$searchContent.('margin-top', '75px')
+          $('.content').css('margin-top', '75px')
+          $('.searchcontent').css('margin-top', '75px')
       }
-	});
+    });
 
-	setInterval(loadEntries, 600000)
+    $('.mynavitems').on('click', function(e){
+        window.location = '/users/logout';
+    })
 
-	function loadEntries(){
-		$.ajax({
-	      type: "POST",
-	      url: "",
-	      data: myDataVar.toString(),
-	      dataType: "text",
-	      success: function(resultData){
-	          alert("Save Complete");
-	      }
-	});
-	}
-
+    $('#entry-form').on('submit', function(e){
+        e.preventDefault()
+        if($('#tweet-message').val() === ""){
+            $('.flashes').prepend('<div>please enter person, company or tag</div')
+        }
+        else{
+            $.ajax({
+                type: "POST",
+                url: "/users/entries",
+                data: JSON.stringify({
+                    content: $('#tweet-message').val()
+                }),
+                dataType: "json",
+                contentType: "application/json",
+            }).then(function(response){
+                console.log(response);
+                $('ul').append('<li class="entry" data="' + response.entry_id + '">' + '<a href="/users/' + response.id + '"><div class="name">' + response.name + '</div></a>' + '<div class="text">' + response.data + '</div>' + '</li>')
+            }).catch(function(error){
+                $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div')
+            })
+        }
+    });
 });
-

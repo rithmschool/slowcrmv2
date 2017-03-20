@@ -13,7 +13,6 @@
     });
 </script>
 
-<div class="content">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
@@ -30,10 +29,7 @@
         </div>
     </form>
     <div class="entries">
-        <ul>
-            <li>List item 1</li>
-            <li>List item 2</li>
-            <li>List item 3</li>
+        <ul class="entrieslist">
             
         </ul>
     </div>
