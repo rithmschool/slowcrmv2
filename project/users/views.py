@@ -210,29 +210,30 @@ def password_recovery(token):
     return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)
 
 
-@users_blueprint.route('/entries', methods=['POST'])
+@users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required
 def entry():
-    content = request.get_json().get('content')
-    if content:
-        try:
-            pipes_dollars_tuples = get_pipes_dollars_tuples(content)
-            entry = Entry(current_user.id, content)
-            add_person_data_db(pipes_dollars_tuples[0], content, entry)
-            add_company_data_db(pipes_dollars_tuples[1], content, entry)
-            db.session.add(entry)
-            db.session.commit()
-        except ValueError as e:
-            return json.dumps({
-                    'message': str(e)
-                }), 400
+    if request.method == 'POST':
+        content = request.get_json().get('content')
+        if content:
+            try:
+                pipes_dollars_tuples = get_pipes_dollars_tuples(content)
+                entry = Entry(current_user.id, content)
+                add_person_data_db(pipes_dollars_tuples[0], content, entry)
+                add_company_data_db(pipes_dollars_tuples[1], content, entry)
+                db.session.add(entry)
+                db.session.commit()
+            except ValueError as e:
+                return json.dumps({
+                        'message': str(e)
+                    }), 400
 
-        return json.dumps({
-             'data' : get_links(entry.content, pipes_dollars_tuples),
-             'entry_id': entry.id
-        }), 200
-    else:
-        raise ValueError('content is empty')
+            return json.dumps({
+                 'data' : get_links(entry.content, pipes_dollars_tuples),
+                 'entry_id': entry.id
+            }), 200
+        else:
+            raise ValueError('content is empty')
 
 
 def get_pipes_dollars_tuples(content):
@@ -243,13 +244,13 @@ def get_pipes_dollars_tuples(content):
             all_pipe_idx.append(idx)
         elif char == '$':
             all_dollar_idx.append(idx)
-    check_correct_pipes_dollars(all_pipe_idx, all_dollar_idx)
+    check_odd_pipes_dollars(all_pipe_idx, all_dollar_idx)
     pipe_arrayof_tuples = list(zip(all_pipe_idx[::2], all_pipe_idx[1::2]))
     doller_arrayof_tuples = list(zip(all_dollar_idx[::2], all_dollar_idx[1::2]))
     return [pipe_arrayof_tuples, doller_arrayof_tuples]
 
 
-def check_correct_pipes_dollars(pipes_idx_arr, dollar_idx_arr):
+def check_odd_pipes_dollars(pipes_idx_arr, dollar_idx_arr):
     if(len(pipes_idx_arr) % 2 != 0):
         raise ValueError('"|" is missing!')
     if(len(dollar_idx_arr) % 2 != 0):
@@ -262,20 +263,21 @@ def get_links(content, pipes_dollars_tuples):
     stripped_content = content.strip()
     links = ""
     idx = 0
+    # import pdb; pdb.set_trace()
     while idx < len(stripped_content):    
         if pipes_tuples_arr and idx in [pipes_tuples_arr[0][0]]:
             person_name = stripped_content[pipes_tuples_arr[0][0]+1: pipes_tuples_arr[0][1]]
             links = links + get_person_link(person_name)
-            idx = idx + pipes_tuples_arr[0][1]+1
+            idx = idx + (pipes_tuples_arr[0][1]+1 - pipes_tuples_arr[0][0])
             pipes_tuples_arr.pop(0)
         elif dollars_tuples_arr and idx in [dollars_tuples_arr[0][0]]:
             company_name = stripped_content[dollars_tuples_arr[0][0]+1: dollars_tuples_arr[0][1]] 
             links = links + get_company_link(company_name)
-            idx = idx + dollars_tuples_arr[0][1]+1
+            idx = idx + (dollars_tuples_arr[0][1]+1 - dollars_tuples_arr[0][0])
             dollars_tuples_arr.pop(0)
         else:
             links = links + stripped_content[idx] 
-            idx = idx + 1 
+            idx = idx + 1
     return links.strip()                
 
 def get_person_link(person_name):
