@@ -1,7 +1,7 @@
 $(function() {
 
-    let $content = $('content');
-    let $searchContent = $('searchcontent');
+    let $content = $('.content');
+    let $searchContent = $('.searchcontent');
 
     $('.searchicon').on('click', function(e) {
         if ($('.mobilenavpages').css('display').toLowerCase() == 'none') {
@@ -10,8 +10,8 @@ $(function() {
             $searchContent.css('margin-top', '0px')
         } else {
             $('.mobilenavpages').hide()
-            $content.css('margin-top', '10vh')
-            $searchContent.css('margin-top', '10vh')
+            $content.css('margin-top', '10vw')
+            $searchContent.css('margin-top', '10vw')
         }
     })
 
@@ -22,8 +22,8 @@ $(function() {
             $searchContent.css('margin-top', '0px')
         } else {
             $('.mobilesearch').hide()
-            $content.css('margin-top', '10vh')
-            $searchContent.css('margin-top', '10vh')
+            $content.css('margin-top', '10vw')
+            $searchContent.css('margin-top', '10vw')
         }
     })
 
