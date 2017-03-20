@@ -25,6 +25,27 @@ a, a:hover{
 	padding-top: 5px;
 }
 
+li{
+	list-style-type: none;
+	margin-bottom: 1vh;
+}
+
+.entries{
+	margin-top: 7.5vh;
+	width: 95%;
+	margin-bottom: 1vh;
+}
+
+.nameanchor{
+	color: #34495E;
+	font-weight: bold;
+}
+
+.hyperlink{
+	color: black;
+	font-weight: bold;
+}
+
 @media (max-width: 1000px){
 
 	a, a:hover{
