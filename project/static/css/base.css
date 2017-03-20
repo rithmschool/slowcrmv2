@@ -519,8 +519,8 @@ li{
 		width: 75%;
 		background-color: #fcf9f9;
 		margin-left: 12.5%;
-		/*padding-right: 6%;
-		padding-left: 6%;*/
+		padding-right: 6%;
+		padding-left: 6%;
 		padding-top: 2%;
 	}
 }
@@ -660,6 +660,38 @@ li{
 
 /*Profile Page*/
 
+.posts-header{
+	margin-top: 2.5em;
+}
+
+.profile-box{
+	background-color: white;
+	border-radius: 15px;
+	padding-bottom: 18px;
+	box-shadow: 5px 5px 5px #888888;
+}
+
+.right-box{
+	height:23em;
+	padding: 0 !important;
+}
+
+.tag-header{
+	text-decoration: underline;	
+	padding-left: 10px;
+}
+
+.tag-box{
+	background-color: #adb2ba;
+	border-radius: 15px;
+	box-shadow: 5px 5px 5px #888888;
+	height: 83%
+
+}
+
+.invite-button {
+	margin-top: 12px;
+}
 
 
 
@@ -672,7 +704,6 @@ li{
 #invite-modal{
 	margin-top:10em;
 }
-
 
 .modal-content{
 	height:10em;
@@ -711,9 +742,6 @@ li{
 	padding-top: 6px !important;
 }
 
-.invite-button{
-	margin-top: 20px;`
-}
 
 @media (max-width: 1000px) {
 	.modal-content {

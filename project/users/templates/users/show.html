@@ -39,10 +39,11 @@
 </div>
 
 
-<div class="content">
 
+
+<div class="container">
 <div class="row">
-    <div class = "col-md-6 col-xs-11">
+    <div class = "profile-box col-md-5 col-xs-12">
         {% if current_user.id == user.id  %}
         <h2>User {{user.name}}'s Profile Page
         <a class="btn btn-info btn-sm" href="/users/{{user.id}}/edit">Edit</a>
@@ -59,21 +60,30 @@
         </div>
     </div>
 
-    <div class="col-md-6 text-right col-xs-11">
+    <div class="right-box col-md-6 col-md-offset-1 text-right col-xs-12">
+        <h3 class="tag-header pull-left">Tags</h3>
         <button type="button" class="btn btn-primary invite-button float-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
+        <div class="tag-box col-md-12">
+            <h4>Tag Box</h4>
+        </div>
     </div>
+
 </div>
+    <div class="col-md-12">
+        <h3 class="">{{user.name}}'s Posts</h3>
+        {{user.entries}}
+    </div>
 
     <div class="searchcontent">
         <div class="myheader">
             <div class="myheadertext">Search</div>
             <div class="myheaderbar"></div>
-          <div class="mycontent">
-          </div>
+          <div class="mycontent"></div>
       </div>
     </div>
-</div>
 
+</div>
+</div>
 
 {% else %}
 
