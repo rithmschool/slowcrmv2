@@ -25,7 +25,7 @@ def search():
     term = request.args.get('search')
     results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
     count = results.count()
-    return render_template('users/search.html', results=results, count=count)
+    return render_template('users/search.html', results=results, count=count, term=term)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
