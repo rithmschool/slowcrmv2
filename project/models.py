@@ -41,7 +41,7 @@ class Person(db.Model):
     __tablename__ = "persons"
 
     id = db.Column(db.Integer,primary_key=True)
-    email = db.Column(db.Text, nullable=True, unique=True)
+    email = db.Column(db.Text, nullable=True)
     phone = db.Column(db.String, nullable=True)
     name = db.Column(db.Text, nullable=False)
     title = db.Column(db.Text, nullable=True)
