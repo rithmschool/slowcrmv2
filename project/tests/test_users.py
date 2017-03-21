@@ -1,7 +1,7 @@
 from flask_testing import TestCase
 import unittest
-from flask import json
-from project.models import User
+from flask import json, jsonify
+from project.models import User, Entry
 from project.users.token import generate_confirmation_token, confirm_token
 from project import app, db, bcrypt
 
@@ -22,7 +22,9 @@ class BaseTestCase(TestCase):
         db.create_all()
         user1 = User('aricliesenfelt@gmail.com', 'Aric Liesenfelt', 'password1', '9515706209', True, False)
         user2 = User('tommyhopkins@gmail.com', 'Tommy Hopkins', 'password2', '1111111111', True, True)  
-        db.session.add_all([user1,user2])
+        entry1 = Entry(1, 'hey')
+        entry2 = Entry(2, 'hey2')
+        db.session.add_all([user1,user2, entry1, entry2])
         db.session.commit()
 
     def tearDown(self):
@@ -199,6 +201,15 @@ class BaseTestCase(TestCase):
         response = self.client.get('/users/1/editpassword')
         self.assertEqual(response.status_code, 302)
         self.assert_template_used('users/home.html')
+
+    def testLoadEntries(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        
+        response = self.client.post('/users/loadentries',
+            data='"initial"', content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([{'data': 'hey', 'entry_id': 1, 'id': 1, 'name': 'Aric Liesenfelt'}, 
+            {'data': 'hey2', 'entry_id': 2, 'id': 2, 'name': 'Tommy Hopkins'}], response.json)
 
 
 if __name__ == '__main__':
