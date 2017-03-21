@@ -1,11 +1,14 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
-<div class="col-md-6 col-md-offset-2">
+<div class="container">
+<div class="editform">
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
+<h2>Add A New Company</h2>
 
-<h2>Company Form</h2>
-
-<button><a href = "{{url_for('companies.index')}}">Company Index</a></button>
+<a href = "{{url_for('companies.index')}}">See All Companies</a>
 <br><br>
 
 <form action="{{url_for('companies.index')}}" , method='POST'>
@@ -18,10 +21,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.name.label }}
-    <div class="col-10">
-        {{ form.name(value=term) }}
+    <div>
+        {{ form.name(value=term, class="editfield") }}
     </div></div>
 {% if form.description.errors %}
 	{% for error in form.description.errors %}
@@ -30,10 +33,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.description.label }}
-    <div class="col-10">
-        {{ form.description }}
+    <div>
+        {{ form.description(class="editfield") }}
     </div></div>
 {% if form.url.errors %}
 	{% for error in form.url.errors %}
@@ -42,10 +45,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.url.label }}
-    <div class="col-10">
-        {{ form.url }}
+    <div>
+        {{ form.url(class="editfield") }}
     </div></div>
 {% if form.logo_url.errors %}
 	{% for error in form.logo_url.errors %}
@@ -54,10 +57,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.logo_url.label }}
-    <div class="col-10">
-        {{ form.logo_url }}
+    <div>
+        {{ form.logo_url(class="editfield") }}
     </div></div>
 {% if form.partner_lead.errors %}
 	{% for error in form.partner_lead.errors %}
@@ -66,10 +69,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.partner_lead.label }}
-    <div class="col-10">
-        {{ form.partner_lead }}
+    <div>
+        {{ form.partner_lead(class="editfield") }}
     </div></div>
 {% if form.ops_lead.errors %}
 	{% for error in form.ops_lead.errors %}
@@ -78,10 +81,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.ops_lead.label }}
-    <div class="col-10">
-        {{ form.ops_lead }}
+    <div>
+        {{ form.ops_lead(class="editfield") }}
     </div></div>
 {% if form.source.errors %}
 	{% for error in form.source.errors %}
@@ -90,10 +93,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.source.label }}
-    <div class="col-10">
-        {{ form.source }}
+    <div>
+        {{ form.source(class="editfield") }}
     </div></div>
 {% if form.round.errors %}
 	{% for error in form.round.errors %}
@@ -102,10 +105,10 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.round.label }}
-    <div class="col-10">
-        {{ form.round }}
+    <div>
+        {{ form.round(class="editfield") }}
     </div></div>
 {% if form.archived.errors %}
 	{% for error in form.archived.errors %}
@@ -114,15 +117,16 @@
     </span>
     {% endfor %}
 {% endif %}
-    <div class="form-group row">
+    <div class="form-group">
         {{ form.archived.label }}
-    <div class="col-10">
+    <div>
         {{ form.archived }}
     </div></div>                                  
 
-<button style='margin-top:2em' type='submit'>Add New Company</button>
+<button class='btn btn-default' type='submit'>Add New Company</button>
+<a href="{{ url_for('users.home') }}" class="btn btn-danger">Cancel</a>
 
 </form>
 
-</div>
+</div></div>
 {%  endblock  %}

@@ -12,7 +12,7 @@ companies_blueprint = Blueprint(
 
 @companies_blueprint.route('/', methods=['GET','POST'])
 def index():
-    companies = Company.query.filter_by(archived=False)
+    companies = Company.query.filter_by(archived=False).order_by(Company.name)
     form = CompanyForm(request.form)
     if request.method == 'POST':
         if form.validate():
