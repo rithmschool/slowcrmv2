@@ -54,12 +54,13 @@ li{
 
 	.mynav{
 		display: flex;
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		height: 10vw;
 		background-color: #34495E;
 		width: 100%;
 		justify-content: space-between;
+		z-index: 1000
 	}
 	.mytitle{
 		height: 100%;
@@ -152,7 +153,7 @@ li{
 		font-family: Nunito;
 		width: 100%;
 		min-height: 100vh;
-		background-color: #E5E5E5;
+		background-color: #fcf9f9;
 		margin-left: 0%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
@@ -163,7 +164,7 @@ li{
 		font-family: Nunito;
 		min-height: 100vh;
 		width: 100%;
-		background-color: #E5E5E5;
+		background-color: #fcf9f9;
 		margin-left: 0%;
 		padding-right: 5%;
 		padding-left: 5%;
@@ -190,23 +191,25 @@ li{
 
 @media (max-width: 1920px) and (min-width: 1000px){
 	.mynav{
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		display: flex;
 		height: 50px;
 		background-color: #34495E;
 		width: 100%;
+		z-index: 1000
 	}
 }
 
 @media (min-width: 1921px){
 	.mynav{
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		display: flex;
 		height: 75px;
 		background-color: #34495E;
 		width: 100%;
+		z-index: 1000;
 	}
 }
 
@@ -510,7 +513,7 @@ li{
 		font-family: Nunito;
 		min-height: 100vh;
 		width: 75%;
-		background-color: #E5E5E5;
+		background-color: #fcf9f9;
 		margin-left: 12.5%;
 		padding-right: 6%;
 		padding-left: 6%;
@@ -524,7 +527,7 @@ li{
 		font-family: Nunito;
 		min-height: 100vh;
 		width: 75%;
-		background-color: #E5E5E5;
+		background-color: #fcf9f9;
 		margin-left: 12.5%;
 		padding-right: 6%;
 		padding-left: 6%;
@@ -584,7 +587,7 @@ li{
 		font-family: Nunito;
 		width: 75%;
 		min-height: 100vh;
-		background-color: #E5E5E5;
+		background-color: #fcf9f9;
 		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
@@ -599,7 +602,7 @@ li{
 		font-family: Nunito;
 		width: 75%;
 		min-height: 100vh;
-		background-color: #E5E5E5;
+		background-color: #fcf9f9;
 		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
