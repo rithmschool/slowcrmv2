@@ -338,12 +338,12 @@ def add_tag_data_db(star_tuples_arr, content, entry):
             tag = Tag(tag_text)
             db.session.add(tag)
             db.session.commit()
-            taggable = Taggable(entry.id, tag.id, 'entry')
+            taggable = Taggable(entry.id, tag.id, entry.taggable_type)
             db.session.add(taggable)
             db.session.commit()
         else:
             tag = Tag.query.filter_by(text=tag_text).first()
-            taggable = Taggable(entry.id, tag.id, 'entry')
+            taggable = Taggable(entry.id, tag.id, entry.taggable_type)
             db.session.add(taggable)
             db.session.commit()    
 

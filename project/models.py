@@ -38,6 +38,7 @@ entry_persons = db.Table('entries_persons',
 )
 
 class Person(db.Model):
+    taggable_type = 'person'
     __tablename__ = "persons"
 
     id = db.Column(db.Integer,primary_key=True)
@@ -77,6 +78,7 @@ entry_companies = db.Table('entries_companies',
 
 
 class Company(db.Model):
+    taggable_type = 'company'
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -113,7 +115,7 @@ class Company(db.Model):
 
 
 class Entry(db.Model, UserMixin):
-
+    taggable_type = 'entry'
     __tablename__ = 'entries'
 
     id = db.Column(db.Integer, primary_key=True)
