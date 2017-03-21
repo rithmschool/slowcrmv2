@@ -14,6 +14,7 @@ persons_blueprint = Blueprint(
 )
 
 @persons_blueprint.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
 
     form = PersonForm(request.form)
@@ -37,6 +38,7 @@ def index():
     return render_template('persons/index.html', persons=persons)
 
 @persons_blueprint.route('/new')
+@login_required
 def new():
     form = PersonForm(request.form)
     term = ''
@@ -45,6 +47,7 @@ def new():
     return render_template('persons/new.html', form=form, term=term)
 
 @persons_blueprint.route('/<int:id>', methods=["GET","POST","PATCH"])
+@login_required
 def show(id):
     person = Person.query.get(id)
     form = PersonForm(request.form)
@@ -67,6 +70,7 @@ def show(id):
 
 
 @persons_blueprint.route('/<int:id>/edit', methods=["GET","PATCH"])
+@login_required
 def edit(id):
     edit_person = Person.query.get(id)
     form = PersonForm(obj = edit_person)

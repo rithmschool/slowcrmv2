@@ -15,12 +15,14 @@ users_blueprint = Blueprint(
 )
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
+@login_required
 def home():
     if current_user.is_authenticated:
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
 
 @users_blueprint.route('/search', methods=['GET'])
+@login_required
 def search():
     term = request.args.get('search')
     results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))

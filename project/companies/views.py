@@ -11,6 +11,7 @@ companies_blueprint = Blueprint(
     )
 
 @companies_blueprint.route('/', methods=['GET','POST'])
+@login_required
 def index():
     companies = Company.query.filter_by(archived=False).order_by(Company.name)
     form = CompanyForm(request.form)
@@ -35,6 +36,7 @@ def index():
     return render_template('companies/index.html', companies=companies)
 
 @companies_blueprint.route('/new')
+@login_required
 def new():
     form = CompanyForm(request.form)
     term = ''
@@ -43,6 +45,7 @@ def new():
     return render_template('companies/new.html', form=form, term=term)
 
 @companies_blueprint.route('/<int:id>', methods=['GET','PATCH'])
+@login_required
 def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
@@ -66,6 +69,7 @@ def show(id):
     return render_template('companies/show.html', company=company, entries=list(reversed(entries)))
 
 @companies_blueprint.route('/<int:id>/edit')
+@login_required
 def edit(id):
     company = Company.query.get(id)
     form = CompanyForm(obj=company)
