@@ -3,6 +3,7 @@ from project import db
 from project.companies.forms import CompanyForm
 from project.models import Company
 from flask_login import login_required
+from project.users.views import get_links, get_pipes_dollars_tuples
 
 companies_blueprint = Blueprint(
     'companies',
@@ -49,6 +50,10 @@ def new():
 def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
+    formatted_entries = [{
+        'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+        'entry_id': entry.id
+    } for entry in entries]
     form = CompanyForm(request.form)
     if request.method == b'PATCH':
         if form.validate():
@@ -66,7 +71,7 @@ def show(id):
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
         return render_template('companies/new.html',form=form)
-    return render_template('companies/show.html', company=company, entries=list(reversed(entries)))
+    return render_template('companies/show.html', company=company, entries=reversed(formatted_entries))
 
 @companies_blueprint.route('/<int:id>/edit')
 @login_required

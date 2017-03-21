@@ -1,13 +1,33 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
-<div style='margin-top:10em'>
-<h2 class="col-md-2 col-md-offset-5">Persons Page Index</h2>
-{%  for person in persons  %}
 
-<div class="col-md-2 col-md-offset-5">{{person}}</div>
+<div class="container-fluid">
+<div><h2>People Index</h2></div><br><br>
+	<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="leftme">Name</th>
+				<th class="centerme">Title</th>
+				<th class="centerme">Description</th>
+				<th class="centerme">Email</th>
+				<th class="centerme">Phone</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for person in persons %}
+			<tr>
+				<td class="leftme"><a href="{{url_for('persons.show', id=person.id)}}">{{person.name}}</a></td>
+				<td class="centerme">{{person.title}}</td>
+				<td class="centerme">{{person.description}}</td>
+				<td class="centerme">{{person.email}}</td>
+				<td class="centerme">{{person.phone}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
 
-{%  endfor  %}
-<button class="col-md-4 col-md-offset-4"><a href = '{{url_for('persons.new')}}''>Add A New Person</a></button>
-<div>
+	</table>
+	</div>
+</div>
 {%  endblock  %}

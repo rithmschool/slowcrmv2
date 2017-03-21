@@ -35,10 +35,10 @@
 </div><br>
 
 <h3>Entries</h3>
-        {% for entry in entries %}
-            <li class="companyentry">
-                <div class="text">{{entry.content}}</div>
-            </li>
-            {% endfor %}
+    {% for entry in entries %}
+        <li>
+        {{entry.content | safe}}
+        </li>
+    {% endfor %}
 <div>
 {%  endblock  %}
