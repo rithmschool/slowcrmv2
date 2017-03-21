@@ -1,6 +1,6 @@
 from project.users.forms import UserForm, LoginForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
 from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
-from project.models import User, Person, Entry, Company
+from project.models import User, Person, Entry, Company, Tag, Taggable
 from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
 from project.users.token import generate_confirmation_token, confirm_token, send_token, random_password
@@ -222,6 +222,7 @@ def entry():
                 entry = Entry(current_user.id, content)
                 add_person_data_db(pipes_dollars_tuples[0], content, entry)
                 add_company_data_db(pipes_dollars_tuples[1], content, entry)
+                add_tag_data_db(pipes_dollars_tuples[2], content, entry)
                 db.session.add(entry)
                 db.session.commit()
             except ValueError as e:
@@ -240,27 +241,34 @@ def entry():
 def get_pipes_dollars_tuples(content):
     all_pipe_idx = []
     all_dollar_idx = []
+    all_stars_idx = []
     for idx, char in enumerate(content):
         if char == '|':
             all_pipe_idx.append(idx)
         elif char == '$':
             all_dollar_idx.append(idx)
-    check_odd_pipes_dollars(all_pipe_idx, all_dollar_idx)
+        elif char == '*':
+            all_stars_idx.append(idx)    
+    check_odd_pipes_dollars(all_pipe_idx, all_dollar_idx, all_stars_idx)
     pipe_arrayof_tuples = list(zip(all_pipe_idx[::2], all_pipe_idx[1::2]))
     doller_arrayof_tuples = list(zip(all_dollar_idx[::2], all_dollar_idx[1::2]))
-    return [pipe_arrayof_tuples, doller_arrayof_tuples]
+    star_arrayof_tuples = list(zip(all_stars_idx[::2], all_stars_idx[1::2]))
+    return [pipe_arrayof_tuples, doller_arrayof_tuples, star_arrayof_tuples]
 
 
-def check_odd_pipes_dollars(pipes_idx_arr, dollar_idx_arr):
+def check_odd_pipes_dollars(pipes_idx_arr, dollar_idx_arr, stars_idx_arr):
     if(len(pipes_idx_arr) % 2 != 0):
         raise ValueError('"|" is missing!')
     if(len(dollar_idx_arr) % 2 != 0):
         raise ValueError('"$" is missing!') 
+    if(len(stars_idx_arr) % 2 != 0):
+        raise ValueError('"*" is missing!')    
 
 
 def get_links(content, pipes_dollars_tuples):
     pipes_tuples_arr = pipes_dollars_tuples[0]
     dollars_tuples_arr = pipes_dollars_tuples[1]
+    stars_tuples_arr = pipes_dollars_tuples[2]
     stripped_content = content.strip()
     links = ""
     idx = 0
@@ -275,6 +283,11 @@ def get_links(content, pipes_dollars_tuples):
             links = links + get_company_link(company_name)
             idx = idx + (dollars_tuples_arr[0][1]+1 - dollars_tuples_arr[0][0])
             dollars_tuples_arr.pop(0)
+        elif stars_tuples_arr and idx in [stars_tuples_arr[0][0]]:
+            tag_text = stripped_content[stars_tuples_arr[0][0]+1 : stars_tuples_arr[0][1]]
+            links = links + get_tag_link(tag_text)
+            idx = idx + (stars_tuples_arr[0][1]+1 - stars_tuples_arr[0][0])
+            stars_tuples_arr.pop(0)
         else:
             links = links + stripped_content[idx] 
             idx = idx + 1
@@ -288,6 +301,9 @@ def get_company_link(company_name):
     company = Company.query.filter_by(name=company_name).first()
     return '<a href="/companies/{}">{}</a>'.format(company.id, company_name)
 
+def get_tag_link(tag_text):
+    tag = Tag.query.filter_by(text=tag_text).first()
+    return '<a href="tags/{}">{}</a>'.format(tag.id, tag.text)
 
 def add_person_data_db(pipes_tuples_arr, content, entry):
     for val in pipes_tuples_arr:
@@ -314,6 +330,22 @@ def add_company_data_db(dollars_tuples_arr, content, entry):
         else:
             entry.companies.append(Company.query.filter_by(name=company_name).first())    
 
+
+def add_tag_data_db(star_tuples_arr, content, entry):
+    for val in star_tuples_arr:
+        tag_text = content[val[0]+1 : val[1]]
+        if(not Tag.query.filter_by(text=tag_text).first()):
+            tag = Tag(tag_text)
+            db.session.add(tag)
+            db.session.commit()
+            taggable = Taggable(entry.id, tag.id, 'entry')
+            db.session.add(taggable)
+            db.session.commit()
+        else:
+            tag = Tag.query.filter_by(text=tag_text).first()
+            taggable = Taggable(entry.id, tag.id, 'entry')
+            db.session.add(taggable)
+            db.session.commit()    
 
 @users_blueprint.route('/logout')
 @login_required

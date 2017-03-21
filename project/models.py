@@ -136,3 +136,33 @@ class Entry(db.Model, UserMixin):
 
     def __repr__(self):
         return "id {} content {}".format(self.id, self.content)
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String)
+
+    def __init__(self, text):
+        self.text = text
+
+
+class Taggable(db.Model):
+    __tablename__ = 'taggable'
+
+    id = db.Column(db.Integer, primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'))
+    taggable_id = db.Column(db.Integer)
+    taggable_type = db.Column(db.String)
+    tags = db.relationship('Tag', backref=db.backref('taggable'))
+
+
+    def __init__(self, taggable_id, tag_id, taggable_type):
+        self.tag_id = tag_id
+        self.taggable_id = taggable_id
+        self.taggable_type = taggable_type
+
+
+
+
