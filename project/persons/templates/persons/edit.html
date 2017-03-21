@@ -1,32 +1,106 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
-<div style='margin-top:10em' class="col-md-4 col-md-offset-4">
+<div class="container">
+<div class="editform">
+<h2>Edit Person</h2>
 
-<h2>Edit Person Form</h2>
+<a href = "{{url_for('persons.show',id=person.id)}}">Back to Person Page</a>
+<br><br>
 
-<button style='margin-top: 2em;margin-bottom: 2em'><a href = '{{url_for('persons.show',id=person.id)}}''>Back to profile</a></button>
-
-<form  action="{{url_for('persons.show', id=person.id)}}?_method=PATCH", method='POST'>
+<form action="{{url_for('persons.show', id=person.id)}}?_method=PATCH" method='POST'>
 
 {{form.hidden_tag()}}
-{%  for field in form if field.widget.input_type != 'hidden' %}
 
-<p>
-    {{field.label}}: 
-    {{field}}
-    <span>{%  if field.errors  %}
-            {%  for error in field.errors %}
-                {{error}}
-            {%  endfor  %}
-        {%  endif  %}
+{% if form.name.errors %}
+	{% for error in form.name.errors %}
+	<span class="text-danger">
+        {{ error }}
     </span>
-</p>
-{%  endfor  %}
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.name.label }}
+    <div>
+        {{ form.name(value=person.name, class="editfield") }}
+    </div></div>
+{% if form.email.errors %}
+	{% for error in form.email.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.email.label }}
+    <div>
+        {{ form.email(class="editfield", id="mail", value=person.email) }}
+    </div></div>    
+{% if form.phone.errors %}
+	{% for error in form.phone.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.phone.label }}
+    <div>
+        {{ form.phone(class="editfield", value=person.phone) }}
+    </div></div>
+{% if form.title.errors %}
+	{% for error in form.title.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.title.label }}
+    <div>
+        {{ form.title(class="editfield", value=person.title) }}
+    </div></div>
+{% if form.description.errors %}
+	{% for error in form.description.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.description.label }}
+    <div>
+        {{ form.description(class="editfield", value=person.description) }}
+    </div></div>
+{% if form.slow_lp.errors %}
+	{% for error in form.slow_lp.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.slow_lp.label }}
+    <div>
+        {{ form.slow_lp(value=person.slow_lp) }}
+    </div></div>
+{% if form.archived.errors %}
+	{% for error in form.archived.errors %}
+	<span class="text-danger">
+        {{ error }}
+    </span>
+    {% endfor %}
+{% endif %}
+    <div class="form-group">
+        {{ form.archived.label }}
+    <div>
+        {{ form.archived(value=person.archived) }}
+    </div></div>
 
-<button style='margin-top: 2em;margin-bottom: 2em' type='submit'>Edit Profile</button>
+<button type='submit' class='btn btn-default'>Save</button>
+<a href="{{ url_for('users.home') }}" class="btn btn-danger">Cancel</a>
 
 </form>
 
-</div>
+</div></div>
 {%  endblock  %}

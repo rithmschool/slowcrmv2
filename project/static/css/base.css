@@ -25,6 +25,27 @@ a, a:hover{
 	padding-top: 5px;
 }
 
+li{
+	list-style-type: none;
+	margin-bottom: 1vh;
+}
+
+.entries{
+	margin-top: 7.5vh;
+	width: 95%;
+	margin-bottom: 1vh;
+}
+
+.nameanchor{
+	color: #34495E;
+	font-weight: bold;
+}
+
+.text a{
+	color: black;
+	font-weight: bold;
+}
+
 @media (max-width: 1000px){
 
 	a, a:hover{
@@ -33,7 +54,7 @@ a, a:hover{
 
 	.mynav{
 		display: flex;
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		height: 10vw;
 		background-color: #34495E;
@@ -169,7 +190,7 @@ a, a:hover{
 
 @media (max-width: 1920px) and (min-width: 1000px){
 	.mynav{
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		display: flex;
 		height: 50px;
@@ -180,7 +201,7 @@ a, a:hover{
 
 @media (min-width: 1921px){
 	.mynav{
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		display: flex;
 		height: 75px;
@@ -798,3 +819,32 @@ a, a:hover{
 		width: 25%;
 	}
 }
+
+.editfield {
+	align-items: center;
+	font-size: 15px;
+	width: 60%;
+	height: 4vh;
+	border-radius: 5px;
+	padding-left: 10px;
+	min-width: 450px;
+	color: dimgray;
+	border-style:initial;
+}
+
+.editform {
+	margin-left: 8vh
+}
+
+.centerme {
+    text-align: center;
+}
+
+.leftme {
+	text-align: left
+}
+
+.showpage {
+	font-size: 18px
+}
+

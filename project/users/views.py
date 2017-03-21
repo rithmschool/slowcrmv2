@@ -29,7 +29,6 @@ def search():
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = LoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -214,28 +213,29 @@ def password_recovery(token):
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required
 def entry():
-    if request.method == 'POST':
-        content = request.get_json().get('content')
-        if content:
-            try:
-                pipes_dollars_tuples = get_pipes_dollars_tuples(content)
-                entry = Entry(current_user.id, content)
-                add_person_data_db(pipes_dollars_tuples[0], content, entry)
-                add_company_data_db(pipes_dollars_tuples[1], content, entry)
-                add_tag_data_db(pipes_dollars_tuples[2], content, entry)
-                db.session.add(entry)
-                db.session.commit()
-            except ValueError as e:
-                return json.dumps({
-                        'message': str(e)
-                    }), 400
-
+    content = request.get_json().get('content')
+    if content:
+        try:
+            pipes_dollars_tuples = get_pipes_dollars_tuples(content)
+            entry = Entry(current_user.id, content)
+            add_person_data_db(pipes_dollars_tuples[0], content, entry)
+            add_company_data_db(pipes_dollars_tuples[1], content, entry)
+            add_tag_data_db(pipes_dollars_tuples[2], content, entry)
+            db.session.add(entry)
+            db.session.commit()
+        except ValueError as e:
             return json.dumps({
-                 'data' : get_links(entry.content, pipes_dollars_tuples),
-                 'entry_id': entry.id
-            }), 200
-        else:
-            raise ValueError('content is empty')
+                    'message': str(e)
+                }), 400
+
+        return json.dumps({
+             'data' : get_links(entry.content, pipes_dollars_tuples),
+             'entry_id': entry.id,
+             'name': current_user.name,
+             'id': current_user.id
+    	})
+    else:
+        raise ValueError('content is empty')
 
 
 def get_pipes_dollars_tuples(content):
