@@ -1,6 +1,9 @@
 {%  extends 'base.html'  %}
 
 {%  block content  %}
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
 <div style='margin-top:10em' class="col-md-4 col-md-offset-4">
 <h2 class="col-md-4 col-md-offset-4">{{company.name}}'s Page</h2>
 
