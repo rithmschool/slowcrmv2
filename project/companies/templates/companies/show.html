@@ -5,27 +5,38 @@
     <p>{{ message }}</p>
     {% endfor %}
 <div class="container-fluid">
-<h2>{{company.name}} <a href="{{url_for('companies.edit', id=company.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></h2>
+<div class="title">{{company.name}} <a href="{{url_for('companies.edit', id=company.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></div>
 
-<h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
+<h4><a href = "{{url_for('companies.index')}}">Back To Companies Index</a></h4><br>
 
 <div class="showpage">
-    <p>Name: {{company.name}}</p>
-    <p>Description: {{company.description}}</p>
-    <p>URL: {{company.url}}</p>
-    <p>Logo URL: {{company.logo_url}}</p>
-    <p>Partner Lead: {{company.partner_lead}}</p>
-    <p>Operations Lead: {{company.ops_lead}}</p>
-    <p>Source: {{company.source}}</p>
-    <p>Round: {{company.round}}</p>
-    <p>Archived?: {{company.archived}}</p>
-    <p>Created At: {{company.created_at}}</p>
-    <p>Updated At: {{company.updated_at}}</p>
+    <h4>Tags:</h4>
+    <hr>
+    <h4>Description: {{company.description}}</h4>
+    <hr>
+    <h4>URL: {{company.url}}</h4>
+    <hr>
+    <h4>Logo URL: {{company.logo_url}}</h4>
+    <hr>
+    <h4>Partner Lead: {{company.partner_lead}}</h4>
+    <hr>
+    <h4>Operations Lead: {{company.ops_lead}}</h4>
+    <hr>
+    <h4>Source: {{company.source}}</h4>
+    <hr>
+    <h4>Round: {{company.round}}</h4>
+    <hr>
+    <h4>Archived?: {{company.archived}}</h4>
+    <hr>
+    <h4>Created At: {{company.created_at}}</h4>
+    <hr>
+    <h4>Updated At: {{company.updated_at}}</h4>
+    <hr>
 </div><br>
 
 <h3>Entries</h3>
         {% for entry in entries %}
-            <li class="entry">
+            <li class="companyentry">
                 <div class="text">{{entry.content}}</div>
             </li>
             {% endfor %}

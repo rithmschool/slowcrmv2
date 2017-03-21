@@ -851,3 +851,17 @@ li{
 	font-size: 18px
 }
 
+.title {
+	font-size: 30px;
+	display: inline;
+}
+
+.glyphicon {
+	font-size: 20px
+}
+
+.showpage h4, .companyentry {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
