@@ -812,3 +812,16 @@ a, a:hover{
 .editform {
 	margin-left: 8vh
 }
+
+.centerme {
+    text-align: center;
+}
+
+.leftme {
+	text-align: left
+}
+
+th {
+	font-weight: 900;
+}
+
