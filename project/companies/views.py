@@ -45,6 +45,7 @@ def new():
 @companies_blueprint.route('/<int:id>', methods=['GET','PATCH'])
 def show(id):
     company = Company.query.get(id)
+    entries = Company.query.get(id).entries
     form = CompanyForm(request.form)
     if request.method == b'PATCH':
         if form.validate():
@@ -62,7 +63,7 @@ def show(id):
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
         return render_template('companies/new.html',form=form)
-    return render_template('companies/show.html', company=company)
+    return render_template('companies/show.html', company=company, entries=list(reversed(entries)))
 
 @companies_blueprint.route('/<int:id>/edit')
 def edit(id):

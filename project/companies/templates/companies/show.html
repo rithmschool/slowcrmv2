@@ -21,6 +21,13 @@
     <p>Archived?: {{company.archived}}</p>
     <p>Created At: {{company.created_at}}</p>
     <p>Updated At: {{company.updated_at}}</p>
-</div>
+</div><br>
+
+<h3>Entries</h3>
+        {% for entry in entries %}
+            <li class="entry">
+                <div class="text">{{entry.content}}</div>
+            </li>
+            {% endfor %}
 <div>
 {%  endblock  %}
