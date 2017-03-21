@@ -837,6 +837,7 @@ li{
 	min-width: 450px;
 	color: dimgray;
 	border-style:initial;
+	border: 1px solid #ddd;
 }
 
 .editform {

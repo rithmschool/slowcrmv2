@@ -4,31 +4,31 @@
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
+
 <div class="container-fluid">
-<div class="title">{{person.name}} <a href="{{url_for('persons.edit', id=person.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></div>
-
 <h4><a href = "{{url_for('persons.index')}}">Back To People Index</a></h4><br>
+<div class="row">
+    <div class = "profile-box col-md-12 col-xs-12">
+        <div class="container-fluid">
+        <div class="row user-row">
+            <span class="user-header">{{person.name}}
+            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
+            </span>
+        </div>
 
-<div class="showpage">
-    <h4>Tags:</h4>
-    <hr>
-    <h4>Title: {{person.title}}</h4>
-    <hr>
-    <h4>Description: {{person.description}}</h4>
-    <hr>
-    <h4>Email: {{person.email}}</h4>
-    <hr>
-    <h4>Phone: {{person.phone}}</h4>
-    <hr>
-    <h4>Slow LP: {{person.slow_lp}}</h4>
-    <hr>
-    <h4>Archived?: {{person.archived}}</h4>
-    <hr>
-    <h4>Created At: {{person.created_at}}</h4>
-    <hr>
-    <h4>Updated At: {{person.updated_at}}</h4>
-    <hr>
-</div><br>
+        <div>
+            <p>Tags: </p>
+            <p>Title: {{person.email}}</p>
+            <p>Description: {{person.description}}</p>
+            <p>Email: {{person.email}}</p>
+            <p>Phone: {{person.phone}}</p>
+            <p>Slow LP: {{person.slow_lp}}</p>
+            <p>Archived: {{person.archived}}</p>
+            <p>Created: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+            <p>Updated: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+        </div>
+        </div>
+    </div>
 
 <div class="col-md-12">
         <h3 class="">{{person.name}}'s Entries</h3>

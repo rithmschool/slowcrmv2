@@ -5,34 +5,31 @@
     <p>{{ message }}</p>
     {% endfor %}
 <div class="container-fluid">
-<div class="title">{{company.name}} <a href="{{url_for('companies.edit', id=company.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></div>
+<h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
+<div class="row">
+    <div class = "profile-box col-md-12 col-xs-12">
+        <div class="container-fluid">
+        <div class="row user-row">
+            <span class="user-header">{{company.name}}
+            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
+            </span>
+        </div>
 
-<h4><a href = "{{url_for('companies.index')}}">Back To Companies Index</a></h4><br>
-
-<div class="showpage">
-    <h4>Tags:</h4>
-    <hr>
-    <h4>Description: {{company.description}}</h4>
-    <hr>
-    <h4>URL: {{company.url}}</h4>
-    <hr>
-    <h4>Logo URL: {{company.logo_url}}</h4>
-    <hr>
-    <h4>Partner Lead: {{company.partner_lead}}</h4>
-    <hr>
-    <h4>Operations Lead: {{company.ops_lead}}</h4>
-    <hr>
-    <h4>Source: {{company.source}}</h4>
-    <hr>
-    <h4>Round: {{company.round}}</h4>
-    <hr>
-    <h4>Archived?: {{company.archived}}</h4>
-    <hr>
-    <h4>Created At: {{company.created_at}}</h4>
-    <hr>
-    <h4>Updated At: {{company.updated_at}}</h4>
-    <hr>
-</div><br>
+        <div>
+            <p>Tags: </p>
+            <p>Description: {{company.description}}</p>
+            <p>URL: {{company.url}}</p>
+            <p>Logo URL: {{company.logo_url}}</p>
+            <p>Partner Lead: {{company.partner_lead}}</p>
+            <p>Operations Lead: {{company.ops_lead}}</p>
+            <p>Source: {{company.source}}</p>
+            <p>Round: {{company.round}}</p>
+            <p>Archived: {{company.archived}}</p>
+            <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+            <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+        </div>
+        </div>
+    </div>    
    <div class="col-md-12">
         <h3 class="">{{company.name}}'s Entries</h3>
               {%  for entry in entries  %}
