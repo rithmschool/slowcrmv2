@@ -41,16 +41,23 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
 <div class="row">
-    <div class = "profile-box col-md-5 col-xs-12">
+<!-- Top profile/tags container -->
+    <div class = "profile-box col-md-12 col-xs-12">
+    <!-- begin left box -->
+        <div class="container-fluid">
+
         {% if current_user.id == user.id  %}
-        <h2>User {{user.name}}'s Profile Page
-        <a class="btn btn-info btn-sm" href="/users/{{user.id}}/edit">Edit</a>
-        </h2>
+        <div class="row user-row">
+            <span class="user-header">User {{user.name}}'s Profile Page
+            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
+            </span>
+            <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
+        </div>
 
         <div>
-            <p>Email: {{user.email}}</p>
+            <p><b>Email:</b> {{user.email}}</p>
             <p>Phone: {{user.phone}}</p>
             <p>Created: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
@@ -58,22 +65,26 @@
             <p>Confirmed: {{user.confirmed}}</p>
             <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
         </div>
-    </div>
-
-    <div class="right-box col-md-6 col-md-offset-1 text-right col-xs-12">
-        <h3 class="tag-header pull-left">Tags</h3>
-        <button type="button" class="btn btn-primary invite-button float-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
-        <div class="tag-box col-md-12">
-            <h4>Tag Box</h4>
         </div>
     </div>
+   
 
+<!-- end top row -->
 </div>
+
+<!-- Posts container -->
     <div class="col-md-12">
         <h3 class="">{{user.name}}'s Posts</h3>
-        {{user.entries}}
+        {%  if user.entries  %}
+        <div class="profile-box">
+            {{user.entries}}
+        </div>
+        {%  else  %}
+        <p class="text-center">No posts to show right now</p>
+        {%  endif  %}
     </div>
 
+<!-- Search container -->
     <div class="searchcontent">
         <div class="myheader">
             <div class="myheadertext">Search</div>
@@ -81,9 +92,11 @@
           <div class="mycontent"></div>
       </div>
     </div>
+</div>
 
+<!-- End container -->
 </div>
-</div>
+
 
 {% else %}
 

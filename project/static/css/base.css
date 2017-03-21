@@ -58,7 +58,7 @@ li{
 
 	.mynav{
 		display: flex;
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		height: 10vw;
 		background-color: #34495E;
@@ -195,7 +195,7 @@ li{
 
 @media (max-width: 1920px) and (min-width: 1000px){
 	.mynav{
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		display: flex;
 		height: 50px;
@@ -207,7 +207,7 @@ li{
 
 @media (min-width: 1921px){
 	.mynav{
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		display: flex;
 		height: 75px;
@@ -660,6 +660,10 @@ li{
 
 /*Profile Page*/
 
+.container-fluid{
+	margin-top: 10px;
+}
+
 .posts-header{
 	margin-top: 2.5em;
 }
@@ -667,33 +671,34 @@ li{
 .profile-box{
 	background-color: white;
 	border-radius: 15px;
-	padding-bottom: 18px;
+	padding-left: 30px !important;
+	padding-right: 30px !important;
+	padding-bottom: 30px;
 	box-shadow: 5px 5px 5px #888888;
-}
-
-.right-box{
-	height:23em;
-	padding: 0 !important;
-}
-
-.tag-header{
-	text-decoration: underline;	
-	padding-left: 10px;
-}
-
-.tag-box{
-	background-color: #adb2ba;
-	border-radius: 15px;
-	box-shadow: 5px 5px 5px #888888;
-	height: 83%
-
 }
 
 .invite-button {
-	margin-top: 12px;
+	margin-top: 5px;
 }
 
+.user-header {
+	font-size:30px;
+}
 
+.header-button{
+	font-size: 30px;
+}
+
+.edit-button{
+	font-size: 20px !important;
+	margin-bottom: 5px;
+}
+
+.user-row{
+	padding-bottom: 10px !important;
+    padding-top: 15px !important;
+    padding-left: 15px !important;
+}
 
 /*Profile Page Invite Modal*/
 
