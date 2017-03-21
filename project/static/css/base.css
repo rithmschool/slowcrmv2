@@ -27,7 +27,7 @@ a, a:hover{
 
 li{
 	list-style-type: none;
-	margin-bottom: 1vh;
+	margin-bottom: 2vh;
 }
 
 .entries{
@@ -43,7 +43,11 @@ li{
 
 .text a{
 	color: black;
-	font-weight: bold;
+	font-weight: bolder;
+}
+
+.name{
+	display: inline-block;
 }
 
 @media (max-width: 1000px){

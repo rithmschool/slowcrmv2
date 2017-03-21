@@ -1,5 +1,48 @@
 $(function() {
 
+    $.ajax({
+        type: "POST",
+        url: "/users/loadentries",
+        data: JSON.stringify({
+            content: 'initial'
+        }),
+        dataType: "json",
+        contentType: "application/json",
+    }).then(function(response) {
+        response.forEach((v, i, a) => (
+            $('ul').prepend('<li class="entry" data="' + response[i].entry_id + '">' + 
+            '<a class="nameanchor" href="/users/' + response[i].id + '"><div class="name">' + response[i].name +
+            '</div></a>' + '<div class="text">' + response[i].data + '</div>' + '</li>')
+        ))
+    }).then(() => {
+        let reload = () => {
+            console.log('Checking for updates')
+            let latest = $('ul li:first').attr('data')
+                $.ajax({
+                    type: "POST",
+                    url: "/users/loadentries",
+                    data: JSON.stringify({
+                        content: latest
+                    }),
+                    dataType: "json",
+                    contentType: "application/json",
+                }).then(function(response) {
+                    if(response[0].id !== 0){
+                        response.forEach((v, i, a) => (
+                            $('ul').prepend('<li class="entry" data="' + response[i].entry_id + '">' + 
+                            '<a class="nameanchor" href="/users/' + response[i].id + '"><div class="name">' + response[i].name +
+                            '</div></a>' + '<div class="text">' + response[i].data + '</div>' + '</li>')
+                        ))
+                        console.log('Page Updated')
+                    }else{
+                        console.log('No New Updates')
+                    }
+                })
+        }
+        setInterval(reload, 10000)
+    })
+
+
     let $content = $('.content');
     let $searchContent = $('.searchcontent');
 
@@ -61,11 +104,9 @@ $(function() {
                 dataType: "json",
                 contentType: "application/json",
             }).then(function(response) {
-                console.log(response);
-                // $('ul li:last-child').remove();
                 $('ul').prepend('<li class="entry" data="' + response.entry_id + '">' + 
-                    '<a class="nameanchor" href="/users/' + response.id + '"><div class="name">' + response.name +
-                     '</div></a>' + '<div class="text">' + response.data + '</div>' + '</li>')
+                '<a class="nameanchor" href="/users/' + response.id + '"><div class="name">' + response.name +
+                '</div></a>' + '<div class="text">' + response.data + '</div>' + '</li>')
             }).catch(function(error) {
                 $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
             })
