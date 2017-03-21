@@ -245,7 +245,6 @@ def entry():
 @users_blueprint.route('/loadentries', methods=['GET', 'POST'])
 @login_required
 def loadEntries():
-    from IPython import embed; embed()
     content = request.json
     if content == 'initial':
         entries = Entry.query.all()
