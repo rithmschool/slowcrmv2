@@ -4,10 +4,10 @@
 <div>
 	<ul>
 		{% for taggable in taggables %}
-			{% set entry = Entry.query.get(taggable.taggable_id) %}
 			{% if taggable.taggable_type == 'entry' %}
+				{% set entry = Entry.query.get(taggable.taggable_id) %}
 				<li> {{ entry.content }} </li>
-			{% endif %}
+			{% endif %}	
 		{% endfor %}	
 	<ul>
 </div>

@@ -219,11 +219,12 @@ def entry():
         try:
             pipes_dollars_tuples = get_pipes_dollars_tuples(content)
             entry = Entry(current_user.id, content)
-            add_person_data_db(pipes_dollars_tuples[0], content, entry)
-            add_company_data_db(pipes_dollars_tuples[1], content, entry)
-            add_tag_data_db(pipes_dollars_tuples[2], content, entry)
             db.session.add(entry)
             db.session.commit()
+            add_company_data_db(pipes_dollars_tuples[1], content, entry)
+            add_person_data_db(pipes_dollars_tuples[0], content, entry)
+            add_tag_data_db(pipes_dollars_tuples[2], content, entry)
+
         except ValueError as e:
             return json.dumps({
                     'message': str(e)
@@ -334,7 +335,7 @@ def get_company_link(company_name):
 
 def get_tag_link(tag_text):
     tag = Tag.query.filter_by(text=tag_text).first()
-    return '<a href="tags/{}">{}</a>'.format(tag.id, tag.text)
+    return '<a href="/tags/{}">{}</a>'.format(tag.id, tag.text)
 
 def add_person_data_db(pipes_tuples_arr, content, entry):
     for val in pipes_tuples_arr:

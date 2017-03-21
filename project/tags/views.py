@@ -11,5 +11,5 @@ tags_blueprint = Blueprint(
 
 @tags_blueprint.route('/<int:id>', methods=['GET'])
 def details(id):
-    taggables = Taggable.query.filter_by(id=id)
+    taggables = Taggable.query.filter(Taggable.tag_id==id).all()
     return render_template('tags/details.html', taggables=taggables, Entry=Entry)
