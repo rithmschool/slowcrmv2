@@ -30,11 +30,14 @@
     <hr>
 </div><br>
 
-<h3>Entries</h3>
-    {% for entry in entries %}
-        <li>
-        {{entry.content | safe}}
-        </li>
-    {% endfor %}
-<div>
+<div class="col-md-12">
+        <h3 class="">{{person.name}}'s Entries</h3>
+              {%  for entry in entries  %}
+            <div class="user-post">
+                <p class="user-post-content">{{entry.content | safe}}</p>
+                <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
+    </div>
 {%  endblock  %}

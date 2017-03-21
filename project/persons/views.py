@@ -55,7 +55,9 @@ def show(id):
     entries = Person.query.get(id).entries
     formatted_entries = [{
         'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
-        'entry_id': entry.id
+        'entry_id': entry.id,
+        'created_at': entry.created_at,
+        'updated_at': entry.updated_at
     } for entry in entries]
     if request.method == b'PATCH':
         if form.validate():
