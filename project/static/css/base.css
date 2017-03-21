@@ -54,7 +54,7 @@ li{
 
 	.mynav{
 		display: flex;
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		height: 10vw;
 		background-color: #34495E;
@@ -190,7 +190,7 @@ li{
 
 @media (max-width: 1920px) and (min-width: 1000px){
 	.mynav{
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		display: flex;
 		height: 50px;
@@ -201,7 +201,7 @@ li{
 
 @media (min-width: 1921px){
 	.mynav{
-		position: fixed;
+		position: absolute;
 		top: 0px;
 		display: flex;
 		height: 75px;
@@ -822,12 +822,14 @@ li{
 
 .editfield {
 	align-items: center;
-	font-size: 20px;
+	font-size: 15px;
 	width: 60%;
 	height: 4vh;
 	border-radius: 5px;
-	padding-left: 20px;
-	min-width: 450px
+	padding-left: 10px;
+	min-width: 450px;
+	color: dimgray;
+	border-style:initial;
 }
 
 .editform {
