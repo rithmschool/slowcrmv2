@@ -7,6 +7,7 @@ from project.users.token import generate_confirmation_token, confirm_token, send
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
+from sqlalchemy import desc
 
 users_blueprint = Blueprint(
     'users',
@@ -235,6 +236,36 @@ def entry():
 		})
     else:
         raise ValueError('content is empty')
+
+
+@users_blueprint.route('/loadentries', methods=['GET', 'POST'])
+@login_required
+def loadEntries():
+    content = request.json
+    if content == 'initial':
+        entries = Entry.query.all()
+        return json.dumps([{
+             'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+             'entry_id': entry.id,
+             'name': current_user.name,
+             'id': current_user.id
+        } for entry in entries])
+    else:
+        # Getting ID of latest entry in DB
+        latest = Entry.query.order_by(desc(Entry.id)).first().id
+        # Calculating the difference between latest in database and latest client side
+        need = int(latest)-int(content)
+        if need != 0:
+            # Getting appropriate amount of entries based on the need in descending order
+            new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
+            return json.dumps([{
+                'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+                'entry_id': entry.id,
+                'name': current_user.name,
+                'id': current_user.id
+            } for entry in new_entries])
+        else:
+            return json.dumps([{'id': 0}])
 
 
 def get_pipes_dollars_tuples(content):
