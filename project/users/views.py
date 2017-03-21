@@ -241,7 +241,7 @@ def entry():
 @users_blueprint.route('/loadentries', methods=['GET', 'POST'])
 @login_required
 def loadEntries():
-    content = request.get_json().get('content')
+    content = request.json
     if content == 'initial':
         entries = Entry.query.all()
         return json.dumps([{
@@ -251,9 +251,12 @@ def loadEntries():
              'id': current_user.id
         } for entry in entries])
     else:
+        # Getting ID of latest entry in DB
         latest = Entry.query.order_by(desc(Entry.id)).first().id
+        # Calculating the difference between latest in database and latest client side
         need = int(latest)-int(content)
         if need != 0:
+            # Getting appropriate amount of entries based on the need in descending order
             new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
             return json.dumps([{
                 'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
