@@ -104,7 +104,6 @@ $(function() {
                 dataType: "json",
                 contentType: "application/json",
             }).then(function(response) {
-                console.log(response)
                 $('ul').prepend(`<li class="entry" data="${response.entry_id}">
                                     <a class="nameanchor" href="/users/${response.id}">
                                         <div class="name">${response.name}
