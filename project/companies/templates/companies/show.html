@@ -4,12 +4,12 @@
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
-<div style='margin-top:10em' class="col-md-4 col-md-offset-4">
-<h2 class="col-md-4 col-md-offset-4">{{company.name}}'s Page</h2>
+<div class="container-fluid">
+<h2>{{company.name}} <a href="{{url_for('companies.edit', id=company.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></h2>
 
-<button style='margin-top: 2em;margin-bottom: 2em'><a href = '{{url_for('companies.index')}}''>Back to company index</a></button>
+<h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
 
-<div class="col-md-4 col-md-offset-4">
+<div class="showpage">
     <p>Name: {{company.name}}</p>
     <p>Description: {{company.description}}</p>
     <p>URL: {{company.url}}</p>
@@ -22,6 +22,5 @@
     <p>Created At: {{company.created_at}}</p>
     <p>Updated At: {{company.updated_at}}</p>
 </div>
-<button class="col-md-4 col-md-offset-4"><a href = '{{url_for('companies.edit', id=company.id)}}''>Edit Company</a></button>
 <div>
 {%  endblock  %}
