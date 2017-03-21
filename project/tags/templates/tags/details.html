@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div>
+	<ul>
+		{% for taggable in taggables %}
+			{% if taggable.taggable_type == 'entry' %}
+				{% set entry = Entry.query.get(taggable.taggable_id) %}
+				<li> {{ entry.content }} </li>
+			{% endif %}	
+		{% endfor %}	
+	<ul>
+</div>
+{% endblock %}
