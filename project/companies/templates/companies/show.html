@@ -16,7 +16,7 @@
         </div>
 
         <div>
-            <p>Tags: </p>
+            <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">{{tag.text}}</a> {% endfor %}</p>
             <p>Description: {{company.description}}</p>
             <p>URL: {{company.url}}</p>
             <p>Logo URL: {{company.logo_url}}</p>
@@ -28,7 +28,7 @@
             <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
         </div>
-        </div>
+        
     </div>    
    <div class="col-md-12">
         <h3 class="">{{company.name}}'s Entries</h3>
@@ -40,5 +40,5 @@
             </div>
                 {%  endfor  %}
     </div>
-
+    </div>
 {%  endblock  %}

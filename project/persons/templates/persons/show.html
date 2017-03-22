@@ -17,7 +17,7 @@
         </div>
 
         <div>
-            <p>Tags: </p>
+            <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">{{tag.text}}</a> {% endfor %}</p>
             <p>Title: {{person.email}}</p>
             <p>Description: {{person.description}}</p>
             <p>Email: {{person.email}}</p>
@@ -27,7 +27,7 @@
             <p>Created: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
         </div>
-        </div>
+        
     </div>
 
 <div class="col-md-12">
@@ -39,5 +39,6 @@
                 <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
             </div>
                 {%  endfor  %}
+    </div>
     </div>
 {%  endblock  %}

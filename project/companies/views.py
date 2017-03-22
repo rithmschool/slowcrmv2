@@ -51,6 +51,7 @@ def new():
 def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
+    taggables = Taggable.query.filter_by(taggable_id=id, taggable_type='company').all()
     formatted_entries = [{
         'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
         'entry_id': entry.id,
@@ -73,7 +74,7 @@ def show(id):
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
         return render_template('companies/edit.html',form=form)
-    return render_template('companies/show.html', company=company, entries=reversed(formatted_entries))
+    return render_template('companies/show.html', company=company, entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
 
 @companies_blueprint.route('/<int:id>/edit')
 @login_required
@@ -82,7 +83,7 @@ def edit(id):
     form = EditCompanyForm(obj=company)
     return render_template('companies/edit.html', form=form, company=company)
 
-@companies_blueprint.route('/<int:id>/tag', methods=['POST'])
+@companies_blueprint.route('/<int:id>/tags', methods=['POST'])
 @login_required
 def add_tag(id):
     form = TagForm(ImmutableMultiDict(request.get_json()))

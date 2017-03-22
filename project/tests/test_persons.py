@@ -113,7 +113,7 @@ class BaseTestCase(TestCase):
         new_person = Person('Mark Zuckerberg')
         db.session.add(new_person)
         db.session.commit()
-        response = self.client.post('/persons/1/tag',
+        response = self.client.post('/persons/1/tags',
             data=json.dumps(dict(tag='newtag')), content_type='application/json')
         expected_json = "'newtag' successfully added"
         self.assertEqual(response.status_code, 200)
@@ -121,7 +121,7 @@ class BaseTestCase(TestCase):
         self.assertEqual(Taggable.query.count(),1)
         self.assertEqual(response.json, expected_json)
         # Re-adding the same tag shouldn't allow you
-        response = self.client.post('/persons/1/tag',
+        response = self.client.post('/persons/1/tags',
             data=json.dumps(dict(tag='newtag')), content_type='application/json')
         expected_json = "This person is already tagged with 'newtag'"
         self.assertEqual(response.status_code, 409)

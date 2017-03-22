@@ -55,6 +55,7 @@ def show(id):
     person = Person.query.get(id)
     form = PersonForm(request.form)
     entries = Person.query.get(id).entries
+    taggables = Taggable.query.filter_by(taggable_id=id, taggable_type='person').all()
     formatted_entries = [{
         'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
         'entry_id': entry.id,
@@ -76,7 +77,7 @@ def show(id):
             return redirect(url_for('persons.show', id=person.id))
         flash('Please fill in all required fields')
         return render_template('persons/edit.html',form=form,person=person)
-    return render_template('persons/show.html', person=person, entries=reversed(formatted_entries))
+    return render_template('persons/show.html', person=person, entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
 
 
 @persons_blueprint.route('/<int:id>/edit', methods=["GET","PATCH"])
@@ -86,7 +87,7 @@ def edit(id):
     form = EditPersonForm(obj = edit_person)
     return render_template('persons/edit.html', form=form, person=edit_person)
 
-@persons_blueprint.route('/<int:id>/tag', methods=['POST'])
+@persons_blueprint.route('/<int:id>/tags', methods=['POST'])
 @login_required
 def add_tag(id):
     form = TagForm(ImmutableMultiDict(request.get_json()))
