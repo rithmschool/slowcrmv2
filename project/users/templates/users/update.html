@@ -4,7 +4,7 @@
 <div class="editform">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
-    {% endfor %}
+{% endfor %}
 	<h2>Update Your Account Info</h2>
 	<form action="{{url_for('users.update', id=user.id)}}?_method=PATCH" method="POST">
 	{{ form.csrf_token }}

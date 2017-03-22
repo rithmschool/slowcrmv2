@@ -5,7 +5,7 @@
 <div class="editform">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
-    {% endfor %}
+{% endfor %}
 <h2>Edit {{company.name}}</h2>
 
 <a href = "{{url_for('companies.show', id=company.id)}}">Back To Company Page</a>
