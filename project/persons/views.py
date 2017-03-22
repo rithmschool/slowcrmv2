@@ -1,11 +1,13 @@
 from project.users.forms import UserForm
-from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
-from project.models import Person
+from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
+from project.models import Person, Tag, Taggable
 from project import db
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
 from project.persons.forms import PersonForm, EditPersonForm
 from project.users.views import get_links, get_pipes_dollars_tuples
+from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
+from project.companies.forms import TagForm
 
 
 persons_blueprint = Blueprint(
@@ -83,3 +85,29 @@ def edit(id):
     edit_person = Person.query.get(id)
     form = EditPersonForm(obj = edit_person)
     return render_template('persons/edit.html', form=form, person=edit_person)
+
+@persons_blueprint.route('/<int:id>/tag', methods=['POST'])
+@login_required
+def add_tag(id):
+    form = TagForm(ImmutableMultiDict(request.get_json()))
+    if form.validate():
+        tag_text = request.get_json().get('tag')
+        tag_exists = Tag.query.filter_by(text=tag_text).first()
+        if(not tag_exists):
+            tag = Tag(tag_text)
+            db.session.add(tag)
+            db.session.commit()
+            taggable = Taggable(id, tag.id, 'person')
+            db.session.add(taggable)
+            db.session.commit()
+            return jsonify("'{}' successfully added".format(tag_text))
+        else:
+            tag_check = Taggable.query.filter_by(tag_id=tag_exists.id,taggable_id=id,taggable_type='person').first()
+            if (not tag_check):
+                tag = Tag.query.filter_by(text=tag_text).first()
+                taggable = Taggable(id, tag.id, 'person')
+                db.session.add(taggable)
+                db.session.commit()
+                return jsonify("'{}' successfully added".format(tag_text))
+            else:
+                return jsonify("This person is already tagged with '{}'".format(tag_text)), 409    
