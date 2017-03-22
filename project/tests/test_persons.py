@@ -1,11 +1,16 @@
 from flask_testing import TestCase
 import unittest
 from datetime import datetime
-from project.models import Person
+from project.models import Person, User
 from project import app, db, bcrypt
 
 
 class BaseTestCase(TestCase):
+    def _login_user(self,email,password,follow_redirects=False):
+        return self.client.post('/users/login', 
+            data=dict(email=email, 
+            password=password), follow_redirects=follow_redirects)
+
     def create_app(self):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testing.db'
         app.config['TESTING'] = True
@@ -14,6 +19,10 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
+        user1 = User('aricliesenfelt@gmail.com', 'Aric Liesenfelt', 'password1', '9515706209', True, False)
+        user2 = User('tommyhopkins@gmail.com', 'Tommy Hopkins', 'password2', '1111111111', True, True)  
+        db.session.add_all([user1,user2])
+        db.session.commit()
 
     def tearDown(self):
         db.session.remove()
@@ -21,6 +30,7 @@ class BaseTestCase(TestCase):
 
     # Test creating a new person that passes all validators
     def testNewPerson(self):
+        self._login_user('tommyhopkins@gmail.com','password2')
         response = self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
             phone="4087261650",
@@ -45,6 +55,7 @@ class BaseTestCase(TestCase):
 
     # Test new person that fails form validation, should render persons/new
     def testNewPersonFailValidation(self):
+        self._login_user('tommyhopkins@gmail.com','password2')
         response = self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
             phone="",
@@ -58,8 +69,9 @@ class BaseTestCase(TestCase):
         self.assert_template_used('persons/new.html')
 
     def testEditUser(self):
+        self._login_user('tommyhopkins@gmail.com','password2')
         # create new user to test editing on
-        new_person = self.client.post('/persons/',
+        self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
             phone="4087261650",
             name='Aaron',

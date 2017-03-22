@@ -123,7 +123,7 @@ class BaseTestCase(TestCase):
 
     def testGetPipesDollarsTuples(self):
         result = get_pipes_dollars_tuples("|Sundar| is a $Google$ CEO")
-        expected = [[(0,7)], [(14,21)]]
+        expected = [[(0, 7)], [(14, 21)], []]
         self.assertEqual(result, expected)
 
 if __name__ == '__main__':

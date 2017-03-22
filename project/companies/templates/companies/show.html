@@ -5,29 +5,40 @@
     <p>{{ message }}</p>
     {% endfor %}
 <div class="container-fluid">
-<h2>{{company.name}} <a href="{{url_for('companies.edit', id=company.id)}}"><span class="glyphicon glyphicon-pencil"></span></a></h2>
-
 <h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
+<div class="row">
+    <div class = "profile-box col-md-12 col-xs-12">
+        <div class="container-fluid">
+        <div class="row user-row">
+            <span class="user-header">{{company.name}}
+            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
+            </span>
+        </div>
 
-<div class="showpage">
-    <p>Name: {{company.name}}</p>
-    <p>Description: {{company.description}}</p>
-    <p>URL: {{company.url}}</p>
-    <p>Logo URL: {{company.logo_url}}</p>
-    <p>Partner Lead: {{company.partner_lead}}</p>
-    <p>Operations Lead: {{company.ops_lead}}</p>
-    <p>Source: {{company.source}}</p>
-    <p>Round: {{company.round}}</p>
-    <p>Archived?: {{company.archived}}</p>
-    <p>Created At: {{company.created_at}}</p>
-    <p>Updated At: {{company.updated_at}}</p>
-</div><br>
+        <div>
+            <p>Tags: </p>
+            <p>Description: {{company.description}}</p>
+            <p>URL: {{company.url}}</p>
+            <p>Logo URL: {{company.logo_url}}</p>
+            <p>Partner Lead: {{company.partner_lead}}</p>
+            <p>Operations Lead: {{company.ops_lead}}</p>
+            <p>Source: {{company.source}}</p>
+            <p>Round: {{company.round}}</p>
+            <p>Archived: {{company.archived}}</p>
+            <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+            <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+        </div>
+        </div>
+    </div>    
+   <div class="col-md-12">
+        <h3 class="">{{company.name}}'s Entries</h3>
+              {%  for entry in entries  %}
+            <div class="user-post">
+                <p class="user-post-content">{{entry.content | safe}}</p>
+                <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
+    </div>
 
-<h3>Entries</h3>
-        {% for entry in entries %}
-            <li class="entry">
-                <div class="text">{{entry.content}}</div>
-            </li>
-            {% endfor %}
-<div>
 {%  endblock  %}

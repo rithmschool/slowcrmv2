@@ -157,7 +157,7 @@ li{
 		font-family: Nunito;
 		width: 100%;
 		min-height: 100vh;
-		background-color: #fcf9f9;
+		background-color: #f2ecea;
 		margin-left: 0%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
@@ -168,7 +168,7 @@ li{
 		font-family: Nunito;
 		min-height: 100vh;
 		width: 100%;
-		background-color: #fcf9f9;
+		background-color: #f2ecea;
 		margin-left: 0%;
 		padding-right: 5%;
 		padding-left: 5%;
@@ -517,7 +517,7 @@ li{
 		font-family: Nunito;
 		min-height: 100vh;
 		width: 75%;
-		background-color: #fcf9f9;
+		background-color: #f2ecea;
 		margin-left: 12.5%;
 		padding-right: 6%;
 		padding-left: 6%;
@@ -531,7 +531,7 @@ li{
 		font-family: Nunito;
 		min-height: 100vh;
 		width: 75%;
-		background-color: #fcf9f9;
+		background-color: #f2ecea;
 		margin-left: 12.5%;
 		padding-right: 6%;
 		padding-left: 6%;
@@ -591,7 +591,7 @@ li{
 		font-family: Nunito;
 		width: 75%;
 		min-height: 100vh;
-		background-color: #fcf9f9;
+		background-color: #f2ecea;
 		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
@@ -606,7 +606,7 @@ li{
 		font-family: Nunito;
 		width: 75%;
 		min-height: 100vh;
-		background-color: #fcf9f9;
+		background-color: #f2ecea;
 		margin-left: 12.5%;
 		padding-right: 0.5%;
 		padding-left: 0.5%;
@@ -837,6 +837,7 @@ li{
 	min-width: 450px;
 	color: dimgray;
 	border-style:initial;
+	border: 1px solid #ddd;
 }
 
 .editform {
@@ -855,3 +856,16 @@ li{
 	font-size: 18px
 }
 
+.title {
+	font-size: 30px;
+	display: inline;
+}
+
+.glyphicon {
+	font-size: 20px
+}
+
+.showpage h4, .companyentry {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
