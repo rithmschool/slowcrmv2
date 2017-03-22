@@ -106,4 +106,5 @@ def add_tag(id):
                 db.session.commit()
                 return jsonify("'{}' successfully added".format(tag_text))
             else:
-                return jsonify("This company is already tagged with '{}'".format(tag_text))  
+                return jsonify("This company is already tagged with '{}'".format(tag_text)), 409
+
