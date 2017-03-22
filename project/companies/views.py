@@ -1,9 +1,10 @@
-from flask import Blueprint, redirect, render_template, flash, url_for, request
+from flask import Blueprint, redirect, render_template, flash, url_for, request, jsonify
 from project import db
-from project.companies.forms import CompanyForm, EditCompanyForm
-from project.models import Company
+from project.companies.forms import CompanyForm, EditCompanyForm, TagForm
+from project.models import Company, Tag, Taggable
 from flask_login import login_required
 from project.users.views import get_links, get_pipes_dollars_tuples
+from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 
 companies_blueprint = Blueprint(
     'companies',
@@ -80,3 +81,29 @@ def edit(id):
     company = Company.query.get(id)
     form = EditCompanyForm(obj=company)
     return render_template('companies/edit.html', form=form, company=company)
+
+@companies_blueprint.route('/<int:id>/tag', methods=['POST'])
+@login_required
+def add_tag(id):
+    form = TagForm(ImmutableMultiDict(request.get_json()))
+    if form.validate():
+        tag_text = request.get_json().get('tag')
+        tag_exists = Tag.query.filter_by(text=tag_text).first()
+        if(not tag_exists):
+            tag = Tag(tag_text)
+            db.session.add(tag)
+            db.session.commit()
+            taggable = Taggable(id, tag.id, 'company')
+            db.session.add(taggable)
+            db.session.commit()
+            return jsonify("'{}' successfully added".format(tag_text))
+        else:
+            tag_check = Taggable.query.filter_by(tag_id=tag_exists.id,taggable_id=id,taggable_type='company').first()
+            if (not tag_check):
+                tag = Tag.query.filter_by(text=tag_text).first()
+                taggable = Taggable(id, tag.id, 'company')
+                db.session.add(taggable)
+                db.session.commit()
+                return jsonify("'{}' successfully added".format(tag_text))
+            else:
+                return jsonify("This company is already tagged with '{}'".format(tag_text))  
