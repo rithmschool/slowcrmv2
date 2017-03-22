@@ -3,6 +3,9 @@
 {%  block content  %}
 
 <div class="container-fluid">
+{% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
 <div><h2>People Index</h2></div><br><br>
 	<div class="table-responsive">
 	<table class="table">
