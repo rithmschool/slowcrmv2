@@ -4,7 +4,7 @@ from project.models import Person
 from project import db
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
-from project.persons.forms import PersonForm
+from project.persons.forms import PersonForm, EditPersonForm
 from project.users.views import get_links, get_pipes_dollars_tuples
 
 
@@ -35,7 +35,7 @@ def index():
             return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
         return render_template('persons/new.html',form=form)
-    persons = Person.query.filter_by(archived=False)
+    persons = Person.query.filter_by(archived=False).order_by(Person.name)
     return render_template('persons/index.html', persons=persons)
 
 @persons_blueprint.route('/new')
@@ -60,6 +60,7 @@ def show(id):
         'updated_at': entry.updated_at
     } for entry in entries]
     if request.method == b'PATCH':
+        form=EditPersonForm(request.form)
         if form.validate():
             person.email=request.form['email']
             person.phone=request.form['phone']
@@ -80,5 +81,5 @@ def show(id):
 @login_required
 def edit(id):
     edit_person = Person.query.get(id)
-    form = PersonForm(obj = edit_person)
+    form = EditPersonForm(obj = edit_person)
     return render_template('persons/edit.html', form=form, person=edit_person)

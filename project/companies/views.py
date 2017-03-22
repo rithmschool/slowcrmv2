@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, flash, url_for, request
 from project import db
-from project.companies.forms import CompanyForm
+from project.companies.forms import CompanyForm, EditCompanyForm
 from project.models import Company
 from flask_login import login_required
 from project.users.views import get_links, get_pipes_dollars_tuples
@@ -56,8 +56,8 @@ def show(id):
         'created_at': entry.created_at,
         'updated_at': entry.updated_at
     } for entry in entries]
-    form = CompanyForm(request.form)
     if request.method == b'PATCH':
+        form = EditCompanyForm(request.form)
         if form.validate():
             company.description=request.form['description']
             company.url=request.form['url']
@@ -71,12 +71,12 @@ def show(id):
             db.session.commit()
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
-        return render_template('companies/new.html',form=form)
+        return render_template('companies/edit.html',form=form)
     return render_template('companies/show.html', company=company, entries=reversed(formatted_entries))
 
 @companies_blueprint.route('/<int:id>/edit')
 @login_required
 def edit(id):
     company = Company.query.get(id)
-    form = CompanyForm(obj=company)
+    form = EditCompanyForm(obj=company)
     return render_template('companies/edit.html', form=form, company=company)
