@@ -1,8 +1,9 @@
 from flask import Blueprint, redirect, render_template, flash, url_for, request
 from project import db
-from project.companies.forms import CompanyForm
+from project.companies.forms import CompanyForm, EditCompanyForm
 from project.models import Company
 from flask_login import login_required
+from project.users.views import get_links, get_pipes_dollars_tuples
 
 companies_blueprint = Blueprint(
     'companies',
@@ -11,6 +12,7 @@ companies_blueprint = Blueprint(
     )
 
 @companies_blueprint.route('/', methods=['GET','POST'])
+@login_required
 def index():
     companies = Company.query.filter_by(archived=False).order_by(Company.name)
     form = CompanyForm(request.form)
@@ -35,6 +37,7 @@ def index():
     return render_template('companies/index.html', companies=companies)
 
 @companies_blueprint.route('/new')
+@login_required
 def new():
     form = CompanyForm(request.form)
     term = ''
@@ -43,13 +46,19 @@ def new():
     return render_template('companies/new.html', form=form, term=term)
 
 @companies_blueprint.route('/<int:id>', methods=['GET','PATCH'])
+@login_required
 def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
-    form = CompanyForm(request.form)
+    formatted_entries = [{
+        'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+        'entry_id': entry.id,
+        'created_at': entry.created_at,
+        'updated_at': entry.updated_at
+    } for entry in entries]
     if request.method == b'PATCH':
+        form = EditCompanyForm(request.form)
         if form.validate():
-            company.name=request.form['name']
             company.description=request.form['description']
             company.url=request.form['url']
             company.logo_url=request.form['logo_url']
@@ -62,11 +71,12 @@ def show(id):
             db.session.commit()
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
-        return render_template('companies/new.html',form=form)
-    return render_template('companies/show.html', company=company, entries=list(reversed(entries)))
+        return render_template('companies/edit.html',form=form)
+    return render_template('companies/show.html', company=company, entries=reversed(formatted_entries))
 
 @companies_blueprint.route('/<int:id>/edit')
+@login_required
 def edit(id):
     company = Company.query.get(id)
-    form = CompanyForm(obj=company)
+    form = EditCompanyForm(obj=company)
     return render_template('companies/edit.html', form=form, company=company)

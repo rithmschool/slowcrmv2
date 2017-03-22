@@ -4,22 +4,40 @@
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
-<div style='margin-top:10em' class="col-md-4 col-md-offset-4">
-<h2 class="col-md-4 col-md-offset-4">{{person.name}}'s Page</h2>
 
-<button style='margin-top: 2em;margin-bottom: 2em'><a href = '{{url_for('persons.index')}}''>Back to person index</a></button>
+<div class="container-fluid">
+<h4><a href = "{{url_for('persons.index')}}">Back To People Index</a></h4><br>
+<div class="row">
+    <div class = "profile-box col-md-12 col-xs-12">
+        <div class="container-fluid">
+        <div class="row user-row">
+            <span class="user-header">{{person.name}}
+            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
+            </span>
+        </div>
 
-<div class="col-md-4 col-md-offset-4">
-    <p>Name: {{person.name}}</p>
-    <p>Title: {{person.title}}</p>
-    <p>Email: {{person.email}}</p>
-    <p>Phone: {{person.phone}}</p>
-    <p>Description: {{person.description}}</p>
-    <p>Slow LP: {{person.slow_lp}}</p>
-    <p>Archived?: {{person.archived}}</p>
-    <p>Created At: {{person.created_at}}</p>
-    <p>Updated At: {{person.updated_at}}</p>
-</div>
-<button class="col-md-4 col-md-offset-4"><a href = '{{url_for('persons.edit', id=person.id)}}''>Edit Profile</a></button>
-<div>
+        <div>
+            <p>Tags: </p>
+            <p>Title: {{person.email}}</p>
+            <p>Description: {{person.description}}</p>
+            <p>Email: {{person.email}}</p>
+            <p>Phone: {{person.phone}}</p>
+            <p>Slow LP: {{person.slow_lp}}</p>
+            <p>Archived: {{person.archived}}</p>
+            <p>Created: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+            <p>Updated: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+        </div>
+        </div>
+    </div>
+
+<div class="col-md-12">
+        <h3 class="">{{person.name}}'s Entries</h3>
+              {%  for entry in entries  %}
+            <div class="user-post">
+                <p class="user-post-content">{{entry.content | safe}}</p>
+                <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
+    </div>
 {%  endblock  %}

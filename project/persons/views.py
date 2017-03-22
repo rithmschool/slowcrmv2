@@ -4,7 +4,8 @@ from project.models import Person
 from project import db
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
-from project.persons.forms import PersonForm
+from project.persons.forms import PersonForm, EditPersonForm
+from project.users.views import get_links, get_pipes_dollars_tuples
 
 
 persons_blueprint = Blueprint(
@@ -14,6 +15,7 @@ persons_blueprint = Blueprint(
 )
 
 @persons_blueprint.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
 
     form = PersonForm(request.form)
@@ -33,10 +35,11 @@ def index():
             return redirect(url_for('persons.index'))
         flash('Please fill in all required fields')
         return render_template('persons/new.html',form=form)
-    persons = Person.query.filter_by(archived=False)
+    persons = Person.query.filter_by(archived=False).order_by(Person.name)
     return render_template('persons/index.html', persons=persons)
 
 @persons_blueprint.route('/new')
+@login_required
 def new():
     form = PersonForm(request.form)
     term = ''
@@ -45,14 +48,22 @@ def new():
     return render_template('persons/new.html', form=form, term=term)
 
 @persons_blueprint.route('/<int:id>', methods=["GET","POST","PATCH"])
+@login_required
 def show(id):
     person = Person.query.get(id)
     form = PersonForm(request.form)
+    entries = Person.query.get(id).entries
+    formatted_entries = [{
+        'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+        'entry_id': entry.id,
+        'created_at': entry.created_at,
+        'updated_at': entry.updated_at
+    } for entry in entries]
     if request.method == b'PATCH':
+        form=EditPersonForm(request.form)
         if form.validate():
             person.email=request.form['email']
             person.phone=request.form['phone']
-            person.name=request.form['name']
             person.title=request.form['title']
             person.description=request.form['description']
             person.slow_lp=form.slow_lp.data
@@ -63,11 +74,12 @@ def show(id):
             return redirect(url_for('persons.show', id=person.id))
         flash('Please fill in all required fields')
         return render_template('persons/edit.html',form=form,person=person)
-    return render_template('persons/show.html', person=person)
+    return render_template('persons/show.html', person=person, entries=reversed(formatted_entries))
 
 
 @persons_blueprint.route('/<int:id>/edit', methods=["GET","PATCH"])
+@login_required
 def edit(id):
     edit_person = Person.query.get(id)
-    form = PersonForm(obj = edit_person)
+    form = EditPersonForm(obj = edit_person)
     return render_template('persons/edit.html', form=form, person=edit_person)
