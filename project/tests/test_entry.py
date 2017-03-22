@@ -147,6 +147,7 @@ class BaseTestCase(TestCase):
         data = response.json['data']
         self.assertTrue(data.find('href="/tags/') >= 0)
 
+
     def testXSS(self):
         content = "|<script>alert('person');</script>| "
         content += "*<script>alert('tag')</script>* "
@@ -163,6 +164,7 @@ class BaseTestCase(TestCase):
         data = response.json['data']
         self.assertTrue(data.find('<script>') == -1)
         self.assertTrue(data.find('</script>') == -1)
+
 
 if __name__ == '__main__':
     unittest.main()
