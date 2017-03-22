@@ -63,7 +63,6 @@ def show(id):
         if form.validate():
             person.email=request.form['email']
             person.phone=request.form['phone']
-            person.name=request.form['name']
             person.title=request.form['title']
             person.description=request.form['description']
             person.slow_lp=form.slow_lp.data

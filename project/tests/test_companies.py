@@ -70,7 +70,7 @@ class BaseTestCase(TestCase):
             )
 
         self.assertEqual(len(Company.query.all()), 2)
-        self.assertEqual(Company.query.get(2).name, 'Not Intel anymore')
+        self.assertEqual(Company.query.get(2).url, 'a new url')
         self.assert_template_used('companies/show.html')
         self.assertEqual(response.status_code, 200)
 

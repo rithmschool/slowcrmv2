@@ -59,7 +59,6 @@ def show(id):
     form = CompanyForm(request.form)
     if request.method == b'PATCH':
         if form.validate():
-            company.name=request.form['name']
             company.description=request.form['description']
             company.url=request.form['url']
             company.logo_url=request.form['logo_url']

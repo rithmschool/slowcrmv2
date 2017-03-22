@@ -71,7 +71,7 @@ class BaseTestCase(TestCase):
     def testEditUser(self):
         self._login_user('tommyhopkins@gmail.com','password2')
         # create new user to test editing on
-        new_person = self.client.post('/persons/',
+        self.client.post('/persons/',
             data=dict(email='aaron.m.manley@gmail.com',
             phone="4087261650",
             name='Aaron',

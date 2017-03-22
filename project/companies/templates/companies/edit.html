@@ -3,7 +3,7 @@
 {%  block content  %}
 <div class="container">
 <div class="editform">
-<h2>Edit Company Info</h2>
+<h2>Edit {{company.name}}</h2>
 
 <a href = "{{url_for('companies.show', id=company.id)}}">Back To Company Page</a>
 <br><br>
@@ -11,18 +11,7 @@
 <form action="{{url_for('companies.show', id=company.id)}}?_method=PATCH" , method='POST'>
 
 {{form.hidden_tag()}}
-{% if form.name.errors %}
-	{% for error in form.name.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.name.label }}
-    <div>
-        {{ form.name(value=company.name, class="editfield") }}
-    </div></div>
+
 {% if form.description.errors %}
 	{% for error in form.description.errors %}
 	<span class="text-danger">
