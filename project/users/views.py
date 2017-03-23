@@ -95,8 +95,7 @@ def confirm_email(token):
 @login_required
 def show(id):
     found_user = User.query.get_or_404(id)
-    entries = Entry.query.filter_by(user_id=id)
-    return render_template('users/show.html', user=found_user, entries=entries)
+    return render_template('users/show.html', user=found_user)
 
 # for editing users that are not new
 @users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
