@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, flash, url_for, request, jsonify
+from flask import Blueprint, redirect, render_template, flash, url_for, request
 from project import db
 from project.companies.forms import CompanyForm, EditCompanyForm, TagForm
 from project.models import Company, Tag, Taggable
@@ -106,4 +106,5 @@ def add_tag(id):
                 db.session.commit()
                 return redirect(url_for('companies.show', id=id))
             else:
-                return jsonify("This company is already tagged with '{}'".format(tag_text))
+                flash("This company is already tagged with '{}'".format(tag_text))
+                return redirect(url_for('persons.show', id=id))

@@ -108,8 +108,8 @@ class BaseTestCase(TestCase):
         self.assert_template_used('companies/show.html')
         # Re-adding the same tag shouldn't allow you
         response = self.client.post('/companies/1/tags',
-            data=dict(tag='newtag'), follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+            data=dict(tag='newtag'))
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(Tag.query.count(),1)
         self.assertEqual(Taggable.query.count(),1)
 

@@ -16,7 +16,6 @@ users_blueprint = Blueprint(
 )
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
-@login_required
 def home():
     if current_user.is_authenticated:
         return render_template('users/home.html')
