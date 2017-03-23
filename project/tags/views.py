@@ -13,3 +13,8 @@ tags_blueprint = Blueprint(
 def details(id):
     taggables = Taggable.query.filter(Taggable.tag_id==id).all()
     return render_template('tags/details.html', taggables=taggables, Entry=Entry)
+
+@tags_blueprint.route('/', methods=['GET'])
+def index():
+    tags = Tag.query.order_by(Tag.text).all()
+    return render_template('tags/index.html', tags=tags)

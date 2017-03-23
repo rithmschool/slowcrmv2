@@ -1,7 +1,8 @@
 from flask_testing import TestCase
 import unittest
-from project.models import Company, User
+from project.models import Company, User, Tag, Taggable
 from project import app, db
+from flask import json
 
 class BaseTestCase(TestCase):
     def _login_user(self,email,password,follow_redirects=False):
@@ -95,6 +96,22 @@ class BaseTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Company.query.get(2).archived)
         self.assert_template_used('companies/show.html')
+
+    def testAddTag(self):
+        # Adding a new tag
+        self._login_user('tommyhopkins@gmail.com','password2')
+        response = self.client.post('/companies/1/tags',
+            data=dict(tag='newtag'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Tag.query.count(),1)
+        self.assertEqual(Taggable.query.count(),1)
+        self.assert_template_used('companies/show.html')
+        # Re-adding the same tag shouldn't allow you
+        response = self.client.post('/companies/1/tags',
+            data=dict(tag='newtag'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Tag.query.count(),1)
+        self.assertEqual(Taggable.query.count(),1)
 
 if __name__ == '__main__':
     unittest.main()

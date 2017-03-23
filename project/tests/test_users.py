@@ -2,7 +2,7 @@ from flask_testing import TestCase
 import unittest
 from flask import json
 from project.models import User, Entry
-from project.users.token import generate_confirmation_token, confirm_token
+from project.users.token import generate_confirmation_token
 from project import app, db, bcrypt
 
 class BaseTestCase(TestCase):

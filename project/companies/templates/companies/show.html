@@ -2,7 +2,7 @@
 
 {%  block content  %}
 {% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
+    <p class="flashwarning">{{ message }}</p>
     {% endfor %}
 <div class="container-fluid">
 <h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
@@ -13,10 +13,11 @@
             <span class="user-header">{{company.name}}
             <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
             </span>
+            <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
         </div>
 
         <div>
-            <p>Tags: </p>
+            <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
             <p>Description: {{company.description}}</p>
             <p>URL: {{company.url}}</p>
             <p>Logo URL: {{company.logo_url}}</p>
@@ -28,7 +29,7 @@
             <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
         </div>
-        </div>
+        
     </div>    
    <div class="col-md-12">
         <h3 class="">{{company.name}}'s Entries</h3>
@@ -40,5 +41,28 @@
             </div>
                 {%  endfor  %}
     </div>
+    </div>
 
+    <div id="tag-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+              <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="model-header">
+                <h4 class="modal-heading">Add Tag</h4>
+            </div>
+        <div class="modal-body text-center">
+            <form  action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
+                <div class="form-group">
+                    {{form.hidden_tag()}}
+                    {{form.tag}}
+                    <button label= "submit" class="btn btn-primary" id="company-tag-submit">Add</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div id="modal-message" class="text-center"></div>
+        </div>
+        </div>
+    </div>
+</div>
 {%  endblock  %}

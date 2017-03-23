@@ -54,7 +54,7 @@ class Person(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
 
-    def __init__(self, name, email=None, phone=None, title=None, description=None, slow_lp=None, archived=None):
+    def __init__(self, name, email="", phone="", title="", description="", slow_lp=False, archived=False):
         self.email = email
         self.phone = phone
         self.name = name
@@ -97,7 +97,7 @@ class Company(db.Model):
         onupdate=db.func.now())
 
 
-    def __init__(self, name, description=None, url=None, logo_url=None, partner_lead=None, ops_lead=None, source=None, round=None, archived=None):
+    def __init__(self, name, description="", url="", logo_url="", partner_lead="", ops_lead="", source="", round="", archived=False):
         self.name = name
         self.description = description
         self.url = url

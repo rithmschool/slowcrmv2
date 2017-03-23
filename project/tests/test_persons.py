@@ -1,8 +1,9 @@
 from flask_testing import TestCase
 import unittest
 from datetime import datetime
-from project.models import Person, User
+from project.models import Person, User, Tag, Taggable
 from project import app, db, bcrypt
+from flask import json
 
 
 class BaseTestCase(TestCase):
@@ -105,6 +106,25 @@ class BaseTestCase(TestCase):
         self.assertEqual(
             Person.query.filter_by(phone= "9992223333").first().description,
             'I am a Frog')
+
+    def testAddTag(self):
+        # Adding a new tag
+        self._login_user('tommyhopkins@gmail.com','password2')
+        new_person = Person('Mark Zuckerberg')
+        db.session.add(new_person)
+        db.session.commit()
+        response = self.client.post('/persons/1/tags',
+            data=dict(tag='newtag'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Tag.query.count(),1)
+        self.assertEqual(Taggable.query.count(),1)
+        self.assert_template_used('persons/show.html')
+        # Re-adding the same tag shouldn't allow you
+        response = self.client.post('/persons/1/tags',
+            data=dict(tag='newtag'))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Tag.query.count(),1)
+        self.assertEqual(Taggable.query.count(),1)
 
 if __name__ == '__main__':
     unittest.main()

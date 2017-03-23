@@ -21,4 +21,7 @@ class EditCompanyForm(FlaskForm):
     ops_lead = StringField('Operations Lead')
     source = StringField('Source')
     round = StringField('Round')
-    archived = BooleanField('Archived?')    
+    archived = BooleanField('Archived?')
+
+class TagForm(FlaskForm):
+    tag = StringField('Tag')

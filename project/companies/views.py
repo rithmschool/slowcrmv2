@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, render_template, flash, url_for, request
 from project import db
-from project.companies.forms import CompanyForm, EditCompanyForm
-from project.models import Company
+from project.companies.forms import CompanyForm, EditCompanyForm, TagForm
+from project.models import Company, Tag, Taggable
 from flask_login import login_required
 from project.users.views import get_links, get_pipes_dollars_tags_tuples
 
@@ -50,6 +50,7 @@ def new():
 def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
+    taggables = Taggable.query.filter_by(taggable_id=id, taggable_type='company').all()
     formatted_entries = [{
         'content': get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
         'entry_id': entry.id,
@@ -72,7 +73,7 @@ def show(id):
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
         return render_template('companies/edit.html',form=form)
-    return render_template('companies/show.html', company=company, entries=reversed(formatted_entries))
+    return render_template('companies/show.html', company=company, form = TagForm(), entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
 
 @companies_blueprint.route('/<int:id>/edit')
 @login_required
@@ -80,3 +81,30 @@ def edit(id):
     company = Company.query.get(id)
     form = EditCompanyForm(obj=company)
     return render_template('companies/edit.html', form=form, company=company)
+
+@companies_blueprint.route('/<int:id>/tags', methods=['POST'])
+@login_required
+def add_tag(id):
+    form = TagForm(request.form)
+    if form.validate():
+        tag_text = request.form['tag']
+        tag_exists = Tag.query.filter_by(text=tag_text).first()
+        if(not tag_exists):
+            tag = Tag(tag_text)
+            db.session.add(tag)
+            db.session.commit()
+            taggable = Taggable(id, tag.id, 'company')
+            db.session.add(taggable)
+            db.session.commit()
+            return redirect(url_for('companies.show', id=id))
+        else:
+            tag_check = Taggable.query.filter_by(tag_id=tag_exists.id,taggable_id=id,taggable_type='company').first()
+            if (not tag_check):
+                tag = Tag.query.filter_by(text=tag_text).first()
+                taggable = Taggable(id, tag.id, 'company')
+                db.session.add(taggable)
+                db.session.commit()
+                return redirect(url_for('companies.show', id=id))
+            else:
+                flash("This company is already tagged with '{}'".format(tag_text))
+                return redirect(url_for('persons.show', id=id))
