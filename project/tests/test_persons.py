@@ -114,20 +114,17 @@ class BaseTestCase(TestCase):
         db.session.add(new_person)
         db.session.commit()
         response = self.client.post('/persons/1/tags',
-            data=json.dumps(dict(tag='newtag')), content_type='application/json')
-        expected_json = "'newtag' successfully added"
+            data=dict(tag='newtag'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Tag.query.count(),1)
         self.assertEqual(Taggable.query.count(),1)
-        self.assertEqual(response.json, expected_json)
+        self.assert_template_used('persons/show.html')
         # Re-adding the same tag shouldn't allow you
         response = self.client.post('/persons/1/tags',
-            data=json.dumps(dict(tag='newtag')), content_type='application/json')
-        expected_json = "This person is already tagged with 'newtag'"
-        self.assertEqual(response.status_code, 409)
+            data=dict(tag='newtag'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Tag.query.count(),1)
         self.assertEqual(Taggable.query.count(),1)
-        self.assertEqual(response.json, expected_json)
 
 if __name__ == '__main__':
     unittest.main()
