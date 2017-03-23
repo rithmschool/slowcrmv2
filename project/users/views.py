@@ -7,6 +7,7 @@ from project.users.token import generate_confirmation_token, confirm_token, send
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
+from sqlalchemy import asc
 from sqlalchemy import desc
 
 users_blueprint = Blueprint(
@@ -218,7 +219,7 @@ def entry():
     content = request.get_json().get('content')
     if content:
         try:
-            pipes_dollars_tuples = get_pipes_dollars_tuples(content)
+            pipes_dollars_tuples = get_pipes_dollars_tags_tuples(content)
             entry = Entry(current_user.id, content)
             db.session.add(entry)
             db.session.commit()
@@ -236,7 +237,7 @@ def entry():
              'entry_id': entry.id,
              'name': current_user.name,
              'id': current_user.id
-    	})
+        })
     else:
         raise ValueError('content is empty')
 
@@ -248,7 +249,7 @@ def loadEntries():
     if content == 'initial':
         entries = Entry.query.all()
         return json.dumps([{
-             'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+             'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
              'entry_id': entry.id,
              'name': entry.user.name,
              'id': entry.user.id
@@ -262,7 +263,7 @@ def loadEntries():
             # Getting appropriate amount of entries based on the need in descending order
             new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
             return json.dumps([{
-                'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+                'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
                 'entry_id': entry.id,
                 'name': entry.user.name,
                 'id': entry.user.id
@@ -271,31 +272,23 @@ def loadEntries():
             return json.dumps([{'id': 0}])
 
 
-def get_pipes_dollars_tuples(content):
-    all_pipe_idx = []
-    all_dollar_idx = []
-    all_stars_idx = []
+def get_pipes_dollars_tags_tuples(content):
+    pipes_dollars_tags_arrof_tuples = [[], [], []]
+    if content.count('$') == 2 and content[0] == '$' and content[len(content)-1] == '$':
+        return [[(0, (len(content)-1))], [], []]
     for idx, char in enumerate(content):
-        if char == '|':
-            all_pipe_idx.append(idx)
-        elif char == '$':
-            all_dollar_idx.append(idx)
-        elif char == '*':
-            all_stars_idx.append(idx)    
-    check_odd_pipes_dollars(all_pipe_idx, all_dollar_idx, all_stars_idx)
-    pipe_arrayof_tuples = list(zip(all_pipe_idx[::2], all_pipe_idx[1::2]))
-    doller_arrayof_tuples = list(zip(all_dollar_idx[::2], all_dollar_idx[1::2]))
-    star_arrayof_tuples = list(zip(all_stars_idx[::2], all_stars_idx[1::2]))
-    return [pipe_arrayof_tuples, doller_arrayof_tuples, star_arrayof_tuples]
-
-
-def check_odd_pipes_dollars(pipes_idx_arr, dollar_idx_arr, stars_idx_arr):
-    if(len(pipes_idx_arr) % 2 != 0):
-        raise ValueError('"|" is missing!')
-    if(len(dollar_idx_arr) % 2 != 0):
-        raise ValueError('"$" is missing!') 
-    if(len(stars_idx_arr) % 2 != 0):
-        raise ValueError('"*" is missing!')    
+        if idx != (len(content)-1):
+            if char in ['$', '|', '*'] and content[idx+1] != ' ':
+                if content[idx-1] != char and content[idx+1] != char:
+                    substr = content[(idx+1):(len(content))]
+                    next_match = substr.find(char)
+                    if next_match != -1:
+                        if substr[next_match-1] != ' ':
+                            if str(set(content[idx:(idx+next_match+2)])) != "{'" + char + "'}":
+                                pipes_dollars_tags_arrof_tuples[0].append(tuple([idx, (idx+next_match+1)])) if char == '|' else None
+                                pipes_dollars_tags_arrof_tuples[1].append(tuple([idx, (idx+next_match+1)])) if char == '$' else None
+                                pipes_dollars_tags_arrof_tuples[2].append(tuple([idx, (idx+next_match+1)])) if char == '*' else None
+    return  pipes_dollars_tags_arrof_tuples
 
 
 def get_links(content, pipes_dollars_tuples):
@@ -305,7 +298,7 @@ def get_links(content, pipes_dollars_tuples):
     stripped_content = content.strip()
     links = ""
     idx = 0
-    while idx < len(stripped_content):    
+    while idx < len(stripped_content):
         if pipes_tuples_arr and idx in [pipes_tuples_arr[0][0]]:
             person_name = stripped_content[pipes_tuples_arr[0][0]+1: pipes_tuples_arr[0][1]]
             links = links + get_person_link(person_name)
@@ -324,7 +317,7 @@ def get_links(content, pipes_dollars_tuples):
         else:
             links = links + stripped_content[idx] 
             idx = idx + 1
-    return links.strip()                
+    return links.strip()
 
 def get_person_link(person_name):
     person = Person.query.filter_by(name=person_name).first()
@@ -349,7 +342,6 @@ def add_person_data_db(pipes_tuples_arr, content, entry):
             db.session.commit()
         else:
             entry.persons.append(Person.query.filter_by(name=person_name).first())
-
 
 def add_company_data_db(dollars_tuples_arr, content, entry):
     for val in dollars_tuples_arr:
@@ -378,7 +370,8 @@ def add_tag_data_db(star_tuples_arr, content, entry):
             tag = Tag.query.filter_by(text=tag_text).first()
             taggable = Taggable(entry.id, tag.id, entry.taggable_type)
             db.session.add(taggable)
-            db.session.commit()    
+            db.session.commit() 
+
 
 @users_blueprint.route('/logout')
 @login_required

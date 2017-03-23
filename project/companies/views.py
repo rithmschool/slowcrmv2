@@ -3,7 +3,7 @@ from project import db
 from project.companies.forms import CompanyForm, EditCompanyForm, TagForm
 from project.models import Company, Tag, Taggable
 from flask_login import login_required
-from project.users.views import get_links, get_pipes_dollars_tuples
+from project.users.views import get_links, get_pipes_dollars_tags_tuples
 
 companies_blueprint = Blueprint(
     'companies',
@@ -52,7 +52,7 @@ def show(id):
     entries = Company.query.get(id).entries
     taggables = Taggable.query.filter_by(taggable_id=id, taggable_type='company').all()
     formatted_entries = [{
-        'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+        'content': get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
         'entry_id': entry.id,
         'created_at': entry.created_at,
         'updated_at': entry.updated_at

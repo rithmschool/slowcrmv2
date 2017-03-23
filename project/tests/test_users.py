@@ -211,6 +211,18 @@ class BaseTestCase(TestCase):
         self.assertEqual([{'data': 'hey', 'entry_id': 1, 'id': 1, 'name': 'Aric Liesenfelt'}, 
             {'data': 'hey2', 'entry_id': 2, 'id': 2, 'name': 'Tommy Hopkins'}], response.json)
 
+    def testHome(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        
+        response = self.client.get('/users/home')
+        self.assertEqual(response.status_code, 200)
+        self.assert_template_used('users/home.html')
+
+        self.client.get('/users/logout')
+
+        response = self.client.get('/users/home')
+        self.assertEqual(response.status_code, 302)
+
 
 if __name__ == '__main__':
     unittest.main()

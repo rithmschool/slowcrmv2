@@ -5,8 +5,9 @@ from project import db
 from flask_login import login_user, logout_user, current_user, login_required
 from sqlalchemy.exc import IntegrityError
 from project.persons.forms import PersonForm, EditPersonForm
-from project.users.views import get_links, get_pipes_dollars_tuples
 from project.companies.forms import TagForm
+from project.users.views import get_links, get_pipes_dollars_tags_tuples
+
 
 
 persons_blueprint = Blueprint(
@@ -56,7 +57,7 @@ def show(id):
     entries = Person.query.get_or_404(id).entries
     taggables = Taggable.query.filter_by(taggable_id=id, taggable_type='person').all()
     formatted_entries = [{
-        'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+        'content': get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
         'entry_id': entry.id,
         'created_at': entry.created_at,
         'updated_at': entry.updated_at
