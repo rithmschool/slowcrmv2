@@ -70,6 +70,7 @@ class BaseTestCase(TestCase):
         self.assert_template_used('persons/new.html')
 
     def testEditUser(self):
+
         self._login_user('tommyhopkins@gmail.com','password2')
         # create new user to test editing on
         self.client.post('/persons/',
