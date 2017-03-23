@@ -4,7 +4,7 @@ from flask import json
 from project.models import User, Person
 from project import app, db
 from project.models import Entry
-from project.users.views import get_pipes_dollars_tuples
+from project.users.views import get_pipes_dollars_tags_tuples
 
 class BaseTestCase(TestCase):
     def create_app(self):
@@ -109,20 +109,8 @@ class BaseTestCase(TestCase):
         entry = Entry.query.get(entry_id)
         self.assertEqual(person_id, entry.persons[0].id)
 
-
-    def testOddPipes(self):
-        content = "|person in a $company$"
-        response = self.client.post('/users/entries',
-            data=json.dumps(dict(
-                content=content,
-            )),
-            content_type='application/json'
-        )
-        self.assertEqual(response.status_code, 400)
-
-
     def testGetPipesDollarsTuples(self):
-        result = get_pipes_dollars_tuples("|Sundar| is a $Google$ CEO")
+        result = get_pipes_dollars_tags_tuples("|Sundar| is a $Google$ CEO")
         expected = [[(0, 7)], [(14, 21)], []]
         self.assertEqual(result, expected)
 
