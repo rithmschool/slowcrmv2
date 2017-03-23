@@ -23,6 +23,7 @@ def home():
     return redirect(url_for('users.login'))
 
 @users_blueprint.route('/search', methods=['GET'])
+@login_required
 def search():
     term = request.args.get('search')
     results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
@@ -250,8 +251,8 @@ def loadEntries():
         return json.dumps([{
              'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
              'entry_id': entry.id,
-             'name': current_user.name,
-             'id': current_user.id
+             'name': entry.user.name,
+             'id': entry.user.id
         } for entry in entries])
     else:
         # Getting ID of latest entry in DB
@@ -264,8 +265,8 @@ def loadEntries():
             return json.dumps([{
                 'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
                 'entry_id': entry.id,
-                'name': current_user.name,
-                'id': current_user.id
+                'name': entry.user.name,
+                'id': entry.user.id
             } for entry in new_entries])
         else:
             return json.dumps([{'id': 0}])
@@ -316,7 +317,7 @@ def get_links(content, pipes_dollars_tuples):
         else:
             links = links + stripped_content[idx] 
             idx = idx + 1
-    return links.strip()                              
+    return links.strip()
 
 def get_person_link(person_name):
     person = Person.query.filter_by(name=person_name).first()
