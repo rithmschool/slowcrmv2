@@ -3,7 +3,7 @@ from project import db
 from project.companies.forms import CompanyForm, EditCompanyForm
 from project.models import Company
 from flask_login import login_required
-from project.users.views import get_links, get_pipes_dollars_tuples
+from project.users.views import get_links, get_pipes_dollars_tags_tuples
 
 companies_blueprint = Blueprint(
     'companies',
@@ -51,7 +51,7 @@ def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
     formatted_entries = [{
-        'content': get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
+        'content': get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
         'entry_id': entry.id,
         'created_at': entry.created_at,
         'updated_at': entry.updated_at
