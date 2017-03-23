@@ -869,3 +869,33 @@ li{
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
+@media (max-width: 1921px){
+	.taglist {
+		font-size: 1em;
+		padding: 3px;
+		line-height: 40px;
+		margin-right: 4px;
+	}
+	.tagtitle {
+		font-size: 2em
+	}
+}
+
+@media (max-width: 1000px){
+	.taglist {
+		font-size: 2em;
+		padding: 3px;
+		line-height: 60px;
+		margin-right: 6px;
+	}
+	.tagtitle {
+		font-size: 3em;
+	}
+}
+
+.taglist {
+	background-color: white;
+	border-radius: 5px;
+	
+}
