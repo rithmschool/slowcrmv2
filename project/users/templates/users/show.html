@@ -58,11 +58,11 @@
 
         <div>
             <p><b>Email:</b> {{user.email}}</p>
-            <p>Phone: {{user.phone}}</p>
-            <p>Created On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-            <p>Updated On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-            <p>Admin: {{user.is_admin}}</p>
-            <p>Confirmed: {{user.confirmed}}</p>
+            <p><b>Phone:</b> {{user.phone}}</p>
+            <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p><b>Admin:</b> {{user.is_admin}}</p>
+            <p><b>Confirmed:</b> {{user.confirmed}}</p>
             <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
         </div>
 
@@ -78,8 +78,8 @@
               {%  for entry in entries[::-1]  %}
             <div class="entry-post">
                 <p class="entry-post-content">{{entry.content}}</p>
-                <p class="entry-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates">Updated On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
             </div>
                 {%  endfor  %}
         {%  else  %}
@@ -106,12 +106,12 @@
 <h2>User {{user.name}}'s Profile Page</h2>
 
 <div>
-    <p>Email: {{user.email}}</p>
-    <p>Phone: {{user.phone}}</p>
-    <p>Created On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-    <p>Updated On: {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-    <p>Admin: {{user.is_admin}}</p>
-    <p>Confirmed: {{user.confirmed}}</p>
+    <p><b>Email:</b> {{user.email}}</p>
+    <p><b>Phone:</b> {{user.phone}}</p>
+    <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+    <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+    <p><b>Admin:</b> {{user.is_admin}}</p>
+    <p><b>Confirmed:</b> {{user.confirmed}}</p>
 </div>
 </div>
 </div>
@@ -122,8 +122,8 @@
               {%  for entry in entries[::-1]  %}
             <div class="entry-post">
                 <p class="entry-post-content">{{entry.content}}</p>
-                <p class="entry-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates">Updated On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Created On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
             </div>
                 {%  endfor  %}
         {%  else  %}

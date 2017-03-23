@@ -660,19 +660,19 @@ li{
 
 /*Profile Page*/
 
-.container-fluid{
+.container-fluid {
 	margin-top: 10px;
 }
 
-.posts-header{
+.posts-header {
 	margin-top: 2.5em;
 }
 
-.profile-box{
+.profile-box {
 	background-color: white;
 	border-radius: 15px;
-	padding-left: 30px !important;
-	padding-right: 30px !important;
+	padding-left: 30px ;
+	padding-right: 30px ;
 	padding-bottom: 30px;
 	box-shadow: 5px 5px 5px #888888;
 	border: 1px solid #ddd;
@@ -683,32 +683,32 @@ li{
 }
 
 .user-header {
-	font-size:30px;
-}
-
-.header-button{
 	font-size: 30px;
 }
 
-.edit-button{
-	font-size: 20px !important;
-	margin-bottom: 6px !important;
+.header-button {
+	font-size: 30px;
 }
 
-.user-row{
-	padding-bottom: 10px !important;
-    padding-top: 15px !important;
-    padding-left: 15px !important;
+.edit-button {
+	font-size: 20px ;
+	margin-bottom: 6px ;
 }
 
-.entry-post{
+.user-row {
+	padding-bottom: 10px ;
+    padding-top: 15px ;
+    padding-left: 15px ;
+}
+
+.entry-post {
 	margin-top: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
     background-color: white;
     border-radius: 15px;
-    padding-left: 30px !important;
-    padding-right: 30px !important;
+    padding-left: 30px ;
+    padding-right: 30px ;
     box-shadow: 1px 1px 5px #888888;
 }
 
@@ -725,16 +725,16 @@ li{
 /*Profile Page Invite Modal*/
 
 #container {
-	margin-top:10em;
+	margin-top: 10em;
 }
 
-#invite-modal{
-	margin-top:10em;
+#invite-modal {
+	margin-top: 10em;
 }
 
-.modal-content{
-	height:10em;
-	border:none;
+.modal-content {
+	height: 10em;
+	border: none;
 }
 
 #close-button {
@@ -742,31 +742,32 @@ li{
 	font-size: 50px;
 }
 
-.model-header{
-	text-align:center;
-	padding-left:15px;
+.model-header {
+	text-align: center;
+	padding-left: 15px;
 }
 
-.modal-heading{
+.modal-heading {
 	margin-top: 1.5em;
+	padding-top: 1.5em;
 }
 
-.modal-body{
-	padding-bottom: 0px !important;
+.modal-body {
+	padding-bottom: 0px;
 }
 
-#invite-name{
-	width:30%;	
+#invite-name {
+	width: 30%;	
 }
 
-#invite-email{
-	width:40%;
+#invite-email {
+	width: 40%;
 }
 
-.modal-footer{
-	margin-top:-18px;
-	border-top: none !important;
-	padding-top: 6px !important;
+.modal-footer {
+	margin-top: -18px;
+	border-top: 0;
+	padding-top: 6px;
 }
 
 
