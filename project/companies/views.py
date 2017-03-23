@@ -4,7 +4,6 @@ from project.companies.forms import CompanyForm, EditCompanyForm, TagForm
 from project.models import Company, Tag, Taggable
 from flask_login import login_required
 from project.users.views import get_links, get_pipes_dollars_tuples
-from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 
 companies_blueprint = Blueprint(
     'companies',
@@ -107,4 +106,4 @@ def add_tag(id):
                 db.session.commit()
                 return redirect(url_for('companies.show', id=id))
             else:
-                return jsonify("This company is already tagged with '{}'".format(tag_text)), 409
+                return jsonify("This company is already tagged with '{}'".format(tag_text))
