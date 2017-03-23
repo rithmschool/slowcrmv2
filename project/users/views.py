@@ -275,6 +275,10 @@ def loadEntries():
 
 def get_pipes_dollars_tags_tuples(content):
     pipes_dollars_tags_arrof_tuples = [[], [], []]
+    if content.count('|') == 2 and content[0] == '|' and content[len(content)-1] == '|':
+        return [[(0, (len(content)-1))], [], []]
+    if content.count('*') == 2 and content[0] == '*' and content[len(content)-1] == '*':
+        return [[(0, (len(content)-1))], [], []]
     if content.count('$') == 2 and content[0] == '$' and content[len(content)-1] == '$':
         return [[(0, (len(content)-1))], [], []]
     for idx, char in enumerate(content):

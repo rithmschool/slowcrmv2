@@ -114,5 +114,22 @@ class BaseTestCase(TestCase):
         expected = [[(0, 7)], [(14, 21)], []]
         self.assertEqual(result, expected)
 
+        result = get_pipes_dollars_tags_tuples("$Colgate$ is a major$ rival of $Crest$")
+        expected = [[], [(0, 8), (31, 37)], []]
+        self.assertEqual(result, expected)
+
+        result = get_pipes_dollars_tags_tuples("hey $rithm$ i make $, about $9,000 a $$$$ month$ and i$ love $$ to$go  $to $$$ $outco$ and $The New York Times$ $more $y yayyyyy $ii")
+        expected = [[], [(4, 10), (79, 85), (91, 110)], []]
+        self.assertEqual(result, expected)
+
+        result = get_pipes_dollars_tags_tuples("|okay|")
+        expected = [[(0, 5)], [], []]
+        self.assertEqual(result, expected)
+
+        result = get_pipes_dollars_tags_tuples("$yo$ what |up| i love | to *go* to the $park$ and$ go $to the *Outco* *yaaa woooo* heyy* whats up")
+        expected = [[(10, 13)], [(0, 3), (39, 44)], [(27, 30), (62, 68), (70, 81)]]
+        self.assertEqual(result, expected)
+
+
 if __name__ == '__main__':
     unittest.main()
