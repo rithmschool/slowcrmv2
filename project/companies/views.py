@@ -74,7 +74,7 @@ def show(id):
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
         return render_template('companies/edit.html',form=form)
-    return render_template('companies/show.html', company=company, entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
+    return render_template('companies/show.html', company=company, form = TagForm(), entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
 
 @companies_blueprint.route('/<int:id>/edit')
 @login_required
@@ -86,9 +86,9 @@ def edit(id):
 @companies_blueprint.route('/<int:id>/tags', methods=['POST'])
 @login_required
 def add_tag(id):
-    form = TagForm(ImmutableMultiDict(request.get_json()))
+    form = TagForm(request.form)
     if form.validate():
-        tag_text = request.get_json().get('tag')
+        tag_text = request.form['tag']
         tag_exists = Tag.query.filter_by(text=tag_text).first()
         if(not tag_exists):
             tag = Tag(tag_text)
@@ -97,7 +97,7 @@ def add_tag(id):
             taggable = Taggable(id, tag.id, 'company')
             db.session.add(taggable)
             db.session.commit()
-            return jsonify("'{}' successfully added".format(tag_text))
+            return redirect(url_for('companies.show', id=id))
         else:
             tag_check = Taggable.query.filter_by(tag_id=tag_exists.id,taggable_id=id,taggable_type='company').first()
             if (not tag_check):
@@ -105,7 +105,6 @@ def add_tag(id):
                 taggable = Taggable(id, tag.id, 'company')
                 db.session.add(taggable)
                 db.session.commit()
-                return jsonify("'{}' successfully added".format(tag_text))
+                return redirect(url_for('companies.show', id=id))
             else:
                 return jsonify("This company is already tagged with '{}'".format(tag_text)), 409
-
