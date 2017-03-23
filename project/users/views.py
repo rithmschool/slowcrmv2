@@ -280,7 +280,7 @@ def get_pipes_dollars_tags_tuples(content):
     for idx, char in enumerate(content):
         if idx != (len(content)-1):
             if char in ['$', '|', '*'] and content[idx+1] != ' ':
-                if content[idx-1] != char and content[idx+1] != char:
+                if (content[idx-1] != char or idx == 0) and content[idx+1] != char:
                     substr = content[(idx+1):(len(content))]
                     next_match = substr.find(char)
                     if next_match != -1:
