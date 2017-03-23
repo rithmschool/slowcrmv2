@@ -107,4 +107,4 @@ def add_tag(id):
                 return redirect(url_for('companies.show', id=id))
             else:
                 flash("This company is already tagged with '{}'".format(tag_text))
-                return redirect(url_for('company.show', id=id))
+                return redirect(url_for('companies.show', id=id))

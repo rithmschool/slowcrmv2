@@ -4,7 +4,7 @@
 html, body {
     margin:0;
     padding:0;
-    background-color: #E8E8EE;
+    background-color: white;
 }
 
 a, a:hover{
@@ -971,4 +971,19 @@ li{
 .flashwarning {
 	text-align: center; 
 	color: red
+}
+
+.user-post{
+	margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 15px;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    box-shadow: 1px 1px 5px #888888;
+}
+
+.user-post-content {
+	padding-top: 20px;
 }
