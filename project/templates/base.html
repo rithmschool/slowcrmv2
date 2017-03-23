@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet'>
-    <link rel="stylesheet" type='text/css' href="/static/css/base.css">
     <title>Slow CRM</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -13,11 +12,14 @@
     <script src="//code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <link rel="stylesheet" type='text/css' href="/static/css/base.css">
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 </head>
 
 <body>
     <div class="mynav">
+
         <div class="mytitle">
             <a href="/users/home"><span class="mytitletext">SLOW</span></a>
             <a href="/users/home"><span class="mytitletext2"><img class="rocket" src="//i.imgur.com/OdbD2CO.png" alt="rocket ship icon"></span></a>
@@ -63,6 +65,7 @@
             <input class="mobileinput" type="text" name="search" placeholder="Search...">
         </form>
     </div>
+
 <div class="content">
     {% block content %} {% endblock %}
     </div>

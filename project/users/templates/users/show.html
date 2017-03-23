@@ -14,20 +14,6 @@
     });
 </script>
 
-
-<div class="content">
-
-<div>
-<h2>User {{user.name}} Profile Page</h2>
-{% if current_user.id == user.id  %}
-
-<div>
-<a href="/users/{{user.id}}/edit">Edit</a>
-
-
-<button type="button" class="btn btn-primary" data-toggle="modal" 
- data-target="#invite-modal">Invite New User</button>
-
 <!-- Invite User Modal with AJAX -->
 <div id="invite-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -52,44 +38,98 @@
     </div>
 </div>
 
-<p>Name: {{user.name}}</p>
-<p>Email: {{user.email}}</p>
-<p>Phone: {{user.phone}}</p>
-<p>Created: {{user.created_at}}</p>
-<p>Updated: {{user.updated_at}}</p>
-<p>Admin: {{user.is_admin}}</p>
-<p>Confirmed: {{user.confirmed}}</p>
-
-<button class="btn btn-primary" ><a href="/users/{{user.id}}/editpassword" style="color:white">Update Password</a></button>
-<div>
 
 
+
+<div class="container-fluid">
+<div class="row">
+<!-- Top profile/tags container -->
+    <div class = "profile-box col-md-12 col-xs-12">
+    <!-- begin left box -->
+        <div class="container-fluid">
+
+    {% if current_user.id == user.id  %}
+        <div class="row user-row">
+            <span class="user-header">User {{user.name}}'s Profile Page
+            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
+            </span>
+            <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
+        </div>
+
+        <div>
+            <p><b>Email:</b> {{user.email}}</p>
+            <p><b>Phone:</b> {{user.phone}}</p>
+            <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+            <p><b>Admin:</b> {{user.is_admin}}</p>
+            <p><b>Confirmed:</b> {{user.confirmed}}</p>
+            <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
+        </div>
+
+        </div>
+    </div>
+<!-- end top row -->
 </div>
-<div class="searchcontent">
-    <div class="myheader">
-        <div class="myheadertext">Search</div>
-        <div class="myheaderbar"></div>
-      <div class="mycontent">
+
+<!-- Posts container -->
+    <div class="col-md-12">
+        <h3 class="">{{user.name}}'s Entries</h3>
+        {%  if entries.first()  %}
+              {%  for entry in entries[::-1]  %}
+            <div class="entry-post">
+                <p class="entry-post-content">{{entry.content}}</p>
+                <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
+        {%  else  %}
+        <p class="text-center">No posts to show right now</p>
+        {%  endif  %}
+    </div>
+
+<!-- Search container -->
+    <div class="searchcontent">
+        <div class="myheader">
+            <div class="myheadertext">Search</div>
+            <div class="myheaderbar"></div>
+          <div class="mycontent"></div>
       </div>
-  </div>
-</div>
-
-
-{% else %}
-
-<div>
-<div id='invite-modal' class='modal fade' role='dialog'>
-    <div>
     </div>
 </div>
 
-<p>Name: {{user.name}}</p>
-<p>Email: {{user.email}}</p>
-<p>Phone: {{user.phone}}</p>
-<p>Created: {{user.created_at}}</p>
-<p>Updated: {{user.updated_at}}</p>
-<p>Admin: {{user.is_admin}}</p>
-<p>Confirmed: {{user.confirmed}}</p>
+<!-- End container -->
+</div>
+
+
+    {% else %}
+
+<h2>User {{user.name}}'s Profile Page</h2>
+
 <div>
-{% endif %}
+    <p><b>Email:</b> {{user.email}}</p>
+    <p><b>Phone:</b> {{user.phone}}</p>
+    <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+    <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+    <p><b>Admin:</b> {{user.is_admin}}</p>
+    <p><b>Confirmed:</b> {{user.confirmed}}</p>
+</div>
+</div>
+</div>
+    <!-- Posts container -->
+    <div class="col-md-12">
+        <h3 class="">{{user.name}}'s Entries</h3>
+        {%  if entries.first()  %}
+              {%  for entry in entries[::-1]  %}
+            <div class="entry-post">
+                <p class="entry-post-content">{{entry.content}}</p>
+                <p class="entry-post-dates"><b>Created On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+            </div>
+                {%  endfor  %}
+        {%  else  %}
+        <p class="text-center">No posts to show right now</p>
+        {%  endif  %}
+    </div>
+
+    {% endif %}
 {%  endblock  %}
