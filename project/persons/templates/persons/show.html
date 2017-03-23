@@ -2,7 +2,7 @@
 
 {%  block content  %}
 {% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
+    <p class="flashwarning">{{ message }}</p>
     {% endfor %}
 
 <div class="container-fluid">

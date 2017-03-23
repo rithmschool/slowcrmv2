@@ -899,3 +899,8 @@ li{
 	border-radius: 5px;
 	
 }
+
+.flashwarning {
+	text-align: center; 
+	color: red
+}
