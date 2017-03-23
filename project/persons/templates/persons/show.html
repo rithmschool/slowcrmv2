@@ -14,6 +14,7 @@
             <span class="user-header">{{person.name}}
             <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
             </span>
+            <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
         </div>
 
         <div>
@@ -41,4 +42,27 @@
                 {%  endfor  %}
     </div>
     </div>
+
+    <div id="tag-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+              <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="model-header">
+                <h4 class="modal-heading">Add Tag</h4>
+            </div>
+        <div class="modal-body text-center">
+            <form  action="{{url_for('persons.add_tag', id=person.id)}}" method="POST">
+                <div class="form-group">
+                    {{form.hidden_tag()}}
+                    {{form.tag}}
+                    <button label= "submit" class="btn btn-primary" id="company-tag-submit">Add</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div id="modal-message" class="text-center"></div>
+        </div>
+        </div>
+    </div>
+</div>
 {%  endblock  %}
