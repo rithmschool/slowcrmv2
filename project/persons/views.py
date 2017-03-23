@@ -9,6 +9,7 @@ from project.companies.forms import TagForm
 from project.users.views import get_links, get_pipes_dollars_tags_tuples
 
 
+
 persons_blueprint = Blueprint(
     'persons',
     __name__,
