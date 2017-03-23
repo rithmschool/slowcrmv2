@@ -9,3 +9,12 @@ class PersonForm(FlaskForm):
     description = StringField('Description')
     slow_lp = BooleanField('Slow_lp')
     archived = BooleanField('Archived?')
+
+
+class EditPersonForm(FlaskForm):
+    email = StringField('Email')
+    phone = StringField('Phone')
+    title = StringField('Title')
+    description = StringField('Description')
+    slow_lp = BooleanField('Slow_lp')
+    archived = BooleanField('Archived?')

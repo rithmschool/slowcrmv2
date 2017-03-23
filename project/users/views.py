@@ -16,12 +16,14 @@ users_blueprint = Blueprint(
 )
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
+@login_required
 def home():
     if current_user.is_authenticated:
         return render_template('users/home.html')
     return redirect(url_for('users.login'))
 
 @users_blueprint.route('/search', methods=['GET'])
+@login_required
 def search():
     term = request.args.get('search')
     results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
@@ -250,8 +252,8 @@ def loadEntries():
         return json.dumps([{
              'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
              'entry_id': entry.id,
-             'name': current_user.name,
-             'id': current_user.id
+             'name': entry.user.name,
+             'id': entry.user.id
         } for entry in entries])
     else:
         # Getting ID of latest entry in DB
@@ -264,8 +266,8 @@ def loadEntries():
             return json.dumps([{
                 'data' : get_links(entry.content, get_pipes_dollars_tuples(entry.content)),
                 'entry_id': entry.id,
-                'name': current_user.name,
-                'id': current_user.id
+                'name': entry.user.name,
+                'id': entry.user.id
             } for entry in new_entries])
         else:
             return json.dumps([{'id': 0}])

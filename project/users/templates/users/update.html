@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block content%} 
-<div class="content">
+<div class="container">
+<div class="editform">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
-    {% endfor %}
+{% endfor %}
 	<h2>Update Your Account Info</h2>
 	<form action="{{url_for('users.update', id=user.id)}}?_method=PATCH" method="POST">
 	{{ form.csrf_token }}
@@ -14,10 +15,10 @@
           </span>
         {% endfor %}
       {% endif %}
-      <div class="form-group row">
+      <div class="form-group">
       {{ form.email.label }}
-      <div class="col-10">
-      {{ form.email(value=user.email) }}
+      <div>
+      {{ form.email(value=user.email, class="editfield", id="mail") }}
       </div></div>
       {% if form.name.errors %}
       {% for error in form.name.errors %}
@@ -26,10 +27,10 @@
           </span>
         {% endfor %}
       {% endif %}
-      <div class="form-group row">
+      <div class="form-group">
       {{ form.name.label }}
-      <div class="col-10">
-      {{ form.name(value=user.name) }}
+      <div>
+      {{ form.name(value=user.name, class="editfield") }}
       </div></div>
       {% if form.phone.errors %}
       {% for error in form.phone.errors %}
@@ -38,10 +39,10 @@
           </span>
         {% endfor %}
       {% endif %}
-      <div class="form-group row">
+      <div class="form-group">
       {{ form.phone.label }}
-      <div class="col-10">
-      {{ form.phone(value=user.phone) }}
+      <div>
+      {{ form.phone(value=user.phone, class="editfield") }}
       </div></div>
       {% if form.password.errors %}
       {% for error in form.password.errors %}
@@ -50,10 +51,10 @@
           </span>
         {% endfor %}
       {% endif %}
-      <div class="form-group row">
+      <div class="form-group">
       {{ form.password.label }}
-      <div class="col-10">
-      {{ form.password }}
+      <div>
+      {{ form.password(class="editfield", id="pw") }}
       </div></div>
       {% if form.confirmpassword.errors %}
       {% for error in form.confirmpassword.errors %}
@@ -62,13 +63,14 @@
           </span>
         {% endfor %}
       {% endif %}
-      <div class="form-group row">
+      <div class="form-group">
       {{ form.confirmpassword.label }}
-      <div class="col-10">
-      {{ form.confirmpassword }}
+      <div>
+      {{ form.confirmpassword(class="editfield") }}
       </div></div>
-	<button type="submit" class="btn btn-default">Submit</button>
+	<button type="submit" class="btn btn-default">Save</button>
 	</form>
+</div>
 </div>
 <div class="searchcontent">
     <div class="myheader">
