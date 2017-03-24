@@ -15,10 +15,11 @@
             </div>
         <div id="entries" class="collapse in">
 
-        {% for entry in tagged_entries %}
-
+        {% for entry in formatted_entries %}
 				<div class="entry-post"> 
-                    <p class="entry-post-content">{{ entry | safe }}</p>
+                    <h5><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></h5>
+
+                    <p class="entry-post-content">{{ entry["content"] | safe }}</p>
                 </div>
 	
         {%  endfor  %}
@@ -31,14 +32,11 @@
                 <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#companies">Show/Hide</button>
             </div>
         <div id="companies" class="collapse in">
-        {% for taggable in taggables %}
-            {% if taggable.taggable_type == 'company' %}
-                {% set company = Company.query.get(taggable.taggable_id) %}
+        {% for company in formatted_companies %}
                 <div class="entry-post"> 
-                <p class="entry-post-content"> {{ company.name }} </p>
+                <p class="entry-post-content"> {{ company | safe }} </p>
 
                 </div>
-            {% endif %}
         {%  endfor  %}
         </div>
         </div>
