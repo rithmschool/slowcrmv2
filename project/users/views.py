@@ -6,9 +6,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from project.users.token import generate_confirmation_token, confirm_token, send_token, random_password
 from datetime import datetime
 from flask import json
-from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
-from sqlalchemy import asc
-from sqlalchemy import desc
+from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict
+from sqlalchemy import desc, asc
 from jinja2 import Template
 
 users_blueprint = Blueprint(

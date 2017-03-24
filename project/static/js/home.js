@@ -86,8 +86,7 @@ $(function() {
         e.preventDefault()
         if ($('#tweet-message').val() === "") {
             $('.flashes').prepend('<div>please enter person, company or tag</div>')
-        }
-        else {
+        }else {
             $.ajax({
                 type: "POST",
                 url: "/users/entries",
