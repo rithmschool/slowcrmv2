@@ -705,18 +705,12 @@ li{
     border: 1px solid #ddd;
     background-color: white;
     border-radius: 15px;
-    padding-left: 30px ;
-    padding-right: 30px ;
+    padding:  10px  30px  0  30px;
     box-shadow: 1px 1px 5px #888888;
-}
-
-.entry-post-content {
-    padding-top: 20px;
 }
 
 .entry-post-dates {
     display: inline-block;
-    padding-bottom: 7px;
     padding-right: 30px;
 
 }
@@ -768,6 +762,26 @@ li{
     padding-top: 6px;
 }
 
+.tag-detail-section-header {
+    font-size:  24px;
+}
+
+.tag-detail-row {
+    padding:  15px  15px  0  15px;
+}
+
+.glyphicon-tag {
+    padding: 15px 15px;
+    font-size:  23px;
+}
+
+.tag-company-header {
+    padding:  10px  0  5px  0;
+}
+
+.tag-container {
+    padding:  10px  0  10px  0;
+}
 
 @media (max-width: 1000px) {
     .modal-content {
