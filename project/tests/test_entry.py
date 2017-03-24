@@ -126,10 +126,43 @@ class BaseTestCase(TestCase):
         expected = [[(0, 5)], [], []]
         self.assertEqual(result, expected)
 
+        result = get_pipes_dollars_tags_tuples("*okay*")
+        expected = [[], [], [(0, 5)]]
+        self.assertEqual(result, expected)
+
         result = get_pipes_dollars_tags_tuples("$yo$ what |up| i love | to *go* to the $park$ and$ go $to the *Outco* *yaaa woooo* heyy* whats up")
         expected = [[(10, 13)], [(0, 3), (39, 44)], [(27, 30), (62, 68), (70, 81)]]
         self.assertEqual(result, expected)
 
+    def testCreateTag(self):
+        content = "*entry*"
+
+        response = self.client.post('/users/entries',
+            data=json.dumps(dict(
+                content=content
+            )),
+            content_type='application/json'
+        )
+
+        data = response.json['data']
+        self.assertTrue(data.find('href="/tags/') >= 0)
+
+    def testXSS(self):
+        content = "|<script>alert('person');</script>| "
+        content += "*<script>alert('tag')</script>* "
+        content += "$<script>alert('company');</script>$ "
+        content += "<script></script>"
+
+        response = self.client.post('/users/entries',
+            data=json.dumps(dict(
+                content=content
+            )),
+            content_type='application/json'
+        )
+
+        data = response.json['data']
+        self.assertTrue(data.find('<script>') == -1)
+        self.assertTrue(data.find('</script>') == -1)
 
 if __name__ == '__main__':
     unittest.main()
