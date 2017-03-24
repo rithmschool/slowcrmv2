@@ -58,8 +58,7 @@ $(function() {
                     if(sendServer){
                         sendServer = false;
                         $('#tweet-message').autocomplete('hide');
-                    }
-                    else{
+                    } else {
                         start_idx = params.query.length-2;
                         sendServer = true; 
                     }
@@ -86,7 +85,7 @@ $(function() {
         e.preventDefault()
         if ($('#tweet-message').val() === "") {
             $('.flashes').prepend('<div>please enter person, company or tag</div>')
-        }else {
+        } else {
             $.ajax({
                 type: "POST",
                 url: "/users/entries",
