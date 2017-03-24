@@ -4,7 +4,7 @@
 html, body {
     margin:0;
     padding:0;
-    background-color: #E8E8EE;
+    background-color: white;
 }
 
 a, a:hover{
@@ -952,36 +952,57 @@ li{
 }
 
 @media (max-width: 1921px){
-	.taglist {
-		font-size: 1em;
-		padding: 3px;
-		line-height: 40px;
-		margin-right: 4px;
-	}
-	.tagtitle {
-		font-size: 2em
-	}
+    .taglist {
+        font-size: 1em;
+        padding: 3px;
+        line-height: 40px;
+        margin-right: 4px;
+    }
+    .tagtitle {
+        font-size: 2em
+    }
 }
 
 @media (max-width: 1000px){
-	.taglist {
-		font-size: 2em;
-		padding: 3px;
-		line-height: 60px;
-		margin-right: 6px;
-	}
-	.tagtitle {
-		font-size: 3em;
-	}
+    .taglist {
+        font-size: 2em;
+        padding: 3px;
+        line-height: 60px;
+        margin-right: 6px;
+    }
+    .tagtitle {
+        font-size: 3em;
+    }
 }
 
 .taglist {
-	background-color: white;
-	border-radius: 5px;
-	
+    background-color: white;
+    border-radius: 5px;
+    
 }
 
 .flashwarning {
-	text-align: center; 
-	color: red
+    text-align: center; 
+    color: red
+}
+
+.user-post {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-shadow: 1px 1px 5px #888888;
+}
+
+.user-post-content {
+    padding-top: 20px;
+}
+
+.user-post-dates {
+    display: inline;
+    margin-right: 20px;
+    line-height: 40px;
 }

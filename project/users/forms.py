@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, PasswordField, BooleanField, TextAreaField
+from wtforms import StringField, validators, PasswordField, BooleanField
 
 class UserForm(FlaskForm):
     email = StringField('Email', [validators.email()])

@@ -1,5 +1,5 @@
 from project.users.forms import UserForm, LoginForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
-from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
+from flask import Blueprint, redirect, render_template, request, flash, url_for, jsonify
 from project.models import User, Person, Entry, Company, Tag, Taggable
 from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
@@ -7,7 +7,6 @@ from project.users.token import generate_confirmation_token, confirm_token, send
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
-from sqlalchemy import asc
 from sqlalchemy import desc
 
 users_blueprint = Blueprint(
@@ -275,12 +274,16 @@ def loadEntries():
 
 def get_pipes_dollars_tags_tuples(content):
     pipes_dollars_tags_arrof_tuples = [[], [], []]
+    if content.count('|') == 2 and content[0] == '|' and content[len(content)-1] == '|':
+        return [[(0, (len(content)-1))], [], []]
+    if content.count('*') == 2 and content[0] == '*' and content[len(content)-1] == '*':
+        return [[(0, (len(content)-1))], [], []]
     if content.count('$') == 2 and content[0] == '$' and content[len(content)-1] == '$':
         return [[(0, (len(content)-1))], [], []]
     for idx, char in enumerate(content):
         if idx != (len(content)-1):
             if char in ['$', '|', '*'] and content[idx+1] != ' ':
-                if content[idx-1] != char and content[idx+1] != char:
+                if (content[idx-1] != char or idx == 0) and content[idx+1] != char:
                     substr = content[(idx+1):(len(content))]
                     next_match = substr.find(char)
                     if next_match != -1:
