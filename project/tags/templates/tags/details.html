@@ -3,16 +3,16 @@
 
 
 <div class="container-fluid">
-    <div class = "profile-box col-md-12 col-xs-12">
-        <h2>Tag Details Page</h2>
-        <span>{tag.text}
-        </span>
+    <div class = "col-md-12 col-xs-12">
+        <h2><span class="glyphicon glyphicon-tag"><b></span>{{tag_name.text}}</h2></b>
     
 
     <div class = "col-md-12">
         <div>
-        <h3>Entries</h3>
-        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#entries">Show/Hide</button>
+            <div class="row tag-detail-row">
+                <span class="tag-detail-section-header">Entries</span>
+                <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#entries">Show/Hide</button>
+            </div>
         <div id="entries" class="collapse in">
 		{% for taggable in taggables %}
 			{% if taggable.taggable_type == 'entry' %}
@@ -28,8 +28,10 @@
         </div>
         <div>
 
-        <h3>Companies</h3>
-        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#companies">Show/Hide</button>
+            <div class="row tag-detail-row">
+                <span class="tag-detail-section-header">Companies</span>
+                <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#companies">Show/Hide</button>
+            </div>
         <div id="companies" class="collapse in">
         {% for taggable in taggables %}
             {% if taggable.taggable_type == 'company' %}
@@ -45,8 +47,10 @@
         </div>
         </div>
         <div>
-        <h3>People</h3>
-        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#persons">Show/Hide</button>
+            <div class="row tag-detail-row">
+                <span class="tag-detail-section-header">Entries</span>
+                <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#persons">Show/Hide</button>
+            </div>
         <div id="persons" class="collapse in">
         {% for taggable in taggables %}
             {% if taggable.taggable_type == 'person' %}
