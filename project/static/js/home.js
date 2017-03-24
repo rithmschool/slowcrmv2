@@ -42,11 +42,52 @@ $(function() {
         setInterval(reload, 20000)
     })
 
+    //autocomplete
+    var start_idx;
+    var sendServer = false;
+    var lookupResults;
+    $('#tweet-message').autocomplete({
+        ajaxSettings: {
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-Requested-With', 'XMLHTTPRequest');
+            }
+        },
+        onSearchStart: function(params) {
+            if(params.query.length == 2){
+                if(['|', '$', '*'].includes(params.query.slice(-2,-1))) {
+                    if(sendServer){
+                        sendServer = false;
+                        $('#tweet-message').autocomplete('hide');
+                    }
+                    else{
+                        start_idx = params.query.length-2;
+                        sendServer = true; 
+                    }
+                }
+            }
+            return sendServer;
+        },
+        delimiter: ' ',
+        lookup: function(query, done){
+            $.ajax({
+                url: '/users/search/autocomplete',
+                data: {
+                    params: query.slice(start_idx)
+                }
+            }).then(function(response){
+                    lookupResults = jQuery.parseJSON(response);
+                    done(lookupResults);         
+            });
+        },
+    });        
+
+
     $('#entry-form').on('submit', function(e) {
         e.preventDefault()
         if ($('#tweet-message').val() === "") {
             $('.flashes').prepend('<div>please enter person, company or tag</div>')
-        } else {
+        }
+        else {
             $.ajax({
                 type: "POST",
                 url: "/users/entries",
