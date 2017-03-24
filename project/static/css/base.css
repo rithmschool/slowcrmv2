@@ -705,14 +705,12 @@ li{
     border: 1px solid #ddd;
     background-color: white;
     border-radius: 15px;
-    padding-left: 30px ;
-    padding-right: 30px ;
+    padding:  10px  30px  0  30px;
     box-shadow: 1px 1px 5px #888888;
 }
 
 .entry-post-dates {
     display: inline-block;
-    padding-bottom: 7px;
     padding-right: 30px;
 
 }
