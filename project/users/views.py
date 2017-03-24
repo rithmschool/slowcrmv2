@@ -6,8 +6,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from project.users.token import generate_confirmation_token, confirm_token, send_token, random_password
 from datetime import datetime
 from flask import json
-from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
-from sqlalchemy import desc
+from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict
+from sqlalchemy import desc, asc
 from jinja2 import Template
 
 users_blueprint = Blueprint(
@@ -394,3 +394,23 @@ def add_tag_data_db(star_tuples_arr, content, entry):
 def logout():
     logout_user()
     return redirect(url_for('users.login'))
+
+
+@users_blueprint.route('/search/autocomplete')
+@login_required
+def search_autocomplete():
+    result = []
+    query = request.args.get('params')
+    if  query[0] == '|':
+        all_person_name = Person.query.with_entities(Person.name).filter(Person.name.ilike(query[1:] + '%')).order_by(asc(Person.name)).all()
+        result = [{'value': "|" + "".join(person)}for person in all_person_name]
+    elif query[0] == '$':
+        all_company_name = Company.query.with_entities(Company.name).filter(Company.name.ilike(query[1:] + '%')).order_by(asc(Company.name)).all()
+        result = [{'value': "$" + "".join(company)}for company in all_company_name]
+    elif query[0] == '*':
+        all_star_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[1:] + '%')).order_by(asc(Tag.text)).all()
+        result = [{'value': "*" + "".join(tag)}for tag in all_star_text]
+    return json.dumps({
+                'query': 'Unit',
+                'suggestions' : result
+            })
