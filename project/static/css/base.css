@@ -963,27 +963,33 @@ li{
 }
 
 .taglist {
-	background-color: white;
-	border-radius: 5px;
+    background-color: white;
+    border-radius: 5px;
 	
 }
 
 .flashwarning {
-	text-align: center; 
-	color: red
+    text-align: center; 
+    color: red
 }
 
-.user-post{
+.user-post {
 	margin-top: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
     background-color: white;
-    border-radius: 15px;
-    padding-left: 30px !important;
-    padding-right: 30px !important;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
     box-shadow: 1px 1px 5px #888888;
 }
 
 .user-post-content {
-	padding-top: 20px;
+    padding-top: 20px;
+}
+
+.user-post-dates {
+    display: inline;
+    margin-right: 20px;
+    line-height: 40px;
 }
