@@ -107,7 +107,6 @@ def show(id):
     formatted_entries = [{
     "content":get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content))
     } for entry in Entry.query.filter_by(user_id=id)]
-    from IPython import embed; embed()
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
 
 # for editing users that are not new
