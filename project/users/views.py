@@ -105,7 +105,9 @@ def confirm_email(token):
 def show(id):
     found_user = User.query.get_or_404(id)
     formatted_entries = [{
-    "content":get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content))
+    "content":get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+    "created_at": entry.created_at,
+    "updated_at": entry.updated_at
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
 
