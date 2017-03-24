@@ -14,15 +14,13 @@
                 <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#entries">Show/Hide</button>
             </div>
         <div id="entries" class="collapse in">
-		{% for taggable in taggables %}
-			{% if taggable.taggable_type == 'entry' %}
-				{% set entry = Entry.query.get(taggable.taggable_id) %}
+
+        {% for entry in tagged_entries %}
+
 				<div class="entry-post"> 
-                    <p class="entry-post-content">{{ entry.content }}</p>
-                    <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                     <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                    <p class="entry-post-content">{{ entry | safe }}</p>
                 </div>
-			{% endif %}	
+	
         {%  endfor  %}
         </div>
         </div>
@@ -39,8 +37,6 @@
                 <div class="entry-post"> 
                 <p class="entry-post-content"> {{ company.name }} </p>
 
-                <p class="entry-post-dates"><b>Created On: </b>{{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates"><b>Updated On: </b>{{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
                 </div>
             {% endif %}
         {%  endfor  %}
@@ -58,8 +54,6 @@
                 <div class="entry-post"> 
                 <p class="entry-post-content"> {{ person.name }} </p>
 
-                <p class="entry-post-dates"><b>Created On: </b>{{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates"><b>Updated On: </b>{{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
                 </div>
             {% endif %}
 		{% endfor %}	
