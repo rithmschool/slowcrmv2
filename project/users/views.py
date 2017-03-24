@@ -204,7 +204,7 @@ def password_recovery(token):
                 return redirect(url_for('users.login'))
             flash('Passwords do not match')
             return redirect(url_for('users.password_recovery', token=token))
-        flash("Missing Info")    
+        flash("One Or More Fields Is Empty")    
         return redirect(url_for('users.password_recovery', token=token))            
     try:
         email = confirm_token(token)
