@@ -54,8 +54,7 @@ class BaseTestCase(TestCase):
             data=dict(tag='tag'), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Tag.query.count(), 1)
-        self.assert_template_used('tags/index.html')   
-
+        self.assert_template_used('tags/index.html')
 
 if __name__ == '__main__':
-    unittest.main()        
+    unittest.main()
