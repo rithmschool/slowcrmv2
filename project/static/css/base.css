@@ -984,9 +984,12 @@ li{
     
 }
 
-.flashwarning {
+.flashwarning, .flash {
     text-align: center; 
-    color: red
+}
+
+.flashwarning {
+    color: red;
 }
 
 .user-post {

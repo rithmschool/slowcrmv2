@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 	
+	{% for message in get_flashed_messages() %}
+		<p class="flash">{{ message }}</p>
+	{% endfor %}
 	<div class="container-fluid">
-	<div class="tagtitle">Tags Index</div><br><br>
+		<div class="tagtitle">Tags Index</div><br><br>
 	{% for tag in tags %}
 	
 	<span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>

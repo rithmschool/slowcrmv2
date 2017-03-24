@@ -8,12 +8,18 @@ from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
 from sqlalchemy import desc
+from jinja2 import Template
 
 users_blueprint = Blueprint(
     'users',
     __name__,
     template_folder = 'templates'
 )
+
+regular_text = Template('{{text|e}}')
+tag_template = Template('<a href="/tags/{{tag_id}}">{{tag_text|e}}</a>')
+companies_template = Template('<a href="/companies/{{company_id}}">{{company_name|e}}</a>')
+person_template = Template('<a href="/persons/{{person_id}}">{{person_name|e}}</a>')
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
@@ -25,9 +31,13 @@ def home():
 @login_required
 def search():
     term = request.args.get('search')
+    tag_exists = bool(Tag.query.filter_by(text=term).first())
+    company_exists = bool(Company.query.filter_by(name=term).first())
+    person_exists = bool(Person.query.filter_by(name=term).first())
     results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
     count = results.count()
-    return render_template('users/search.html', results=results, count=count, term=term)
+    return render_template('users/search.html', results=results, count=count, term=term, 
+        tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -203,7 +213,9 @@ def password_recovery(token):
                 flash('Password updated')
                 return redirect(url_for('users.login'))
             flash('Passwords do not match')
-        render_template('users/passwordreset/{}'.format(token))            
+            return redirect(url_for('users.password_recovery', token=token))
+        flash("One Or More Fields Is Empty")    
+        return redirect(url_for('users.password_recovery', token=token))            
     try:
         email = confirm_token(token)
     except:
@@ -259,7 +271,7 @@ def loadEntries():
         latest = Entry.query.order_by(desc(Entry.id)).first().id
         # Calculating the difference between latest in database and latest client side
         need = int(latest)-int(content)
-        if need != 0:
+        if need >= 0:
             # Getting appropriate amount of entries based on the need in descending order
             new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
             return json.dumps([{
@@ -269,7 +281,7 @@ def loadEntries():
                 'id': entry.user.id
             } for entry in new_entries])
         else:
-            return json.dumps([{'id': 0}])
+            return json.dumps([])
 
 
 def get_pipes_dollars_tags_tuples(content):
@@ -277,9 +289,9 @@ def get_pipes_dollars_tags_tuples(content):
     if content.count('|') == 2 and content[0] == '|' and content[len(content)-1] == '|':
         return [[(0, (len(content)-1))], [], []]
     if content.count('*') == 2 and content[0] == '*' and content[len(content)-1] == '*':
-        return [[(0, (len(content)-1))], [], []]
+        return [[], [], [(0, (len(content)-1))]]
     if content.count('$') == 2 and content[0] == '$' and content[len(content)-1] == '$':
-        return [[(0, (len(content)-1))], [], []]
+        return [[], [(0, (len(content)-1))], []]
     for idx, char in enumerate(content):
         if idx != (len(content)-1):
             if char in ['$', '|', '*'] and content[idx+1] != ' ':
@@ -319,21 +331,21 @@ def get_links(content, pipes_dollars_tuples):
             idx = idx + (stars_tuples_arr[0][1]+1 - stars_tuples_arr[0][0])
             stars_tuples_arr.pop(0)
         else:
-            links = links + stripped_content[idx] 
+            links = links + regular_text.render(text=stripped_content[idx])
             idx = idx + 1
     return links.strip()
 
 def get_person_link(person_name):
     person = Person.query.filter_by(name=person_name).first()
-    return '<a href="/persons/{}">{}</a>'.format(person.id, person_name)
+    return person_template.render(person_id=person.id, person_name=person_name)
 
 def get_company_link(company_name):
     company = Company.query.filter_by(name=company_name).first()
-    return '<a href="/companies/{}">{}</a>'.format(company.id, company_name)
+    return companies_template.render(company_id=company.id, company_name=company_name)
 
 def get_tag_link(tag_text):
     tag = Tag.query.filter_by(text=tag_text).first()
-    return '<a href="/tags/{}">{}</a>'.format(tag.id, tag.text)
+    return tag_template.render(tag_id=tag.id, tag_text=tag.text)
 
 def add_person_data_db(pipes_tuples_arr, content, entry):
     for val in pipes_tuples_arr:

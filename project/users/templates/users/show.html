@@ -66,27 +66,37 @@
             <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
         </div>
 
+<<<<<<< HEAD
+=======
+        
+>>>>>>> bca4f827c44c6a8b2d44b0af24ed678025be53c2
     
 <!-- end top row -->
 </div>
 
 <!-- Posts container -->
-    <div class="col-md-12">
-        <h3 class="">{{user.name}}'s Entries</h3>
-        {%  if entries.first()  %}
-              {%  for entry in entries[::-1]  %}
-            <div class="entry-post">
-                <p class="entry-post-content">{{entry.content}}</p>
-                <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-            </div>
-                {%  endfor  %}
-        {%  else  %}
-        <p class="text-center">No posts to show right now</p>
-        {%  endif  %}
+        <div class="col-md-12">
+            <h3 class="">{{user.name}}'s Entries</h3>
+            {%  if entries.first()  %}
+                  {%  for entry in entries[::-1]  %}
+                <div class="entry-post">
+                    <p class="entry-post-content">{{entry.content}}</p>
+                    <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                    <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                </div>
+                    {%  endfor  %}
+            {%  else  %}
+            <p class="text-center">No posts to show right now</p>
+            {%  endif  %}
+        </div>
     </div>
+<<<<<<< HEAD
     </div>
 </div>
+=======
+</div>
+
+>>>>>>> bca4f827c44c6a8b2d44b0af24ed678025be53c2
 <!-- Search container -->
     <div class="searchcontent">
         <div class="myheader">
