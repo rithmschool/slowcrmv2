@@ -1,9 +1,7 @@
-from project.users.forms import UserForm
-from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g
+from flask import Blueprint, redirect, render_template, request, flash, url_for
 from project.models import Person, Tag, Taggable
 from project import db
-from flask_login import login_user, logout_user, current_user, login_required
-from sqlalchemy.exc import IntegrityError
+from flask_login import login_required
 from project.persons.forms import PersonForm, EditPersonForm
 from project.companies.forms import TagForm
 from project.users.views import get_links, get_pipes_dollars_tags_tuples

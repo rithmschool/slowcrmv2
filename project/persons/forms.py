@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, PasswordField, BooleanField
+from wtforms import StringField, validators, BooleanField
 
 class PersonForm(FlaskForm):
     name = StringField('Name', [validators.DataRequired()])
