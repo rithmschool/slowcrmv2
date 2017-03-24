@@ -31,9 +31,13 @@ def home():
 @login_required
 def search():
     term = request.args.get('search')
+    tag_exists = bool(Tag.query.filter_by(text=term).first())
+    company_exists = bool(Company.query.filter_by(name=term).first())
+    person_exists = bool(Person.query.filter_by(name=term).first())
     results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
     count = results.count()
-    return render_template('users/search.html', results=results, count=count, term=term)
+    return render_template('users/search.html', results=results, count=count, term=term, 
+        tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
