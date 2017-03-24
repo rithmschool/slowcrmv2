@@ -1,5 +1,5 @@
 from project.users.forms import UserForm, LoginForm, InviteForm, EditUserForm, ForgotPasswordForm, EditPasswordForm, RecoverPasswordForm
-from flask import Blueprint, redirect, render_template, request, flash, url_for, session, g, jsonify
+from flask import Blueprint, redirect, render_template, request, flash, url_for, jsonify
 from project.models import User, Person, Entry, Company, Tag, Taggable
 from project import db, bcrypt
 from flask_login import login_user, logout_user, current_user, login_required
@@ -7,7 +7,6 @@ from project.users.token import generate_confirmation_token, confirm_token, send
 from datetime import datetime
 from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict 
-from sqlalchemy import asc
 from sqlalchemy import desc
 
 users_blueprint = Blueprint(
