@@ -281,7 +281,7 @@ def loadEntries():
                 'id': entry.user.id
             } for entry in new_entries])
         else:
-            return json.dumps([{'id': 0}])
+            return json.dumps([])
 
 
 def get_pipes_dollars_tags_tuples(content):

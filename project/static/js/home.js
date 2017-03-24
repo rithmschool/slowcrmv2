@@ -26,7 +26,7 @@ $(function() {
                     dataType: "json",
                     contentType: "application/json",
                 }).then(function(response) {
-                    if(response[0].id !== 0){
+                    if(Array.isArray(response) && response.length > 0){
                         response.forEach((value, index) => (
                             $('ul').prepend(`<li class="entry" data="${response[index].entry_id}">
                                                 <a class="nameanchor" href="/users/${response[index].id}">
