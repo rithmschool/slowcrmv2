@@ -397,6 +397,7 @@ def logout():
 
 
 @users_blueprint.route('/search/autocomplete')
+@login_required
 def search_autocomplete():
     result = []
     query = request.args.get('params')
@@ -407,7 +408,7 @@ def search_autocomplete():
         all_company_name = Company.query.with_entities(Company.name).filter(Company.name.ilike(query[1:] + '%')).order_by(asc(Company.name)).all()
         result = [{'value': "$" + "".join(company)}for company in all_company_name]
     elif query[0] == '*':
-        all_star_text = Tag.query.with_entities(Tag.text).filter(Tag.name.ilike(query[:1] + '%')).order_by(asc(Tag.text)).all()
+        all_star_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[1:] + '%')).order_by(asc(Tag.text)).all()
         result = [{'value': "*" + "".join(tag)}for tag in all_star_text]
     return json.dumps({
                 'query': 'Unit',
