@@ -1,14 +1,68 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div>
-	<ul>
+
+<div class="container-fluid">
+    <div class = "profile-box col-md-12 col-xs-12">
+        <h2>Tag Details Page</h2>
+        <span>{tag.text}
+        </span>
+    
+
+    <div class = "col-md-12">
+        <div>
+        <h3>Entries</h3>
+        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#entries">Show/Hide</button>
+        <div id="entries" class="collapse in">
 		{% for taggable in taggables %}
 			{% if taggable.taggable_type == 'entry' %}
 				{% set entry = Entry.query.get(taggable.taggable_id) %}
-				<li> {{ entry.content }} </li>
+				<div class="entry-post"> 
+                    <p class="entry-post-content">{{ entry.content }}</p>
+                    <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                     <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                </div>
 			{% endif %}	
+        {%  endfor  %}
+        </div>
+        </div>
+        <div>
+
+        <h3>Companies</h3>
+        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#companies">Show/Hide</button>
+        <div id="companies" class="collapse in">
+        {% for taggable in taggables %}
+            {% if taggable.taggable_type == 'company' %}
+                {% set company = Company.query.get(taggable.taggable_id) %}
+                <div class="entry-post"> 
+                <p class="entry-post-content"> {{ company.name }} </p>
+
+                <p class="entry-post-dates"><b>Created On: </b>{{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On: </b>{{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+                </div>
+            {% endif %}
+        {%  endfor  %}
+        </div>
+        </div>
+        <div>
+        <h3>People</h3>
+        <button type="button" class="btn btn-info btn-sm" data-toggle="collapse" data-target="#persons">Show/Hide</button>
+        <div id="persons" class="collapse in">
+        {% for taggable in taggables %}
+            {% if taggable.taggable_type == 'person' %}
+                {% set person = Person.query.get(taggable.taggable_id) %}
+                <div class="entry-post"> 
+                <p class="entry-post-content"> {{ person.name }} </p>
+
+                <p class="entry-post-dates"><b>Created On: </b>{{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On: </b>{{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+                </div>
+            {% endif %}
 		{% endfor %}	
-	<ul>
+        </div>
+        </div>
+    </div>
+
+</div>
 </div>
 {% endblock %}
