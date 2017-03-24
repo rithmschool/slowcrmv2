@@ -17,9 +17,12 @@
 
         {% for entry in formatted_entries %}
 				<div class="entry-post"> 
-                    <h5><b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b></h5>
-                    <p class="entry-post-content">{{ entry["content"] | safe }}</p>
+                    <div class=entry-post-content>
+                    <b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b>
+                    <p>{{ entry["content"] | safe }}</p>
+                    </div>
                 </div>
+
 	
         {%  endfor  %}
         </div>
@@ -32,10 +35,10 @@
         <div id="companies" class="collapse in">
         {% for company in formatted_companies %}
                 <div class="entry-post"> 
-                <b><div class="tag-company-header"><a class="entry-post-content" href="/companies/{{company['company_id']}}"> {{ company["company_name"] }}</a></b>
+                <b><div><a class="entry-post-content" href="/companies/{{company['company_id']}}"> {{ company["company_name"] }}</a></b>
                     <div class="tag-container">
                     {%  for tag in company["tags"]  %}
-                    #<a href="/tags/{{tag.id}}">{{tag.text}}</a>
+                    <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
                     {%  endfor  %}
                     </div>
                 </div>
@@ -45,16 +48,16 @@
         </div>
         <div>
             <div class="row tag-detail-row">
-                <span class="tag-detail-section-header">Persons</span>
+                <span class="tag-detail-section-header">People</span>
                 <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#persons">Show/Hide</button>
             </div>
         <div id="persons" class="collapse in">
         {% for person in formatted_persons %}
                 <div class="entry-post"> 
-                <b><div class="tag-company-header"><a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a> </div></b>
+                <b><div><a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a> </div></b>
                     <div class="tag-container">
                     {%  for tag in person["tags"]  %}
-                    #<a href="/tags/{{tag.id}}">{{tag.text}}</a>
+                    <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
                     {%  endfor  %}
                     </div>
                 </div>
