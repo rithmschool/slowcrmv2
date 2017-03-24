@@ -34,9 +34,13 @@ def search():
     tag_exists = bool(Tag.query.filter_by(text=term).first())
     company_exists = bool(Company.query.filter_by(name=term).first())
     person_exists = bool(Person.query.filter_by(name=term).first())
-    results = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
-    count = results.count()
-    return render_template('users/search.html', results=results, count=count, term=term, 
+    entry_exact = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
+    person_exact = Person.query.filter(Person.name.ilike("%{}%".format(term)))
+    company_exact = Company.query.filter(Company.name.ilike("%{}%".format(term)))
+    tag_exact = Tag.query.filter(Tag.text.ilike("%{}%".format(term)))
+    count = max(entry_exact.count(), person_exact.count(), company_exact.count(), tag_exact.count())
+    return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact, 
+        tag_exact=tag_exact, count=count, term=term, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
         tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])

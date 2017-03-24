@@ -1,9 +1,16 @@
 from project import db, bcrypt
 from flask_login import UserMixin
 from datetime import datetime
+from flask_sqlalchemy import BaseQuery
+from sqlalchemy_searchable import SearchQueryMixin
+from sqlalchemy_utils.types import TSVectorType
+
+class UserQuery(BaseQuery, SearchQueryMixin):
+    pass
 
 class User(db.Model, UserMixin):
 
+    query_class = UserQuery
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,6 +23,7 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, nullable=False, default=True)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     entries = db.relationship('Entry', backref='user', lazy='dynamic')
+    search_vector = db.Column(TSVectorType('name'))
 
     def __init__(self, email, name, password, phone, is_admin, confirmed, created_at=datetime.now(), updated_at=datetime.now()):
 
@@ -38,7 +46,12 @@ entry_persons = db.Table('entries_persons',
     db.Column('person_id',db.Integer,db.ForeignKey("persons.id"))
 )
 
+class PersonQuery(BaseQuery, SearchQueryMixin):
+    pass
+
 class Person(db.Model):
+
+    query_class = PersonQuery
     taggable_type = 'person'
     __tablename__ = "persons"
 
@@ -53,6 +66,7 @@ class Person(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
+    search_vector = db.Column(TSVectorType('name', 'description'))
 
     def __init__(self, name, email="", phone="", title="", description="", slow_lp=False, archived=False):
         self.email = email
@@ -77,8 +91,12 @@ entry_companies = db.Table('entries_companies',
     db.Column('company_id', db.Integer, db.ForeignKey("companies.id"))
 )
 
+class CompanyQuery(BaseQuery, SearchQueryMixin):
+    pass
 
 class Company(db.Model):
+
+    query_class = CompanyQuery
     taggable_type = 'company'
     __tablename__ = 'companies'
 
@@ -95,6 +113,7 @@ class Company(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
+    search_vector = db.Column(TSVectorType('name', 'description'))
 
 
     def __init__(self, name, description="", url="", logo_url="", partner_lead="", ops_lead="", source="", round="", archived=False):
@@ -114,8 +133,12 @@ class Company(db.Model):
         return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.archived,self.id,self.name,self.description,self.url,
             self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
 
+class EntryQuery(BaseQuery, SearchQueryMixin):
+    pass
 
 class Entry(db.Model, UserMixin):
+
+    query_class = EntryQuery
     taggable_type = 'entry'
     __tablename__ = 'entries'
 
@@ -127,6 +150,7 @@ class Entry(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now(), onupdate=db.func.now())
     companies = db.relationship('Company', secondary=entry_companies, backref=db.backref('entries'), lazy='dynamic')
     persons = db.relationship('Person', secondary=entry_persons, backref=db.backref('entries'), lazy='dynamic')
+    search_vector = db.Column(TSVectorType('content'))
 
 
     def __init__(self, user_id, content, archived=False):
@@ -140,12 +164,17 @@ class Entry(db.Model, UserMixin):
     def __repr__(self):
         return "id {} content {}".format(self.id, self.content)
 
+class TagQuery(BaseQuery, SearchQueryMixin):
+    pass
 
 class Tag(db.Model):
+
+    query_class = TagQuery
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String)
+    search_vector = db.Column(TSVectorType('text'))
 
     def __init__(self, text):
         self.text = text
@@ -165,7 +194,6 @@ class Taggable(db.Model):
         self.tag_id = tag_id
         self.taggable_id = taggable_id
         self.taggable_type = taggable_type
-
 
 
 
