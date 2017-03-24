@@ -56,6 +56,7 @@ $(function() {
                 dataType: "json",
                 contentType: "application/json",
             }).then(function(response) {
+                $('#tweet-message').val('')
                 $('ul').prepend(`<li class="entry" data="${response.entry_id}">
                                     <a class="nameanchor" href="/users/${response.id}">
                                         <div class="name">${response.name}
