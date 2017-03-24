@@ -17,13 +17,11 @@
 
         {% for entry in formatted_entries %}
 				<div class="entry-post"> 
-                    <b><h5><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></h5></b>
-
+                    <h5><b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b></h5>
                     <p class="entry-post-content">{{ entry["content"] | safe }}</p>
                 </div>
 	
         {%  endfor  %}
-        </div>
         </div>
         <div>
 
@@ -34,10 +32,13 @@
         <div id="companies" class="collapse in">
         {% for company in formatted_companies %}
                 <div class="entry-post"> 
-                <b><div class="tag-company-header"><a class="entry-post-content" href="/companies/{{company['company_id']}}"> {{ company["company_name"] }} </a></div></b>
-                {%  for tag in company["tags"]  %}
-                <span class="glyphicon glyphicon-tag"><a href="/tags/{{tag.id}}">{{tag.text}}</a></span>
-                {%  endfor  %}
+                <b><div class="tag-company-header"><a class="entry-post-content" href="/companies/{{company['company_id']}}"> {{ company["company_name"] }}</a></b>
+                    <div class="tag-container">
+                    {%  for tag in company["tags"]  %}
+                    #<a href="/tags/{{tag.id}}">{{tag.text}}</a>
+                    {%  endfor  %}
+                    </div>
+                </div>
                 </div>
         {%  endfor  %}
         </div>
@@ -50,10 +51,13 @@
         <div id="persons" class="collapse in">
         {% for person in formatted_persons %}
                 <div class="entry-post"> 
-                <b><p class="tag-company-header entry-post-content"><a href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a> </p></b>
-                {%  for tag in person["tags"]  %}
-                <span class="glyphicon glyphicon-tag"><a href="/tags/{{tag.id}}">{{tag.text}}</a></span>
-                {%  endfor  %}
+                <b><div class="tag-company-header"><a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a> </div></b>
+                    <div class="tag-container">
+                    {%  for tag in person["tags"]  %}
+                    #<a href="/tags/{{tag.id}}">{{tag.text}}</a>
+                    {%  endfor  %}
+                    </div>
+                </div>
                 </div>
 		{% endfor %}	
         </div>

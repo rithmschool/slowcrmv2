@@ -781,6 +781,9 @@ li{
     padding:  10px  0  5px  0;
 }
 
+.tag-container {
+    padding:  10px  0  10px  0;
+}
 
 @media (max-width: 1000px) {
     .modal-content {
