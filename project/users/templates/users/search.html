@@ -17,7 +17,7 @@
         <h3>Not what you were looking for?</h3>
           <p><a href="{{url_for('companies.new', term=term)}}">+ '{{term}}' as new company...</a></p>
           <p><a href="{{url_for('persons.new', term=term)}}">+ '{{term}}' as new person...</a></p>
-          <p><a href="">+ '{{term}}' as new tag...</a></p>
+          <p><a href="{{url_for('tags.new', term=term)}}">+ '{{term}}' as new tag...</a></p>
       </div>
   </div>
 </div>
