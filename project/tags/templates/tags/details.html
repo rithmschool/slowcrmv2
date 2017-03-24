@@ -17,7 +17,7 @@
 
         {% for entry in formatted_entries %}
 				<div class="entry-post"> 
-                    <h5><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></h5>
+                    <b><h5><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></h5></b>
 
                     <p class="entry-post-content">{{ entry["content"] | safe }}</p>
                 </div>
@@ -34,26 +34,27 @@
         <div id="companies" class="collapse in">
         {% for company in formatted_companies %}
                 <div class="entry-post"> 
-                <p class="entry-post-content"> {{ company | safe }} </p>
-
+                <b><div class="tag-company-header"><a class="entry-post-content" href="/companies/{{company['company_id']}}"> {{ company["company_name"] }} </a></div></b>
+                {%  for tag in company["tags"]  %}
+                <span class="glyphicon glyphicon-tag"><a href="/tags/{{tag.id}}">{{tag.text}}</a></span>
+                {%  endfor  %}
                 </div>
         {%  endfor  %}
         </div>
         </div>
         <div>
             <div class="row tag-detail-row">
-                <span class="tag-detail-section-header">Entries</span>
+                <span class="tag-detail-section-header">Persons</span>
                 <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#persons">Show/Hide</button>
             </div>
         <div id="persons" class="collapse in">
-        {% for taggable in taggables %}
-            {% if taggable.taggable_type == 'person' %}
-                {% set person = Person.query.get(taggable.taggable_id) %}
+        {% for person in formatted_persons %}
                 <div class="entry-post"> 
-                <p class="entry-post-content"> {{ person.name }} </p>
-
+                <b><p class="tag-company-header entry-post-content"><a href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a> </p></b>
+                {%  for tag in person["tags"]  %}
+                <span class="glyphicon glyphicon-tag"><a href="/tags/{{tag.id}}">{{tag.text}}</a></span>
+                {%  endfor  %}
                 </div>
-            {% endif %}
 		{% endfor %}	
         </div>
         </div>
