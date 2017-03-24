@@ -6,7 +6,6 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
 from flask_modus import Modus
-from sqlalchemy_searchable import make_searchable
 
 app = Flask(__name__)
 modus = Modus(app)
@@ -19,8 +18,6 @@ app.config['SECURITY_PASSWORD_SALT'] = os.environ.get('SECURITY_PASSWORD_SALT')
 login_manager = LoginManager(app)
 CSRFProtect(app)
 db = SQLAlchemy(app)
-make_searchable()
-db.configure_mappers()
 
 if os.environ.get('ENV') == 'production':
     debug = False
