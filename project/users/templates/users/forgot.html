@@ -1,31 +1,28 @@
 {% extends 'base.html' %}
-{% block content%} 
-<div class="content">
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-    {% endfor %}
-  <h3>Enter your email address and we will 
-  <br>send you a link to reset your password.</h3>
+{% block content%}
+  {% for message in get_flashed_messages() %}
+    <p class="flashwarning">{{ message }}</p>
+  {% endfor %} 
+<div class="container-fluid">
+<div class="editform">
+  <h2>Enter Your Email and We Will Send You A Link to Reset Your Password</h2>
+  <br>
   <form action="{{url_for('users.reset')}}" method="POST">
   {{ form.csrf_token }}
-  {% for field in form if field.widget.input_type != 'hidden' %}
-  <div class="form-group row">
-    {{ field.label }}  
+  {% if form.email.errors %}
+    {% for error in form.email.errors %}
+   <span class="text-danger">
+            {{ error }}
+          </span>
+    {% endfor %}
+  {% endif %}
+      <div class="form-group">
+      {{ form.email.label }}
       <div class="col-10">
-    {{ field }}
-      </div>
-    </div>  
-        {% if field.errors %}
-        {% for error in field.errors %}
-        <font color="red">{{ error }}</font>
-        {% endfor %}
-        {% endif %}
-      {% endfor %}
-      <br>
-      <div class="form-group row">  
-      <div class="col-10">
-    <button type="submit" class="btn btn-default">Send password reset email</button>
-    </div></div>
+      {{ form.email(class="editfield", id="mail") }}
+      </div></div>
+      <button type="submit" class="btn btn-default">Submit</button>      
+      </div></div></div>
   </form>
 </div>
 <div class="searchcontent">
@@ -37,3 +34,4 @@
   </div>
 </div>
 {% endblock %}
+

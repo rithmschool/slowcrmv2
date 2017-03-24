@@ -209,7 +209,9 @@ def password_recovery(token):
                 flash('Password updated')
                 return redirect(url_for('users.login'))
             flash('Passwords do not match')
-        render_template('users/passwordreset/{}'.format(token))            
+            return redirect(url_for('users.password_recovery', token=token))
+        flash("One Or More Fields Is Empty")    
+        return redirect(url_for('users.password_recovery', token=token))            
     try:
         email = confirm_token(token)
     except:
