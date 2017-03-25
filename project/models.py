@@ -2,7 +2,6 @@ from project import db, bcrypt
 from flask_login import UserMixin
 from datetime import datetime
 
-
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
@@ -39,9 +38,7 @@ entry_persons = db.Table('entries_persons',
     db.Column('person_id',db.Integer,db.ForeignKey("persons.id"))
 )
 
-
 class Person(db.Model):
-
     taggable_type = 'person'
     __tablename__ = "persons"
 
@@ -82,7 +79,6 @@ entry_companies = db.Table('entries_companies',
 
 
 class Company(db.Model):
-
     taggable_type = 'company'
     __tablename__ = 'companies'
 
@@ -120,7 +116,6 @@ class Company(db.Model):
 
 
 class Entry(db.Model, UserMixin):
-
     taggable_type = 'entry'
     __tablename__ = 'entries'
 
@@ -147,7 +142,6 @@ class Entry(db.Model, UserMixin):
 
 
 class Tag(db.Model):
-
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -171,6 +165,7 @@ class Taggable(db.Model):
         self.tag_id = tag_id
         self.taggable_id = taggable_id
         self.taggable_type = taggable_type
+
 
 
 
