@@ -7,7 +7,6 @@ from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
 from flask_modus import Modus
 
-
 app = Flask(__name__)
 modus = Modus(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or "postgres://localhost/slowcrmv2-db"
