@@ -710,6 +710,10 @@ li{
     box-shadow: 1px 1px 5px #888888;
 }
 
+.entry-post-content > p {
+    padding-top:  10px
+}
+
 .entry-post-dates {
     display: inline-block;
     padding-right: 30px;
@@ -777,11 +781,15 @@ li{
 }
 
 .tag-company-header {
-    padding:  10px  0  5px  0;
+    padding:  10px  0  10px  0;
 }
 
 .tag-container {
     padding:  10px  0  10px  0;
+}
+
+.tag-detail-index-btn {
+    padding-left:  15px;
 }
 
 @media (max-width: 1000px) {

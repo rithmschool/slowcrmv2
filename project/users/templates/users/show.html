@@ -72,12 +72,13 @@
 <!-- Posts container -->
         <div class="col-md-12">
             <h3 class="">{{user.name}}'s Entries</h3>
-            {%  if entries.first()  %}
-                  {%  for entry in entries[::-1]  %}
+            {%  if formatted_entries[0]  %}
+                  {%  for entry in formatted_entries[::-1]  %}
                 <div class="entry-post">
-                    <p class="entry-post-content">{{entry.content}}</p>
-                    <p class="entry-post-dates"><b>Created On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                    <p class="entry-post-dates"><b>Updated On: </b>{{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                    <p class="entry-post-content">{{entry["content"] | safe }}</p>
+                    <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}}</p>
+                    <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}</p>
+                
                 </div>
                     {%  endfor  %}
             {%  else  %}
@@ -117,12 +118,12 @@
     <!-- Posts container -->
     <div class="col-md-12">
         <h3 class="">{{user.name}}'s Entries</h3>
-        {%  if entries.first()  %}
-              {%  for entry in entries[::-1]  %}
+        {%  if formatted_entries[0] %}
+              {%  for entry in formatted_entries[::-1]  %}
             <div class="entry-post">
-                <p class="entry-post-content">{{entry.content}}</p>
-                <p class="entry-post-dates"><b>Created On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates"><b>Updated On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                <p class="entry-post-content">{{entry["content"] | safe }}</p>
+                <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}}</p>
+                <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}</p>
             </div>
                 {%  endfor  %}
         {%  else  %}
