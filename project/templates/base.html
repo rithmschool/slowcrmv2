@@ -14,6 +14,7 @@
     <script src="//code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/jquery.devbridge-autocomplete.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 </head>
 
@@ -28,9 +29,9 @@
         <div class="mypages">
         {% if current_user.is_authenticated %}
             <a href="{{url_for('companies.index')}}"><span class="mynavitems">Portfolio</span></a>
-            <a><span class="mynavitems">New Leads</span></a>
-            <a><span class="mynavitems">Live Deals</span></a>
-            <a><span class="mynavitems">Needs Discussion</span></a>
+            <a href="{{url_for('tags.details', id=1)}}"><span class="mynavitems">New Leads</span></a>
+            <a href="{{url_for('tags.details', id=2)}}"><span class="mynavitems">Live Deals</span></a>
+            <a href="{{url_for('tags.details', id=3)}}"><span class="mynavitems">Needs Discussion</span></a>
             <a href="{{url_for('users.show', id=current_user.id)}}"><span class="mynavitems">My Profile</span></a>
             <a href="{{url_for('users.logout')}}"><span class="mynavitems">Logout</span></a>
         {% else %}

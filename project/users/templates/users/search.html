@@ -5,11 +5,60 @@
   <div class="myheaderbar"></div>
   <div class="mycontent">
     {% if count > 0 %}
-      {% for r in results %}
-        <div class="searchresult">
-          {{r.content}}
+    {% if company_exact.count() > 0 %}
+      <div class="row user-row">
+            <span class="header2">Companies:
+            </span>
+            {% for company in company_exact %}
+            <div>
+            <tr>
+              <td class="leftme"><a href="{{url_for('companies.show', id=company.id)}}">{{company.name}}</a></td>
+              <td class="centerme">{{company.description}}</td>
+              <td class="centerme">{{company.partner_lead}}</td>
+            </tr>
+            </div>
+            {% endfor %}
         </div>
-      {% endfor %}
+      {% endif %}
+      {% if person_exact.count() > 0 %}
+      <div class="row user-row">
+            <span class="header2">People:
+            </span>
+            {% for person in person_exact %}
+            <div>
+              <tr>
+                <td class="leftme"><a href="{{url_for('persons.show', id=person.id)}}">{{person.name}}</a></td>
+              </tr>
+            </div>
+            {% endfor %}
+        </div>
+      {% endif %}
+      {% if entry_exact.count() > 0 %}
+      <div class="row user-row">
+            <span class="header2">Entries:
+            </span>
+            {% for entry in entry_exact %}
+            <li class="entry" data="{{entry.id}}">
+              <a class="nameanchor" href="/users/{{entry.user.id}}">
+                <div class="name">{{entry.user.name}}
+                </div>
+              </a>
+              <div class="text">{{get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)) | safe}}</div>
+            </li>
+            {% endfor %}
+        </div>
+      {% endif %}
+      {% if tag_exact.count() > 0 %}
+      <div class="row user-row">
+            <span class="header2">Tags:
+            </span>
+            {% for tag in tag_exact %} 
+            <div>
+              <span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>
+            </div>
+            {% endfor %}
+        </div>
+      {% endif %}
     {% else %}
       Sorry, no results found
     {% endif %}
