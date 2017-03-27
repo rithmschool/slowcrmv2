@@ -53,7 +53,7 @@ $(function() {
 
     $("#invite-modal-submit").on('click', function(e) {
         e.preventDefault();
-        $modalMessage.html('<p>This might take a moment...</p>');
+        $modalMessage.html('<p>One moment...</p>');
         var email = $("#invite-email").val();
         var name = $("#invite-name").val();
         $.ajax({
@@ -63,15 +63,10 @@ $(function() {
             contentType: "application/json",
             data: JSON.stringify({ name, email })
         }).then(function(response) {
-                $modalMessage.modal("show");
                 $modalMessage.html('<p>Succesfully sent invite!</p>');
         }).catch(function(e) {
                 if (JSON.parse(e.responseText) === "Missing form info") {
                     $modalMessage.html('<span style="color:red">Please fill in name and email</span>');
-                }
-                if (JSON.parse(e.responseText) === "Email already exists") {
-                    $modalMessage.html('<span style="color:red">Invite already sent to this email</span>');
-                    $modalMessage.modal("show")
                 }
         })
     });
