@@ -64,6 +64,8 @@ $(function() {
             data: JSON.stringify({ name, email })
         }).then(function(response) {
                 $modalMessage.html('<p>Succesfully sent invite!</p>');
+                $(".invite-modal-form").trigger('reset');
+
         }).catch(function(e) {
                 if (JSON.parse(e.responseText) === "Missing form info") {
                     $modalMessage.html('<span style="color:red">Please fill in name and email</span>');
