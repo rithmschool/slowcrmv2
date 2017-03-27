@@ -6,7 +6,7 @@ class UserForm(FlaskForm):
     name = StringField('Name', [validators.DataRequired()])
     password = PasswordField('Password', [validators.DataRequired()])
     confirmpassword = PasswordField('Confirm Password', [validators.DataRequired()])
-    phone = StringField('Phone', [validators.DataRequired()])
+    phone = StringField('Phone')
 
 class InviteForm(FlaskForm):
     email = StringField('Email', [validators.email()])
