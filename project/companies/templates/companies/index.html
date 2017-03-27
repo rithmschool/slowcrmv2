@@ -2,6 +2,7 @@
 
 {%  block content  %}
 
+
 <div class="container-fluid">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
@@ -35,5 +36,6 @@
 	</table>
 	</div>
 </div>
+	
 {%  endblock  %}
 
