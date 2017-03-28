@@ -1,4 +1,4 @@
-## Slow CRM ##
+## Slow CRM
 
 ### About
 
