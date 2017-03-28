@@ -81,6 +81,8 @@ $(function() {
     });        
 
 
+
+
     $('#entry-form').on('submit', function(e) {
         e.preventDefault()
         if ($('#tweet-message').val() === "") {
