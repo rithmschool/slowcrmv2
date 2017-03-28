@@ -6,7 +6,7 @@ Slow CRM is a Rithm-inspired project designed to create a CRM system customized 
 
 ### Things To Be Aware Of
 
-- Entries currently use jinja "safe" to show internal links to a tagged person, company, or tag. Make sure your environment is safe from cross-scripting attacks!
+- Entries currently use jinja "safe" to show internal links to a tagged person, company, or tag. Make sure your environment is safe from cross site scripting attacks!
 
 ### Technologies Used
 
