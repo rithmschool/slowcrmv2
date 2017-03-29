@@ -30,37 +30,33 @@ def home():
 @users_blueprint.route('/search', methods=['GET'])
 @login_required
 def search():
+    terms = request.args.get('search')
     search_terms = request.args.get('search').split(" ")
     entry = []
     person = []
     company = []
     tag = []
-    entry_exists = bool
-    tag_exists = bool
-    company_exists = bool
-    person_exists = bool
     for term in search_terms:
-        if len(term) >= 3:
+        if len(term) >= 2:
             tag_exists = bool(Tag.query.filter(Tag.text.contains(term)).first())
             if tag_exists:
                 tag.append(Tag.query.filter(Tag.text.contains(term)))
-            company_exists = bool(Company.query.filter(Company.name.contains(term)).first())
+            company_exists = bool(Company.query.filter(Company.name.contains(term.capitalize())).first())
             if company_exists:
-                company.append(Company.query.filter(Company.name.contains(term)))
-            person_exists = bool(Person.query.filter(Person.name.contains(term)).first())
+                company.append(Company.query.filter(Company.name.contains(term.capitalize())))
+            person_exists = bool(Person.query.filter(Person.name.contains(term.capitalize())).first())
             if person_exists:
-                person.append(Person.query.filter(Person.name.contains(term)))
+                person.append(Person.query.filter(Person.name.contains(term.capitalize())))
             entry_exists = bool(Entry.query.filter(Entry.content.contains(term)).first())
             if entry_exists:
                 entry.append(Entry.query.filter(Entry.content.contains(term)))
-
-    tag_exact = [item for sublist in tag for item in sublist]
-    person_exact = [item for sublist in person for item in sublist]
-    entry_exact = [item for sublist in entry for item in sublist]
-    company_exact = [item for sublist in company for item in sublist]
+    tag_exact = set([item for sublist in tag for item in sublist])
+    person_exact = set([item for sublist in person for item in sublist])
+    entry_exact = set([item for sublist in entry for item in sublist])
+    company_exact = set([item for sublist in company for item in sublist])
     count = len(tag_exact) + len(person_exact) + len(company_exact) + len(entry_exact)
     return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact,
-        tag_exact=tag_exact, count=count, term=term, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
+        tag_exact=tag_exact, count=count, term=terms, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
         tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
