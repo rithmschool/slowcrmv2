@@ -44,7 +44,7 @@ class BaseTestCase(TestCase):
             content_type = 'application/json'
         ) 
         tag = Tag.query.get(self.tag2.id)
-        self.assertEqual(response.json['suggestions'][0]['value'], "*"+tag.text)
+        self.assertEqual(response.json['suggestions'][0]['value'], "*"+tag.text+"*")
 
 
 if __name__ == '__main__':
