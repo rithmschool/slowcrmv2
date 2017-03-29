@@ -17,7 +17,6 @@ persons_blueprint = Blueprint(
 @persons_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-
     form = PersonForm(request.form)
     if request.method == 'POST':
         if form.validate():
@@ -112,7 +111,6 @@ def add_tag(id):
                 flash("This person is already tagged with '{}'".format(tag_text))
                 return redirect(url_for('persons.show', id=id))
 
-
 @persons_blueprint.route('/tags/autocomplete')
 @login_required
 def tags_autocomplete():
@@ -123,3 +121,9 @@ def tags_autocomplete():
                 'query': 'Unit',
                 'suggestions' : result
             })
+
+@persons_blueprint.route('/archived', methods=['GET'])
+@login_required
+def show_archived():
+    persons = Person.query.filter_by(archived=True).order_by(Person.name)
+    return render_template('persons/archived.html', persons=persons)
