@@ -31,25 +31,29 @@ def home():
 @login_required
 def search():
     terms = request.args.get('search')
-    search_terms = request.args.get('search').split(" ")
+    search_terms = request.args.get('search').split()
     entry = []
     person = []
     company = []
     tag = []
     for term in search_terms:
+        company_query = Company.query.filter(Company.name.contains(term.capitalize()))
+        tag_query = Tag.query.filter(Tag.text.contains(term))
+        person_query = Person.query.filter(Person.name.contains(term.capitalize()))
+        entry_query = Entry.query.filter(Entry.content.contains(term))
         if len(term) >= 2:
-            tag_exists = bool(Tag.query.filter(Tag.text.contains(term)).first())
+            tag_exists = bool(tag_query.first())
             if tag_exists:
-                tag.append(Tag.query.filter(Tag.text.contains(term)))
-            company_exists = bool(Company.query.filter(Company.name.contains(term.capitalize())).first())
+                tag.append(tag_query)
+            company_exists = bool(company_query.first())
             if company_exists:
-                company.append(Company.query.filter(Company.name.contains(term.capitalize())))
-            person_exists = bool(Person.query.filter(Person.name.contains(term.capitalize())).first())
+                company.append(company_query)
+            person_exists = bool(person_query.first())
             if person_exists:
-                person.append(Person.query.filter(Person.name.contains(term.capitalize())))
-            entry_exists = bool(Entry.query.filter(Entry.content.contains(term)).first())
+                person.append(person_query)
+            entry_exists = bool(entry_query.first())
             if entry_exists:
-                entry.append(Entry.query.filter(Entry.content.contains(term)))
+                entry.append(entry_query)
     tag_exact = set([item for sublist in tag for item in sublist])
     person_exact = set([item for sublist in person for item in sublist])
     entry_exact = set([item for sublist in entry for item in sublist])

@@ -40,6 +40,19 @@ class BaseTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('users/search.html')
 
+    def testCompanySearchResults(self):
+        url = '/users/search?search=Facebook'
+        response = self.client.get(url,
+            content_type='application/json')
+        to_utf_arr = response.data.decode("utf-8").split()
+        from IPython import embed;
+        embed()
+        self.assertEqual(self.find_results( to_utf_arr, "Facebook"), True)
+
+    def find_results(self, arr, term):
+        for val in arr:
+            if val.find(term) > -1:
+                return True
 
 if __name__ == '__main__':
     unittest.main()
