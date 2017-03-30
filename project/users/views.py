@@ -30,17 +30,37 @@ def home():
 @users_blueprint.route('/search', methods=['GET'])
 @login_required
 def search():
-    term = request.args.get('search')
-    tag_exists = bool(Tag.query.filter_by(text=term).first())
-    company_exists = bool(Company.query.filter_by(name=term).first())
-    person_exists = bool(Person.query.filter_by(name=term).first())
-    entry_exact = Entry.query.filter(Entry.content.ilike("%{}%".format(term)))
-    person_exact = Person.query.filter(Person.name.ilike("%{}%".format(term)))
-    company_exact = Company.query.filter(Company.name.ilike("%{}%".format(term)))
-    tag_exact = Tag.query.filter(Tag.text.ilike("%{}%".format(term)))
-    count = max(entry_exact.count(), person_exact.count(), company_exact.count(), tag_exact.count())
+    terms = request.args.get('search')
+    search_terms = request.args.get('search').split()
+    entry = []
+    person = []
+    company = []
+    tag = []
+    for term in search_terms:
+        company_query = Company.query.filter(Company.name.contains(term.capitalize()))
+        tag_query = Tag.query.filter(Tag.text.contains(term))
+        person_query = Person.query.filter(Person.name.contains(term.capitalize()))
+        entry_query = Entry.query.filter(Entry.content.contains(term))
+        if len(term) >= 2:
+            tag_exists = bool(tag_query.first())
+            if tag_exists:
+                tag.append(tag_query)
+            company_exists = bool(company_query.first())
+            if company_exists:
+                company.append(company_query)
+            person_exists = bool(person_query.first())
+            if person_exists:
+                person.append(person_query)
+            entry_exists = bool(entry_query.first())
+            if entry_exists:
+                entry.append(entry_query)
+    tag_exact = set([item for sublist in tag for item in sublist])
+    person_exact = set([item for sublist in person for item in sublist])
+    entry_exact = set([item for sublist in entry for item in sublist])
+    company_exact = set([item for sublist in company for item in sublist])
+    count = len(tag_exact) + len(person_exact) + len(company_exact) + len(entry_exact)
     return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact,
-        tag_exact=tag_exact, count=count, term=term, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
+        tag_exact=tag_exact, count=count, term=terms, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
         tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
@@ -110,9 +130,46 @@ def show(id):
     formatted_entries = [{
     "content":get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
     "created_at": entry.created_at,
-    "updated_at": entry.updated_at
+    "updated_at": entry.updated_at,
+    "archived": entry.archived,
+    "entry_id": entry.id
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
+
+@users_blueprint.route('/<int:id>/entries/<int:entry_id>')
+@login_required
+def archive(entry_id, id):
+    entry = Entry.query.get(entry_id)
+    if entry.archived == True:
+        entry.archived = False
+    else:
+        entry.archived = True
+    db.session.add(entry)
+    db.session.commit()
+    found_user = User.query.get_or_404(id)
+    formatted_entries = [{
+        "content": get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+        "created_at": entry.created_at,
+        "updated_at": entry.updated_at,
+        "archived": entry.archived,
+        "entry_id": entry.id
+    } for entry in Entry.query.filter_by(user_id=id)]
+    return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
+
+@users_blueprint.route('/<int:id>/entries/show_archived')
+@login_required
+def show_archived(id):
+    found_user = User.query.get_or_404(id)
+    formatted_entries = [{
+        "content": get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+        "created_at": entry.created_at,
+        "updated_at": entry.updated_at,
+        "archived": entry.archived,
+        "entry_id": entry.id
+    } for entry in Entry.query.filter_by(user_id=id)]
+    return render_template('users/archived_entries.html', user=found_user, formatted_entries=formatted_entries)
+
+
 
 # for editing users that are not new
 @users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
