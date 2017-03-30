@@ -319,12 +319,13 @@ def entry():
 def loadEntries():
     content = request.json
     if content == 'initial':
-        entries = Entry.query.all()
+        entries = Entry.query.order_by(asc(Entry.id)).all()
         return json.dumps([{
              'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
              'entry_id': entry.id,
              'name': entry.user.name,
-             'id': entry.user.id
+             'id': entry.user.id,
+             'archived': entry.archived
         } for entry in entries])
     else:
         # Getting ID of latest entry in DB
@@ -338,7 +339,8 @@ def loadEntries():
                 'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
                 'entry_id': entry.id,
                 'name': entry.user.name,
-                'id': entry.user.id
+                'id': entry.user.id,
+                'archived': entry.archived
             } for entry in new_entries])
         else:
             return json.dumps([])
