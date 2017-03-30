@@ -3,7 +3,7 @@
 {%  block content  %}
 {% for message in get_flashed_messages() %}
     <p class="flashwarning">{{ message }}</p>
-    {% endfor %}
+{% endfor %}
 
 <div class="container-fluid">
 <h4><a href = "{{url_for('persons.index')}}">Back To People Index</a></h4><br>
@@ -28,7 +28,7 @@
             <p>Created: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
         </div>
-        
+
     </div>
 
 <div class="col-md-12">
