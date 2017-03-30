@@ -6,7 +6,8 @@
     {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
-    <div><h2>People Index</h2></div>
+    <h4><a href="{{url_for('persons.index')}}">Back To People Index</a></h4><br>
+    <div><h2>Archived People Index</h2></div>
     <br><br>
     <div class="table-responsive">
         <table class="table">
@@ -33,6 +34,5 @@
 
         </table>
     </div>
-    <h4><a href="{{url_for('persons.show_archived')}}">Archived People</a></h4><br>
 </div>
 {%  endblock  %}

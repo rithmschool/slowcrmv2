@@ -5,7 +5,7 @@
   <div class="myheaderbar"></div>
   <div class="mycontent">
     {% if count > 0 %}
-    {% if company_exact.count() > 0 %}
+    {% if company_exact|length > 0 %}
       <div class="row user-row">
             <span class="header2">Companies:
             </span>
@@ -20,7 +20,7 @@
             {% endfor %}
         </div>
       {% endif %}
-      {% if person_exact.count() > 0 %}
+      {% if person_exact|length > 0 %}
       <div class="row user-row">
             <span class="header2">People:
             </span>
@@ -33,7 +33,7 @@
             {% endfor %}
         </div>
       {% endif %}
-      {% if entry_exact.count() > 0 %}
+      {% if entry_exact|length > 0 %}
       <div class="row user-row">
             <span class="header2">Entries:
             </span>
@@ -48,7 +48,7 @@
             {% endfor %}
         </div>
       {% endif %}
-      {% if tag_exact.count() > 0 %}
+      {% if tag_exact|length > 0 %}
       <div class="row user-row">
             <span class="header2">Tags:
             </span>

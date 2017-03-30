@@ -24,12 +24,11 @@ class PersonForm(FlaskForm):
     description = StringField('Description')
     slow_lp = BooleanField('Slow_lp')
 
-
 class EditUserForm(FlaskForm):
     email = StringField('Email', [validators.email()])
     name = StringField('Name', [validators.DataRequired()])
     password = PasswordField('Password', [validators.DataRequired()])
-    phone = StringField('Phone', [validators.DataRequired()])    
+    phone = StringField('Phone', [validators.DataRequired()])
 
 class ForgotPasswordForm(FlaskForm):
     email = StringField('Email', [validators.email()])
@@ -42,4 +41,3 @@ class EditPasswordForm(FlaskForm):
     newpassword = PasswordField('New Password', [validators.DataRequired()])
     confirmpassword = PasswordField('Confirm New Password', [validators.DataRequired()])
     currentpassword = PasswordField('Current Password', [validators.DataRequired()])
-

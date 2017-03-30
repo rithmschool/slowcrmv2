@@ -30,6 +30,7 @@ def home():
 @users_blueprint.route('/search', methods=['GET'])
 @login_required
 def search():
+<<<<<<< HEAD
     term = request.args.get('search')
     tag_exists = bool(Tag.query.filter_by(text=term).first())
     company_exists = bool(Company.query.filter_by(name=term).first())
@@ -41,6 +42,39 @@ def search():
     count = max(entry_exact.count(), person_exact.count(), company_exact.count(), tag_exact.count())
     return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact,
         tag_exact=tag_exact, count=count, term=term, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
+=======
+    terms = request.args.get('search')
+    search_terms = request.args.get('search').split()
+    entry = []
+    person = []
+    company = []
+    tag = []
+    for term in search_terms:
+        company_query = Company.query.filter(Company.name.contains(term.capitalize()))
+        tag_query = Tag.query.filter(Tag.text.contains(term))
+        person_query = Person.query.filter(Person.name.contains(term.capitalize()))
+        entry_query = Entry.query.filter(Entry.content.contains(term))
+        if len(term) >= 2:
+            tag_exists = bool(tag_query.first())
+            if tag_exists:
+                tag.append(tag_query)
+            company_exists = bool(company_query.first())
+            if company_exists:
+                company.append(company_query)
+            person_exists = bool(person_query.first())
+            if person_exists:
+                person.append(person_query)
+            entry_exists = bool(entry_query.first())
+            if entry_exists:
+                entry.append(entry_query)
+    tag_exact = set([item for sublist in tag for item in sublist])
+    person_exact = set([item for sublist in person for item in sublist])
+    entry_exact = set([item for sublist in entry for item in sublist])
+    company_exact = set([item for sublist in company for item in sublist])
+    count = len(tag_exact) + len(person_exact) + len(company_exact) + len(entry_exact)
+    return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact,
+        tag_exact=tag_exact, count=count, term=terms, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
+>>>>>>> 1d503f98b94c83273a8e2b47af86b27ddf7572e4
         tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
 @users_blueprint.route('/login', methods=['GET', 'POST'])
@@ -57,7 +91,6 @@ def login():
         flash('Invalid Credentials')
         return render_template('users/login.html', form=form)
     return render_template('users/login.html', form=form)
-
 
 @users_blueprint.route('/invite', methods=['POST'])
 @login_required
@@ -111,9 +144,46 @@ def show(id):
     formatted_entries = [{
     "content":get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
     "created_at": entry.created_at,
-    "updated_at": entry.updated_at
+    "updated_at": entry.updated_at,
+    "archived": entry.archived,
+    "entry_id": entry.id
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
+
+@users_blueprint.route('/<int:id>/entries/<int:entry_id>')
+@login_required
+def archive(entry_id, id):
+    entry = Entry.query.get(entry_id)
+    if entry.archived == True:
+        entry.archived = False
+    else:
+        entry.archived = True
+    db.session.add(entry)
+    db.session.commit()
+    found_user = User.query.get_or_404(id)
+    formatted_entries = [{
+        "content": get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+        "created_at": entry.created_at,
+        "updated_at": entry.updated_at,
+        "archived": entry.archived,
+        "entry_id": entry.id
+    } for entry in Entry.query.filter_by(user_id=id)]
+    return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
+
+@users_blueprint.route('/<int:id>/entries/show_archived')
+@login_required
+def show_archived(id):
+    found_user = User.query.get_or_404(id)
+    formatted_entries = [{
+        "content": get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+        "created_at": entry.created_at,
+        "updated_at": entry.updated_at,
+        "archived": entry.archived,
+        "entry_id": entry.id
+    } for entry in Entry.query.filter_by(user_id=id)]
+    return render_template('users/archived_entries.html', user=found_user, formatted_entries=formatted_entries)
+
+
 
 # for editing users that are not new
 @users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
@@ -139,7 +209,6 @@ def edit(id):
     flash('Permission Denied')
     return redirect(url_for('users.home'))
 
-
 @users_blueprint.route('/<int:id>/editpassword', methods=['GET','PATCH'])
 @login_required
 def edit_password(id):
@@ -163,7 +232,10 @@ def edit_password(id):
         return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d503f98b94c83273a8e2b47af86b27ddf7572e4
 
 # Only for new invited users
 @users_blueprint.route('/<int:id>/update', methods=['GET','PATCH'])
@@ -232,7 +304,6 @@ def password_recovery(token):
     found_user = User.query.filter_by(email=email).first_or_404()
     return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)
 
-
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required
 def entry():
@@ -248,6 +319,7 @@ def entry():
                 add_person_data_db(pipes_dollars_tuples[0], content, entry)
                 add_tag_data_db(pipes_dollars_tuples[2], content, entry)
 
+<<<<<<< HEAD
             except ValueError as e:
                 return json.dumps({
                         'message': str(e)
@@ -287,6 +359,36 @@ def entry():
                     } for entry in new_entries])
                 else:
                     return json.dumps([])
+=======
+@users_blueprint.route('/loadentries', methods=['GET', 'POST'])
+@login_required
+def loadEntries():
+    content = request.json
+    if content == 'initial':
+        entries = Entry.query.all()
+        return json.dumps([{
+             'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+             'entry_id': entry.id,
+             'name': entry.user.name,
+             'id': entry.user.id
+        } for entry in entries])
+    else:
+        # Getting ID of latest entry in DB
+        latest = Entry.query.order_by(desc(Entry.id)).first().id
+        # Calculating the difference between latest in database and latest client side
+        need = int(latest)-int(content)
+        if need >= 0:
+            # Getting appropriate amount of entries based on the need in descending order
+            new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
+            return json.dumps([{
+                'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+                'entry_id': entry.id,
+                'name': entry.user.name,
+                'id': entry.user.id
+            } for entry in new_entries])
+        else:
+            return json.dumps([])
+>>>>>>> 1d503f98b94c83273a8e2b47af86b27ddf7572e4
 
 def get_pipes_dollars_tags_tuples(content):
     pipes_dollars_tags_arrof_tuples = [[], [], []]
@@ -309,7 +411,6 @@ def get_pipes_dollars_tags_tuples(content):
                                 pipes_dollars_tags_arrof_tuples[1].append(tuple([idx, (idx+next_match+1)])) if char == '$' else None
                                 pipes_dollars_tags_arrof_tuples[2].append(tuple([idx, (idx+next_match+1)])) if char == '*' else None
     return  pipes_dollars_tags_arrof_tuples
-
 
 def get_links(content, pipes_dollars_tuples):
     pipes_tuples_arr = pipes_dollars_tuples[0]
@@ -374,7 +475,10 @@ def add_company_data_db(dollars_tuples_arr, content, entry):
             db.session.commit()
         else:
             entry.companies.append(Company.query.filter_by(name=company_name).first())
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d503f98b94c83273a8e2b47af86b27ddf7572e4
 
 def add_tag_data_db(star_tuples_arr, content, entry):
     for val in star_tuples_arr:
@@ -391,14 +495,16 @@ def add_tag_data_db(star_tuples_arr, content, entry):
             taggable = Taggable(entry.id, tag.id, entry.taggable_type)
             db.session.add(taggable)
             db.session.commit()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1d503f98b94c83273a8e2b47af86b27ddf7572e4
 
 @users_blueprint.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('users.login'))
-
 
 @users_blueprint.route('/search/autocomplete')
 @login_required

@@ -24,7 +24,7 @@ Slow CRM is a Rithm-inspired project designed to create a CRM system customized 
 - Migrate the database `python manager.py db upgrade`
 - Seed the database `python seed.py`
 - Start the server `python app.py`
-- App defaults to run at localhost:3001
+- App defaults to run at `localhost:3001`
 
 ### Testing
 

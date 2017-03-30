@@ -6,7 +6,7 @@ $(function() {
     let $searchIcon = $('.searchicon')
     let $mobileNav = $('.mobilenavpages')
     let $hamburger = $('.hamburgericon')
-    let $modalMessage = $("#modal-message")
+    let $modalMessage = $('#modal-message')
 
     $searchIcon.on('click', function(e) {
         if ($mobileNav.css('display').toLowerCase() == 'none') {
@@ -48,9 +48,7 @@ $(function() {
         }
     });
 
-        // Invite User Modal Form
-
-
+    // Invite User Modal Form
     $("#invite-modal-submit").on('click', function(e) {
         e.preventDefault();
         $modalMessage.html('<p>One moment...</p>');
@@ -63,13 +61,17 @@ $(function() {
             contentType: "application/json",
             data: JSON.stringify({ name, email })
         }).then(function(response) {
-                $modalMessage.html('<p>Succesfully sent invite!</p>');
-                $(".invite-modal-form").trigger('reset');
-
+            function sent(){
+              $modalMessage.html('<p></p>');
+              $("#invite-modal").modal('toggle');
+            }
+            $modalMessage.html('<p style="color:green">Successfully sent invite!</p>');
+            $(".invite-modal-form").trigger('reset');
+            setTimeout(sent, 2000)
         }).catch(function(e) {
-                if (JSON.parse(e.responseText) === "Missing form info") {
-                    $modalMessage.html('<span style="color:red">Please fill in name and email</span>');
-                }
+            if (JSON.parse(e.responseText) === "Missing form info") {
+                $modalMessage.html('<span style="color:red">Please fill in name and email</span>');
+            }
         })
     });
 });

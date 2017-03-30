@@ -112,7 +112,6 @@ def add_tag(id):
                 flash("This company is already tagged with '{}'".format(tag_text))
                 return redirect(url_for('companies.show', id=id))
 
-
 @companies_blueprint.route('/tags/autocomplete')
 @login_required
 def tags_autocomplete():
@@ -124,3 +123,8 @@ def tags_autocomplete():
                 'suggestions' : result
             })
 
+@companies_blueprint.route('/archived', methods=['GET'])
+@login_required
+def show_archived():
+    companies = Company.query.filter_by(archived=True).order_by(Company.name)
+    return render_template('companies/archived.html', companies=companies)
