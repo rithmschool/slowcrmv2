@@ -130,9 +130,46 @@ def show(id):
     formatted_entries = [{
     "content":get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
     "created_at": entry.created_at,
-    "updated_at": entry.updated_at
+    "updated_at": entry.updated_at,
+    "archived": entry.archived,
+    "entry_id": entry.id
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
+
+@users_blueprint.route('/<int:id>/entries/<int:entry_id>')
+@login_required
+def archive(entry_id, id):
+    entry = Entry.query.get(entry_id)
+    if entry.archived == True:
+        entry.archived = False
+    else:
+        entry.archived = True
+    db.session.add(entry)
+    db.session.commit()
+    found_user = User.query.get_or_404(id)
+    formatted_entries = [{
+        "content": get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+        "created_at": entry.created_at,
+        "updated_at": entry.updated_at,
+        "archived": entry.archived,
+        "entry_id": entry.id
+    } for entry in Entry.query.filter_by(user_id=id)]
+    return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
+
+@users_blueprint.route('/<int:id>/entries/show_archived')
+@login_required
+def show_archived(id):
+    found_user = User.query.get_or_404(id)
+    formatted_entries = [{
+        "content": get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+        "created_at": entry.created_at,
+        "updated_at": entry.updated_at,
+        "archived": entry.archived,
+        "entry_id": entry.id
+    } for entry in Entry.query.filter_by(user_id=id)]
+    return render_template('users/archived_entries.html', user=found_user, formatted_entries=formatted_entries)
+
+
 
 # for editing users that are not new
 @users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])

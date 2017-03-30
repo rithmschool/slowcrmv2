@@ -12,7 +12,6 @@ class CompanyForm(FlaskForm):
     round = StringField('Round')
     archived = BooleanField('Archived?')
 
-
 class EditCompanyForm(FlaskForm):
     description = StringField('Description')
     url = StringField('URL')
@@ -25,3 +24,4 @@ class EditCompanyForm(FlaskForm):
 
 class TagForm(FlaskForm):
     tag = StringField('Tag')
+
