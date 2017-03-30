@@ -169,8 +169,6 @@ def show_archived(id):
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/archived_entries.html', user=found_user, formatted_entries=formatted_entries)
 
-
-
 # for editing users that are not new
 @users_blueprint.route('/<int:id>/edit', methods=['GET','PATCH'])
 @login_required
@@ -289,61 +287,57 @@ def password_recovery(token):
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required
 def entry():
-    content = request.get_json().get('content')
-    if content:
-        try:
-            pipes_dollars_tuples = get_pipes_dollars_tags_tuples(content)
-            entry = Entry(current_user.id, content)
-            db.session.add(entry)
-            db.session.commit()
-            add_company_data_db(pipes_dollars_tuples[1], content, entry)
-            add_person_data_db(pipes_dollars_tuples[0], content, entry)
-            add_tag_data_db(pipes_dollars_tuples[2], content, entry)
-
-        except ValueError as e:
+    if request.method =="POST":
+        content = request.get_json().get('content')
+        if content:
+            try:
+                pipes_dollars_tuples = get_pipes_dollars_tags_tuples(content)
+                entry = Entry(current_user.id, content)
+                db.session.add(entry)
+                db.session.commit()
+                add_company_data_db(pipes_dollars_tuples[1], content, entry)
+                add_person_data_db(pipes_dollars_tuples[0], content, entry)
+                add_tag_data_db(pipes_dollars_tuples[2], content, entry)
+            except ValueError as e:
+                return json.dumps({
+                        'message': str(e)
+                    }), 400
             return json.dumps({
-                    'message': str(e)
-                }), 400
-
-        return json.dumps({
-             'data' : get_links(entry.content, pipes_dollars_tuples),
-             'entry_id': entry.id,
-             'name': current_user.name,
-             'id': current_user.id
-        })
-    else:
-        raise ValueError('content is empty')
-
-@users_blueprint.route('/loadentries', methods=['GET', 'POST'])
-@login_required
-def loadEntries():
-    content = request.json
-    if content == 'initial':
-        entries = Entry.query.order_by(asc(Entry.id)).all()
-        return json.dumps([{
-             'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
-             'entry_id': entry.id,
-             'name': entry.user.name,
-             'id': entry.user.id,
-             'archived': entry.archived
-        } for entry in entries])
-    else:
-        # Getting ID of latest entry in DB
-        latest = Entry.query.order_by(desc(Entry.id)).first().id
-        # Calculating the difference between latest in database and latest client side
-        need = int(latest)-int(content)
-        if need >= 0:
-            # Getting appropriate amount of entries based on the need in descending order
-            new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
-            return json.dumps([{
-                'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
-                'entry_id': entry.id,
-                'name': entry.user.name,
-                'id': entry.user.id,
-                'archived': entry.archived
-            } for entry in new_entries])
+                 'data' : get_links(entry.content, pipes_dollars_tuples),
+                 'entry_id': entry.id,
+                 'name': current_user.name,
+                 'id': current_user.id
+            })
         else:
-            return json.dumps([])
+            raise ValueError('content is empty')
+    elif request.method =="GET":
+            lastentry = request.args.get('lastentry')
+            if int(lastentry) < 0:
+                entries = Entry.query.all()
+                return json.dumps([{
+                     'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+                     'entry_id': entry.id,
+                     'name': entry.user.name,
+                     'id': entry.user.id,
+                     'archived': entry.archived
+                } for entry in entries])
+            else:
+                # Getting ID of latest entry in DB
+                latest = Entry.query.order_by(asc(Entry.id)).first().id
+                # Calculating the difference between latest in database and latest client side
+                need = int(latest)-int(lastentry)
+                if need >= 0:
+                    # Getting appropriate amount of entries based on the need in descending order
+                    new_entries = Entry.query.order_by(desc(Entry.id)).limit(need).all()
+                    return json.dumps([{
+                        'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
+                        'entry_id': entry.id,
+                        'name': entry.user.name,
+                        'id': entry.user.id,
+                        'archived': entry.archived
+                    } for entry in new_entries])
+                else:
+                    return json.dumps([])
 
 def get_pipes_dollars_tags_tuples(content):
     pipes_dollars_tags_arrof_tuples = [[], [], []]

@@ -7,8 +7,8 @@ from project import app, db, bcrypt
 
 class BaseTestCase(TestCase):
     def _login_user(self,email,password,follow_redirects=False):
-        return self.client.post('/users/login', 
-            data=dict(email=email, 
+        return self.client.post('/users/login',
+            data=dict(email=email,
             password=password), follow_redirects=follow_redirects)
 
     def create_app(self):
@@ -21,7 +21,7 @@ class BaseTestCase(TestCase):
     def setUp(self):
         db.create_all()
         user1 = User('aricliesenfelt@gmail.com', 'Aric Liesenfelt', 'password1', '9515706209', True, False)
-        user2 = User('tommyhopkins@gmail.com', 'Tommy Hopkins', 'password2', '1111111111', True, True)  
+        user2 = User('tommyhopkins@gmail.com', 'Tommy Hopkins', 'password2', '1111111111', True, True)
         entry1 = Entry(1, 'hey')
         entry2 = Entry(2, 'hey2')
         db.session.add_all([user1,user2, entry1, entry2])
@@ -42,13 +42,13 @@ class BaseTestCase(TestCase):
         # Logging in Successfully
         response = self._login_user('tommyhopkins@gmail.com','password2',True)
         self.assertEqual(response.status_code, 200)
-        self.assert_template_used('users/home.html')      
+        self.assert_template_used('users/home.html')
 
     def testSendInvite(self):
         self._login_user('tommyhopkins@gmail.com','password2')
         # Successful Invite
         response = self.client.post('/users/invite',
-            data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')), 
+            data=json.dumps(dict(email='noreply.slowcrm@gmail.com', name='Tommy')),
             content_type='application/json')
         expected_json = 'Invite Sent'
         self.assertEqual(response.status_code, 200)
@@ -56,7 +56,7 @@ class BaseTestCase(TestCase):
         self.assertEqual(response.json, expected_json)
         # Unsuccessful Invite
         response = self.client.post('/users/invite',
-            data=json.dumps(dict(name='Tommy')), 
+            data=json.dumps(dict(name='Tommy')),
             content_type='application/json')
         expected_json = 'Missing form info'
         self.assertEqual(response.status_code, 422)
@@ -77,10 +77,10 @@ class BaseTestCase(TestCase):
     def testTokenMissingUser(self):
         # Fail Test when email not in db
         token = generate_confirmation_token('mail@gmail.com')
-        response = self.client.get('/users/confirm/{}'.format(token)) 
+        response = self.client.get('/users/confirm/{}'.format(token))
         self.assertEqual(response.status_code, 404)
 
-    def testTokenInvalid(self):    
+    def testTokenInvalid(self):
         # Fail test when token invalid or expired
         response = self.client.get('/users/confirm/invalidtoken',
             follow_redirects=True)
@@ -95,8 +95,8 @@ class BaseTestCase(TestCase):
 
     def testEditSuccess(self):
         self._login_user('tommyhopkins@gmail.com','password2')
-        response = self.client.post('/users/2/edit?_method=PATCH', 
-            data=dict(email='tommyhopkins@gmail.com', 
+        response = self.client.post('/users/2/edit?_method=PATCH',
+            data=dict(email='tommyhopkins@gmail.com',
             password='password2', name='Bob', phone='4154241512'), follow_redirects=True)
         user = User.query.get(2)
         self.assertEqual(response.status_code,200)
@@ -106,18 +106,18 @@ class BaseTestCase(TestCase):
     def testEditWrongPass(self):
         # The password put in doesn't match db password
         self._login_user('tommyhopkins@gmail.com','password2')
-        response = self.client.post('/users/2/edit?_method=PATCH', 
-            data=dict(email='tommyhopkins@gmail.com', 
+        response = self.client.post('/users/2/edit?_method=PATCH',
+            data=dict(email='tommyhopkins@gmail.com',
             password='wrongpassword', name='Bob', phone='4154241512'), follow_redirects=True)
         self.assertEqual(response.status_code,200)
-        self.assert_template_used('users/edit.html')  
+        self.assert_template_used('users/edit.html')
 
     def testEditNotAuthorized(self):
         # Logged in user trying to access another user's edit page
         self._login_user('tommyhopkins@gmail.com','password2')
         response = self.client.get('/users/1/edit', follow_redirects=True)
         self.assertEqual(response.status_code,200)
-        self.assert_template_used('users/home.html')  
+        self.assert_template_used('users/home.html')
 
     def testUpdateGet(self):
         # Successfully access the page when user is not yet confirmed
@@ -135,9 +135,9 @@ class BaseTestCase(TestCase):
 
     def testUpdatePost(self):
         self._login_user('aricliesenfelt@gmail.com','password1')
-        response = self.client.post('/users/1/update?_method=PATCH', 
-            data=dict(email='aricliesenfelt@gmail.com', 
-            password='newpassword', confirmpassword='newpassword', 
+        response = self.client.post('/users/1/update?_method=PATCH',
+            data=dict(email='aricliesenfelt@gmail.com',
+            password='newpassword', confirmpassword='newpassword',
             name='NewName', phone='4154241512'), follow_redirects=True)
         user = User.query.filter_by(email='aricliesenfelt@gmail.com').first()
         self.assertEqual(response.status_code,200)
@@ -148,9 +148,9 @@ class BaseTestCase(TestCase):
     def testUpdateFail(self):
         #Passwords do not match
         self._login_user('aricliesenfelt@gmail.com','password1')
-        response = self.client.post('/users/1/update?_method=PATCH', 
-            data=dict(email='aricliesenfelt@gmail.com', 
-            password='newpassword', confirmpassword='wrongpassword', 
+        response = self.client.post('/users/1/update?_method=PATCH',
+            data=dict(email='aricliesenfelt@gmail.com',
+            password='newpassword', confirmpassword='wrongpassword',
             name='NewName', phone='4154241512'))
         user = User.query.filter_by(email='aricliesenfelt@gmail.com').first()
         self.assertEqual(response.status_code,200)
@@ -204,16 +204,14 @@ class BaseTestCase(TestCase):
 
     def testLoadEntries(self):
         self._login_user('tommyhopkins@gmail.com', 'password2')
-        
-        response = self.client.post('/users/loadentries',
-            data='"initial"', content_type='application/json')
+        response = self.client.get('/users/entries?lastentry=-1', content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual([{'data': 'hey', 'entry_id': 1, 'id': 1, 'name': 'Aric Liesenfelt'}, 
-            {'data': 'hey2', 'entry_id': 2, 'id': 2, 'name': 'Tommy Hopkins'}], response.json)
+        self.assertEqual([{'data': 'hey', 'entry_id': 1, 'id': 1, 'name': 'Aric Liesenfelt', 'archived': False},
+            {'data': 'hey2', 'entry_id': 2, 'id': 2, 'name': 'Tommy Hopkins', 'archived': False}], response.json)
 
     def testHome(self):
         self._login_user('tommyhopkins@gmail.com', 'password2')
-        
+
         response = self.client.get('/users/home')
         self.assertEqual(response.status_code, 200)
         self.assert_template_used('users/home.html')
