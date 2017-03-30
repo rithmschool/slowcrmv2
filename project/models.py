@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from datetime import datetime
 
 class User(db.Model, UserMixin):
-
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -86,7 +85,6 @@ entry_companies = db.Table('entries_companies',
     db.Column('company_id', db.Integer, db.ForeignKey("companies.id"))
 )
 
-
 class Company(db.Model):
     taggable_type = 'company'
     __tablename__ = 'companies'
@@ -104,7 +102,6 @@ class Company(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
-
 
     def __init__(self, name, description="", url="", logo_url="", partner_lead="", ops_lead="", source="", round="", archived=False):
         self.name = name

@@ -62,6 +62,7 @@ $(function() {
             data: JSON.stringify({ name, email })
         }).then(function(response) {
             function sent(){
+              $modalMessage.html('<p></p>');
               $("#invite-modal").modal('toggle');
             }
             $modalMessage.html('<p style="color:green">Successfully sent invite!</p>');
