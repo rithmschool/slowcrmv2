@@ -39,7 +39,7 @@ def search():
     company_exact = Company.query.filter(Company.name.ilike("%{}%".format(term)))
     tag_exact = Tag.query.filter(Tag.text.ilike("%{}%".format(term)))
     count = max(entry_exact.count(), person_exact.count(), company_exact.count(), tag_exact.count())
-    return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact, 
+    return render_template('users/search.html', entry_exact=entry_exact, person_exact=person_exact, company_exact=company_exact,
         tag_exact=tag_exact, count=count, term=term, get_links=get_links, get_pipes_dollars_tags_tuples=get_pipes_dollars_tags_tuples,
         tag_exists=tag_exists, company_exists=company_exists, person_exists=person_exists)
 
@@ -58,7 +58,6 @@ def login():
         return render_template('users/login.html', form=form)
     return render_template('users/login.html', form=form)
 
-
 @users_blueprint.route('/invite', methods=['POST'])
 @login_required
 def invite():
@@ -73,7 +72,7 @@ def invite():
         if bool(user_exists):
             if user_exists.confirmed:
                 return jsonify("User with this email is already confirmed")
-            else:    
+            else:
                 send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
                 return jsonify('Invite Sent'), 200
         else:
@@ -83,7 +82,7 @@ def invite():
             db.session.commit()
             send_token("You Have Been Invited To Join Slow CRM", "users/new_user.html", name, email, confirm_url)
             return jsonify('Invite Sent'), 200
-    else: 
+    else:
         return jsonify("Missing form info"), 422
 
 @users_blueprint.route('/confirm/<token>', methods=['GET'])
@@ -97,7 +96,7 @@ def confirm_email(token):
     if found_user.confirmed:
         flash('Account already confirmed. Please login or reset password', 'success')
         return redirect(url_for('users.login'))
-    else:   
+    else:
         found_user.updated_at = datetime.now()
         db.session.add(found_user)
         db.session.commit()
@@ -133,12 +132,11 @@ def edit(id):
                     db.session.commit()
                     return redirect(url_for('users.show', id=found_user.id))
                 flash('Password Incorrect', 'danger')
-                return render_template('users/edit.html', form=EditUserForm(), user=found_user)   
+                return render_template('users/edit.html', form=EditUserForm(), user=found_user)
             flash('Missing required information', 'danger')
         return render_template('users/edit.html', form=EditUserForm(), user=found_user)
     flash('Permission Denied')
     return redirect(url_for('users.home'))
-
 
 @users_blueprint.route('/<int:id>/editpassword', methods=['GET','PATCH'])
 @login_required
@@ -159,11 +157,10 @@ def edit_password(id):
                     return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
                 flash('Current password is incorrect')
                 return redirect(url_for('users.edit_password', form=EditPasswordForm(), id=found_user.id))
-            return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)           
+            return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
         return render_template('users/edit_password.html', form=EditPasswordForm(), user=found_user)
     flash('Permission Denied')
-    return redirect(url_for('users.home'))    
-
+    return redirect(url_for('users.home'))
 
 # Only for new invited users
 @users_blueprint.route('/<int:id>/update', methods=['GET','PATCH'])
@@ -205,7 +202,7 @@ def reset():
                 confirm_url = url_for('users.password_recovery', token=token, _external=True)
                 send_token("Reset your password on Slow CRM", "users/password_reset_email.html", found_user.name, found_user.email, confirm_url)
                 return redirect(url_for('users.login'))
-            flash('Email Not Found') 
+            flash('Email Not Found')
     return render_template('users/forgot.html', form=ForgotPasswordForm())
 
 @users_blueprint.route('/passwordreset/<token>', methods=['GET','PATCH'])
@@ -222,8 +219,8 @@ def password_recovery(token):
                 return redirect(url_for('users.login'))
             flash('Passwords do not match')
             return redirect(url_for('users.password_recovery', token=token))
-        flash("One Or More Fields Is Empty")    
-        return redirect(url_for('users.password_recovery', token=token))            
+        flash("One Or More Fields Is Empty")
+        return redirect(url_for('users.password_recovery', token=token))
     try:
         email = confirm_token(token)
     except:
@@ -231,7 +228,6 @@ def password_recovery(token):
         return redirect(url_for('users.login'))
     found_user = User.query.filter_by(email=email).first_or_404()
     return render_template('users/password_recover.html', form=RecoverPasswordForm(), user=found_user, token=token)
-
 
 @users_blueprint.route('/entries', methods=['GET', 'POST'])
 @login_required
@@ -260,7 +256,6 @@ def entry():
         })
     else:
         raise ValueError('content is empty')
-
 
 @users_blueprint.route('/loadentries', methods=['GET', 'POST'])
 @login_required
@@ -291,7 +286,6 @@ def loadEntries():
         else:
             return json.dumps([])
 
-
 def get_pipes_dollars_tags_tuples(content):
     pipes_dollars_tags_arrof_tuples = [[], [], []]
     if content.count('|') == 2 and content[0] == '|' and content[len(content)-1] == '|':
@@ -314,7 +308,6 @@ def get_pipes_dollars_tags_tuples(content):
                                 pipes_dollars_tags_arrof_tuples[2].append(tuple([idx, (idx+next_match+1)])) if char == '*' else None
     return  pipes_dollars_tags_arrof_tuples
 
-
 def get_links(content, pipes_dollars_tuples):
     pipes_tuples_arr = pipes_dollars_tuples[0]
     dollars_tuples_arr = pipes_dollars_tuples[1]
@@ -329,7 +322,7 @@ def get_links(content, pipes_dollars_tuples):
             idx = idx + (pipes_tuples_arr[0][1]+1 - pipes_tuples_arr[0][0])
             pipes_tuples_arr.pop(0)
         elif dollars_tuples_arr and idx in [dollars_tuples_arr[0][0]]:
-            company_name = stripped_content[dollars_tuples_arr[0][0]+1: dollars_tuples_arr[0][1]] 
+            company_name = stripped_content[dollars_tuples_arr[0][0]+1: dollars_tuples_arr[0][1]]
             links = links + get_company_link(company_name)
             idx = idx + (dollars_tuples_arr[0][1]+1 - dollars_tuples_arr[0][0])
             dollars_tuples_arr.pop(0)
@@ -377,8 +370,7 @@ def add_company_data_db(dollars_tuples_arr, content, entry):
             entry.companies.append(company)
             db.session.commit()
         else:
-            entry.companies.append(Company.query.filter_by(name=company_name).first())    
-
+            entry.companies.append(Company.query.filter_by(name=company_name).first())
 
 def add_tag_data_db(star_tuples_arr, content, entry):
     for val in star_tuples_arr:
@@ -394,15 +386,13 @@ def add_tag_data_db(star_tuples_arr, content, entry):
             tag = Tag.query.filter_by(text=tag_text).first()
             taggable = Taggable(entry.id, tag.id, entry.taggable_type)
             db.session.add(taggable)
-            db.session.commit() 
-
+            db.session.commit()
 
 @users_blueprint.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('users.login'))
-
 
 @users_blueprint.route('/search/autocomplete')
 @login_required
