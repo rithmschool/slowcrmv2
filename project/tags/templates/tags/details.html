@@ -1,71 +1,70 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container-fluid">
-    <div class = "col-md-12 col-xs-12">
-        <h4 class="tag-detail-index-btn"><a href="{{url_for('tags.index')}}">Back To Tag Index</a></h4>
+    <div>
+        <h4 class="tag-detail-index-btn"><a href="{{url_for('tags.index')}}">
+            <i class="fa fa-2x fa-arrow-circle-left" aria-hidden="true"></i>
+        </a></h4>
         <h2><span class="glyphicon glyphicon-tag"><b></span>{{tag_name.text}}</h2></b>
-        <div class = "col-md-12">
+        <div>
             <div>
-                <div class="row tag-detail-row">
-                    <span class="tag-detail-section-header">Entries</span>
+                <div>
+                    <span class="">Entries</span>
                     <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#entries">
                         <i class="fa fa-minus" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div id="entries" class="collapse in">
                     {% for entry in formatted_entries %}
-            				<div class="entry-post">
-                                <div class=entry-post-content>
-                                <b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b>
-                                <p>{{ entry["content"] | safe }}</p>
-                                </div>
-                            </div>
-                    {%  endfor  %}
+                    <div class="entry-post">
+                        <div class="entry-post-content">
+                            <b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b>
+                            <p>{{ entry["content"] | safe }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
                 <div>
-                    <div class="row tag-detail-row">
-                        <span class="tag-detail-section-header">Companies</span>
+                    <div>
+                        <span>Companies</span>
                         <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#companies">
                             <i class="fa fa-minus" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div id="companies" class="collapse in">
                         {% for company in formatted_companies %}
-                            <div class="entry-post">
-                                <div>
-                                    <a class="entry-post-content" href="/companies/{{company['company_id']}}">
+                        <div class="entry-post">
+                            <div>
+                                <a class="entry-post-content" href="/companies/{{company['company_id']}}">
                                         {{ company["company_name"] }}
                                     </a>
-                                    <div class="tag-container">
-                                        {%  for tag in company["tags"]  %}
-                                            <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
-                                        {%  endfor  %}
-                                    </div>
+                                <div>
+                                    {% for tag in company["tags"] %}
+                                    <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}
                                 </div>
                             </div>
-                        {%  endfor  %}
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div>
-                    <div class="row tag-detail-row">
-                        <span class="tag-detail-section-header">People</span>
+                    <div>
+                        <span>People</span>
                         <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#persons">
                             <i class="fa fa-minus" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div id="persons" class="collapse in">
                         {% for person in formatted_persons %}
-                            <div class="entry-post">
-                                <div>
-                                    <a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a>
-                                </div>
-                                <div class="tag-container">
-                                    {%  for tag in person["tags"]  %}
-                                <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
-                                    {%  endfor  %}
-                                </div>
+                        <div class="entry-post">
+                            <div>
+                                <a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a>
                             </div>
-                		{% endfor %}
+                            <div>
+                                {% for tag in person["tags"] %}
+                                <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

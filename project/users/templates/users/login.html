@@ -1,41 +1,38 @@
-{% extends 'base.html' %}
-{% block content%}
-<div class="container">
-<div class="editform">
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-    {% endfor %}
-<h2>Login</h2>
-<br>
-  <form action="{{url_for('users.login')}}" method="POST">
-  {{ form.csrf_token }}
-  {% if form.email.errors %}
-  {% for error in form.email.errors %}
-   <span class="text-danger">
-            {{ error }}
-          </span>
+{% extends 'base.html' %} {% block content%}
+<div class="login">
+    <div>
+        <img class="slow" src="http://slowventures.com/blueprint.png">
+    </div>
+
+    <div>
+        {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
         {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.email.label }}
-      <div>
-      {{ form.email(id="mail", class="editfield") }}
-      </div></div>
-{% if form.password.errors %}
-  {% for error in form.password.errors %}
-   <span class="text-danger">
-            {{ error }}
-          </span>
-        {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.password.label }}
-      <div>
-      {{ form.password(id="pw", class="editfield") }}
-      </div></div>
-  <button type="submit" class="button-hover">Submit</button>
-  <a href="/users/passwordreset">Forgot Password?</a>
-  </form>
-  </div>
-  </div>
+        <h2>Login</h2>
+        <form action="{{url_for('users.login')}}" method="POST">
+            {{ form.csrf_token }} {% if form.email.errors %} {% for error in form.email.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span> {% endfor %} {% endif %}
+                <div class="form-group">
+                    {{ form.email.label }}
+                    <div>
+                        {{ form.email(id="mail", class="editfield") }}
+                    </div>
+                </div>
+            {% if form.password.errors %} {% for error in form.password.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span> {% endfor %} {% endif %}
+                <div class="form-group">
+                    {{ form.password.label }}
+                    <div>
+                        {{ form.password(id="pw", class="editfield") }}
+                    </div>
+                </div>
+            <button type="submit" class="button-hover">Submit</button>
+            <a href="/users/passwordreset">Forgot Password?</a>
+        </form>
+    </div>
+</div>
 {% endblock %}
