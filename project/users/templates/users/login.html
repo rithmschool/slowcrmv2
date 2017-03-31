@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content%}
-<div class="container"> 
+<div class="container">
 <div class="editform">
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
@@ -32,8 +32,8 @@
       {{ form.password.label }}
       <div>
       {{ form.password(id="pw", class="editfield") }}
-      </div></div>      
-  <button type="submit" class="btn btn-default">Submit</button>
+      </div></div>
+  <button type="submit" class="button-hover">Submit</button>
   <a href="/users/passwordreset">Forgot Password?</a>
   </form>
   </div>
