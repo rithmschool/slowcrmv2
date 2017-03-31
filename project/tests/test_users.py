@@ -209,6 +209,17 @@ class BaseTestCase(TestCase):
         self.assertEqual([{'data': 'hey', 'entry_id': 1, 'id': 1, 'name': 'Aric Liesenfelt', 'archived': False},
             {'data': 'hey2', 'entry_id': 2, 'id': 2, 'name': 'Tommy Hopkins', 'archived': False}], response.json)
 
+    def testReloadEntries(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        entry3 = Entry(1, 'hello')
+        entry4 = Entry(1, 'hello2')
+        db.session.add_all([ entry3, entry4])
+        db.session.commit()
+        response = self.client.get('/users/entries?lastentry=2', content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([{'data': 'hello2', 'entry_id': 4, 'id': 1, 'name': 'Aric Liesenfelt', 'archived': False},
+            {'data': 'hello', 'entry_id': 3, 'id': 1, 'name': 'Aric Liesenfelt', 'archived': False}], response.json)
+
     def testHome(self):
         self._login_user('tommyhopkins@gmail.com', 'password2')
         response = self.client.get('/users/home')

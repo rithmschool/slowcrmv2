@@ -323,7 +323,7 @@ def entry():
                 } for entry in entries])
             else:
                 # Getting ID of latest entry in DB
-                latest = Entry.query.order_by(asc(Entry.id)).first().id
+                latest = Entry.query.order_by(desc(Entry.id)).first().id
                 # Calculating the difference between latest in database and latest client side
                 need = int(latest)-int(lastentry)
                 if need >= 0:
