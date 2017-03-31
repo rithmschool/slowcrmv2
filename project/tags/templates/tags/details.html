@@ -1,73 +1,75 @@
 {% extends 'base.html' %}
 {% block content %}
-
-
 <div class="container-fluid">
     <div class = "col-md-12 col-xs-12">
         <h4 class="tag-detail-index-btn"><a href="{{url_for('tags.index')}}">Back To Tag Index</a></h4>
         <h2><span class="glyphicon glyphicon-tag"><b></span>{{tag_name.text}}</h2></b>
-    
-
-    <div class = "col-md-12">
-        <div>
-            <div class="row tag-detail-row">
-                <span class="tag-detail-section-header">Entries</span>
-                <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#entries">Show/Hide</button>
-            </div>
-        <div id="entries" class="collapse in">
-
-        {% for entry in formatted_entries %}
-				<div class="entry-post"> 
-                    <div class=entry-post-content>
-                    <b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b>
-                    <p>{{ entry["content"] | safe }}</p>
-                    </div>
+        <div class = "col-md-12">
+            <div>
+                <div class="row tag-detail-row">
+                    <span class="tag-detail-section-header">Entries</span>
+                    <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#entries">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
                 </div>
-
-	
-        {%  endfor  %}
-        </div>
-        <div>
-
-            <div class="row tag-detail-row">
-                <span class="tag-detail-section-header">Companies</span>
-                <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#companies">Show/Hide</button>
-            </div>
-        <div id="companies" class="collapse in">
-        {% for company in formatted_companies %}
-                <div class="entry-post"> 
-                <b><div><a class="entry-post-content" href="/companies/{{company['company_id']}}"> {{ company["company_name"] }}</a></b>
-                    <div class="tag-container">
-                    {%  for tag in company["tags"]  %}
-                    <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
+                <div id="entries" class="collapse in">
+                    {% for entry in formatted_entries %}
+            				<div class="entry-post">
+                                <div class=entry-post-content>
+                                <b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b>
+                                <p>{{ entry["content"] | safe }}</p>
+                                </div>
+                            </div>
                     {%  endfor  %}
+                </div>
+                <div>
+                    <div class="row tag-detail-row">
+                        <span class="tag-detail-section-header">Companies</span>
+                        <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#companies">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div id="companies" class="collapse in">
+                        {% for company in formatted_companies %}
+                            <div class="entry-post">
+                                <div>
+                                    <a class="entry-post-content" href="/companies/{{company['company_id']}}">
+                                        {{ company["company_name"] }}
+                                    </a>
+                                    <div class="tag-container">
+                                        {%  for tag in company["tags"]  %}
+                                            <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
+                                        {%  endfor  %}
+                                    </div>
+                                </div>
+                            </div>
+                        {%  endfor  %}
                     </div>
                 </div>
+                <div>
+                    <div class="row tag-detail-row">
+                        <span class="tag-detail-section-header">People</span>
+                        <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#persons">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div id="persons" class="collapse in">
+                        {% for person in formatted_persons %}
+                            <div class="entry-post">
+                                <div>
+                                    <a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a>
+                                </div>
+                                <div class="tag-container">
+                                    {%  for tag in person["tags"]  %}
+                                <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
+                                    {%  endfor  %}
+                                </div>
+                            </div>
+                		{% endfor %}
+                    </div>
                 </div>
-        {%  endfor  %}
-        </div>
-        </div>
-        <div>
-            <div class="row tag-detail-row">
-                <span class="tag-detail-section-header">People</span>
-                <button type="button" class="pull-right btn btn-primary btn-sm" data-toggle="collapse" data-target="#persons">Show/Hide</button>
             </div>
-        <div id="persons" class="collapse in">
-        {% for person in formatted_persons %}
-                <div class="entry-post"> 
-                <b><div><a class="entry-post-content" href="/persons/{{person['person_id']}}"> {{ person["person_name"]}}</a> </div></b>
-                    <div class="tag-container">
-                    {%  for tag in person["tags"]  %}
-                    <a href="/tags/{{tag.id}}">#{{tag.text}}</a>
-                    {%  endfor  %}
-                    </div>
-                </div>
-
-		{% endfor %}	
         </div>
-        </div>
-    </div>
-
     </div>
 </div>
 {% endblock %}

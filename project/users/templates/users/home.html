@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block content %}
 
 <script type="text/javascript">
@@ -16,24 +16,10 @@
 {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
-    <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
-        <div class="form-group">
-            <textarea name="tweet-message" id="tweet-message" cols="30" rows="3" class="form-control" placeholder="Send an update to partners.."></textarea>
-
-        </div>
-        <span class="legend"> $CompanyName$, </span>
-        <span class="legend"> |PersonName|, </span>
-        <span class="legend"> *TagName*</span>
-        <div class="flashes"></div>
-        <div class="pull-right">
-            <button id="tweet-button" type="submit" class="btn btn-primary">Post Update</button>
-        </div>
-    </form>
-    <div class="entries">
-        <ul class="entrieslist">
-        </ul>
+<div class="display">
+    <div class="">
+        <div><ul class="entrieslist"></ul></div>
     </div>
-
-<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</div>
 {% endblock %}
-
