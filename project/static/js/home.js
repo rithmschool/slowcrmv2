@@ -1,4 +1,13 @@
 $(function() {
+    function prependLiToHome($ul, entry_id, name, data) {
+      $ul.prepend(`<li class="entry" data-id="${entry_id}">
+                          <a class="nameanchor" href="/users/${entry_id}">
+                              <div class="name">${name}
+                              </div>
+                          </a>
+                          <div class="text">${data}</div>
+                      </li>`);
+    }
 
     $.ajax({
         url: "/users/entries",
@@ -9,13 +18,8 @@ $(function() {
         contentType: "application/json",
     }).then(function(response) {
         response.forEach((value, index) => {
-            $('ul').prepend(`<li class="entry" data-id="${response[index].entry_id}">
-                                <a class="nameanchor" href="/users/${response[index].id}">
-                                    <div class="name">${response[index].name}
-                                    </div>
-                                </a>
-                                <div class="text">${response[index].data}</div>
-                            </li>`)
+          prependLiToHome($('ul'), response[index].entry_id, response[index].name, response[index].data);
+
         })
     }).then(() => {
         let reload = () => {
@@ -30,13 +34,7 @@ $(function() {
                 }).then(function(response) {
                     if(Array.isArray(response) && response.length > 0){
                         response.forEach((value, index) => (
-                            $('ul').prepend(`<li class="entry" data-id="${response[index].entry_id}">
-                                                <a class="nameanchor" href="/users/${response[index].id}">
-                                                    <div class="name">${response[index].name}
-                                                    </div>
-                                                </a>
-                                                <div class="text">${response[index].data}</div>
-                                            </li>`)
+                          prependLiToHome($('ul'), response[index].entry_id, response[index].name, response[index].data)
                         ))
                     }
                 })
