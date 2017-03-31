@@ -11,7 +11,6 @@
       }
     }
   });
-
 </script>
 
 <!-- Invite User Modal with AJAX -->
@@ -38,107 +37,82 @@
   </div>
 </div>
 
+<!-- Start container -->
 <div class="container-fluid">
-    <div class="row">
-        <!-- Top profile/tags container -->
-        <div class="profile-box col-md-12 col-xs-12">
-            <!-- begin left box -->
-            <div class="container-fluid">
-
-                {% if current_user.id == user.id %}
-                <div class="row user-row">
-            <span class="user-header">User {{user.name}}'s Profile Page
-            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
-            </span>
-                    <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal"
-                            data-target="#invite-modal">Invite New User
-                    </button>
-                </div>
-
-                <div>
-                    <p><b>Email:</b> {{user.email}}</p>
-                    <p><b>Phone:</b> {{user.phone}}</p>
-                    <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M
-                        %p')}}</p>
-                    <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M
-                        %p')}}</p>
-                    <p><b>Admin:</b> {{user.is_admin}}</p>
-                    <p><b>Confirmed:</b> {{user.confirmed}}</p>
-                    <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
-                </div>
-
-                <!-- end top row -->
-            </div>
+  <div class="row">
+    <!-- Top profile/tags container -->
+    <div class = "profile-box col-md-12 col-xs-12">
+      <!-- begin left box -->
+      <div class="container-fluid">
+        {% if current_user.id == user.id %}
+        <div class="row user-row">
+          <span class="user-header">User {{user.name}}'s Profile Page
+          <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
+          </span>
+          <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
         </div>
-        <!-- Posts container -->
-        <div class="col-md-12">
-            <h3 class="">{{user.name}}'s Entries</h3>
-            {% if formatted_entries[0] %}
-            {% for entry in formatted_entries[::-1] %}
-            {% if not entry["archived"]%}
-            <div class="entry-post">
-                <p class="entry-post-content">{{entry["content"] | safe }}</p>
-                <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at
-                    {{entry["created_at"].strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at
-                    {{entry["updated_at"].strftime('%I:%M %p')}}</p>
-                 <p class="entry-post-dates"><b>Archived: </b>{{entry["archived"]}}</p>
-                <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" class="btn">Archive</a>
-            </div>
+
+        <div>
+          <p><b>Email:</b> {{user.email}}</p>
+          <p><b>Phone:</b> {{user.phone}}</p>
+          <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+          <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+          <p><b>Admin:</b> {{user.is_admin}}</p>            <p><b>Confirmed:</b> {{user.confirmed}}</p>
+          <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
+        </div>
+
+        {% else %}
+
+        <h2>User {{user.name}}'s Profile Page</h2>
+
+        <div>
+          <p><b>Email:</b> {{user.email}}</p>
+          <p><b>Phone:</b> {{user.phone}}</p>
+          <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+          <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+          <p><b>Admin:</b> {{user.is_admin}}</p>
+          <p><b>Confirmed:</b> {{user.confirmed}}</p>
+        </div>
+        {% endif %}
+      <!-- end top row -->
+      </div>
+    </div>
+    <!-- Posts container -->
+    <div class="col-md-12">
+      <h3 class="">{{user.name}}'s Entries</h3>
+      {%  if formatted_entries[0]  %}
+        {%  for entry in formatted_entries[::-1]  %}
+          {% if not entry["archived"] %}
+          <div class="entry-post">
+            <p class="entry-post-content">{{entry["content"] | safe }}</p>
+            <p class="entry-post-dates">
+              <b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}}
+            </p>
+            <p class="entry-post-dates">
+              <b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}
+            </p>
+            {% if current_user.id == user.id %}
+              <p class="entry-post-dates"><b>Archived: </b>{{entry["archived"]}}</p>
+                  <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" class="btn btn-sm btn-info">Archive</a>
             {% endif %}
-            {% endfor %}
-            {% else %}
-            <p class="text-center">No posts to show right now</p>
-            {% endif %}
-        </div>
-        <a href="{{ url_for('users.show_archived',  id=user.id) }}" class="btn">Show Archived Entries</a>
+          </div>
+          {% endif %}
+        {%  endfor  %}
+      {%  else  %}
+        <p class="text-center">No posts to show right now</p>
+      {%  endif  %}
     </div>
-
-    <!-- Search container -->
-    <div class="searchcontent">
-        <div class="myheader">
-            <div class="myheadertext">Search</div>
-            <div class="myheaderbar"></div>
-            <div class="mycontent"></div>
-        </div>
-    </div>
-</div>
-
-<!-- End container -->
-</div>
-
-{% else %}
-
-<h2>User {{user.name}}'s Profile Page</h2>
-
-<div>
-    <p><b>Email:</b> {{user.email}}</p>
-    <p><b>Phone:</b> {{user.phone}}</p>
-    <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-    <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-    <p><b>Admin:</b> {{user.is_admin}}</p>
-    <p><b>Confirmed:</b> {{user.confirmed}}</p>
-</div>
-</div>
-</div>
-<!-- Posts container -->
-<div class="col-md-12">
-    <h3 class="">{{user.name}}'s Entries</h3>
-    {% if formatted_entries[0] %}
-    {% for entry in formatted_entries[::-1] %}
-    <div class="entry-post">
-        <p class="entry-post-content">{{entry["content"] | safe }}</p>
-        <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at
-            {{entry["created_at"].strftime('%I:%M %p')}}</p>
-        <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at
-            {{entry["updated_at"].strftime('%I:%M %p')}}</p>
-    </div>
-    {% endfor %}
-    {% else %}
-    <p class="text-center">No posts to show right now</p>
+    {% if current_user.id == user.id %}
+      <a href="{{ url_for('users.show_archived',  id=user.id) }}" class="btn">Show Archived Entries</a>
     {% endif %}
-</div>
+  </div>
 
-{% endif %}
-
+<!-- What's this about? -->
+  <div class="searchcontent">
+    <div class="myheader">
+      <div class="myheadertext">Search</div>
+      <div class="myheaderbar"></div>
+      <div class="mycontent"></div>
+    </div>
+  </div>
 {%  endblock  %}
