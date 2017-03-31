@@ -25,9 +25,10 @@
 {% endif %}
     <div class="form-group">
         {{ form.email.label }}
-    <div>
-        {{ form.email(class="editfield", id="mail", value=person.email) }}
-    </div></div>
+        <div>
+            {{ form.email(class="editfield", id="mail", value=person.email) }}
+        </div>
+    </div>
 {% if form.phone.errors %}
 	{% for error in form.phone.errors %}
 	<span class="text-danger">
@@ -37,9 +38,10 @@
 {% endif %}
     <div class="form-group">
         {{ form.phone.label }}
-    <div>
-        {{ form.phone(class="editfield", value=person.phone) }}
-    </div></div>
+        <div>
+            {{ form.phone(class="editfield", value=person.phone) }}
+        </div>
+    </div>
 {% if form.title.errors %}
 	{% for error in form.title.errors %}
 	<span class="text-danger">

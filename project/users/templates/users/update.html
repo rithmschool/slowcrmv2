@@ -1,83 +1,72 @@
-{% extends 'base.html' %}
-{% block content%}
+{% extends 'base.html' %} {% block content%}
 <div class="container">
-<div class="editform">
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-{% endfor %}
-	<h2>Update Your Account Info</h2>
-	<form action="{{url_for('users.update', id=user.id)}}?_method=PATCH" method="POST">
-	{{ form.csrf_token }}
-	{% if form.email.errors %}
-	{% for error in form.email.errors %}
-	 <span class="text-danger">
-            {{ error }}
-          </span>
+    <div class="editform">
+        {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
         {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.email.label }}
-      <div>
-      {{ form.email(value=user.email, class="editfield", id="mail") }}
-      </div></div>
-      {% if form.name.errors %}
-      {% for error in form.name.errors %}
-	 <span class="text-danger">
-            {{ error }}
-          </span>
-        {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.name.label }}
-      <div>
-      {{ form.name(value=user.name, class="editfield") }}
-      </div></div>
-      {% if form.phone.errors %}
-      {% for error in form.phone.errors %}
-	 <span class="text-danger">
-            {{ error }}
-          </span>
-        {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.phone.label }}
-      <div>
-      {{ form.phone(value=user.phone, class="editfield") }}
-      </div></div>
-      {% if form.password.errors %}
-      {% for error in form.password.errors %}
-	 <span class="text-danger">
-            {{ error }}
-          </span>
-        {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.password.label }}
-      <div>
-      {{ form.password(class="editfield", id="pw") }}
-      </div></div>
-      {% if form.confirmpassword.errors %}
-      {% for error in form.confirmpassword.errors %}
-	 <span class="text-danger">
-            {{ error }}
-          </span>
-        {% endfor %}
-      {% endif %}
-      <div class="form-group">
-      {{ form.confirmpassword.label }}
-      <div>
-      {{ form.confirmpassword(class="editfield") }}
-      </div></div>
-	<button type="submit" class="button-hover">Save</button>
-	</form>
-</div>
+        <h2>Update Your Account Info</h2>
+        <form action="{{url_for('users.update', id=user.id)}}?_method=PATCH" method="POST">
+            {{ form.csrf_token }} {% if form.email.errors %} {% for error in form.email.errors %}
+            <span class="text-danger">
+                {{ error }}
+            </span> {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.email.label }}
+                <div>
+                    {{ form.email(value=user.email, class="editfield", id="mail") }}
+                </div>
+            </div>
+            {% if form.name.errors %} {% for error in form.name.errors %}
+            <span class="text-danger">
+                    {{ error }}
+                  </span> {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.name.label }}
+                <div>
+                    {{ form.name(value=user.name, class="editfield") }}
+                </div>
+            </div>
+            {% if form.phone.errors %} {% for error in form.phone.errors %}
+            <span class="text-danger">
+                    {{ error }}
+                  </span> {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.phone.label }}
+                <div>
+                    {{ form.phone(value=user.phone, class="editfield") }}
+                </div>
+            </div>
+            {% if form.password.errors %} {% for error in form.password.errors %}
+            <span class="text-danger">
+                    {{ error }}
+                  </span> {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.password.label }}
+                <div>
+                    {{ form.password(class="editfield", id="pw") }}
+                </div>
+            </div>
+            {% if form.confirmpassword.errors %} {% for error in form.confirmpassword.errors %}
+            <span class="text-danger">
+                    {{ error }}
+                  </span> {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.confirmpassword.label }}
+                <div>
+                    {{ form.confirmpassword(class="editfield") }}
+                </div>
+            </div>
+            <button type="submit" class="button-hover">Save</button>
+        </form>
+    </div>
 </div>
 <div class="searchcontent">
     <div class="myheader">
         <div class="myheadertext">Search</div>
         <div class="myheaderbar"></div>
-    	<div class="mycontent">
-    	</div>
-	</div>
+        <div class="mycontent">
+        </div>
+    </div>
 </div>
+
 {% endblock %}
