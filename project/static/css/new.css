@@ -1,11 +1,12 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
-
 a {
     color: #607c8b;
 }
-
+button a{
+    color:white;
+}
 input {
     border: none;
     font-size: 3rem;
@@ -14,7 +15,6 @@ input {
     color: grey;
     text-align: left;
 }
-
 button {
     background: #607c8b;
     padding: 1rem;
@@ -28,7 +28,12 @@ ul {
     text-decoration: none;
     list-style: none;
 }
-
+.container{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
 .inline {
     display: flex;
     justify-content: flex-end;
@@ -39,7 +44,9 @@ ul {
     background: none;
     color: #607c8b;
 }
-
+.slow{
+    border-radius: 100rem;
+}
 
 /*NEWPOST
 *********
@@ -60,8 +67,9 @@ ul {
 
 .display {
     border-radius: 0.2rem;
+    margin-top: -3rem;
     background: rgb(246, 246, 246);
-    padding: 1rem;
+    padding:3rem 1rem;
     height: 100vh;
 }
 
@@ -176,7 +184,7 @@ div.modal-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(to right, #86a2a6, #607d8b);
+    background: linear-gradient(135deg, #3c6272, #294762);
     padding: 0 2rem;
     margin-bottom: 1rem;
     position: relative;
@@ -208,7 +216,19 @@ input.search::placeholder {
 /*CONTENT
 *********
 */
-
+.login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+}
+.login input{
+    font-size: 3rem;
+    background:rgba(0,0,0,0.1);
+    padding:0.5rem;
+}
+.login div{
+}
 .content {
     padding: 2rem;
 }
@@ -217,9 +237,7 @@ input.search::placeholder {
     color: rgba(255, 255, 255, 0.8);
 }
 
-
 /* iPhone Portrait and Landscape */
-
 @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
     body {
         font-size: 1rem;
@@ -227,21 +245,32 @@ input.search::placeholder {
     .content {
         font-size: 2rem;
     }
-    img.logo {
-        max-width: 4rem;
+    .logo img {
+        display: none;
+        max-width: 3rem;
     }
     .new {
         display: flex;
         justify-content: center;
+        align-items: center;
         font-size: 1.5rem;
     }
+    .right{
+        justify-content: flex-end;
+        width:100vw;
+    }
+    .search{
+        display:none;
+    }
     .right * {
-        margin-right: 0.5rem;
         z-index: 11;
     }
     .mynav {
+        position: sticky;
+        top:90vh;
         padding: 0.2rem;
-        align-items: flex-end;
+        padding-bottom: 3rem;
+        margin-bottom: -1rem;
     }
     .legend {
         border-radius: 0.5rem;
@@ -253,32 +282,34 @@ input.search::placeholder {
     .legend span {
         padding: 0px;
     }
+    .content.login{
+        width: 100%;
+    }
+    img{
+        max-width: 70vw;
+    }
 }
-
-
 /*iPad and Low Res Laptop*/
-
 @media (min-device-width: 667px) and (max-device-width:1200px) {
+    .content.login{
+        width: 100%;
+    }
     .content {
-        margin: auto;
-        max-width: 60vw;
     }
 }
-
-
 /*Large Display*/
-
 @media (min-device-width: 1200px) {
-    .content {
-        margin: auto;
-        width: 50vw;
+    .content.login{
+        width: 100%;
+    }
+    .display{
+        padding-top: 3rem;
+        margin-top: -3rem;
     }
 }
-
 
 /* KEYFRAMES
 *********/
-
 .button-hover {
     cursor: pointer;
     display: inline-block;
@@ -288,7 +319,6 @@ input.search::placeholder {
     transition-property: transform;
     transition-timing-function: ease-out;
 }
-
 .button-hover:hover, .button-hover:focus, .button-hover:active {
     transform: translateY(3px);
 }
