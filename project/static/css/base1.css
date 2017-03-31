@@ -1021,8 +1021,12 @@ li{
     text-align: center;
 }
 
-.flashwarning {
-    color: red;
+.flashsuccess {
+    color: green;
+}
+
+.flashsuccess, .flash {
+  text-align: center;
 }
 
 .user-post {

@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from datetime import datetime
 
 class User(db.Model, UserMixin):
-
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,13 +28,16 @@ class User(db.Model, UserMixin):
         self.confirmed = confirmed
 
     def __repr__(self):
-        return "{},{},{},{},{},{},{},{}".format(self.email,self.name,self.password, self.phone,
-            self.created_at, self.updated_at,self.is_admin,self.confirmed)
-
+        return "{},{},{},{},{},{},{},{}".format(
+            self.email,self.name,
+            self.password,
+            self.phone,
+            self.created_at, self.updated_at,self.is_admin,self.confirmed
+        )
 
 entry_persons = db.Table('entries_persons',
     db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
-    db.Column('person_id',db.Integer,db.ForeignKey("persons.id"))
+    db.Column('person_id', db.Integer, db.ForeignKey("persons.id"))
 )
 
 class Person(db.Model):
@@ -65,18 +67,23 @@ class Person(db.Model):
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
-
-
     def __repr__(self):
-        return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.id,self.archived,self.email,self.phone,self.name,
-            self.description,self.slow_lp,self.created_at,self.updated_at)
-
+        return "{},{},{},{},{},{},{},Created:{}, Updated:{}".format(
+            self.id,
+            self.archived,
+            self.email,
+            self.phone,
+            self.name,
+            self.description,
+            self.slow_lp,
+            self.created_at,
+            self.updated_at
+        )
 
 entry_companies = db.Table('entries_companies',
     db.Column('entry_id', db.Integer, db.ForeignKey("entries.id")),
     db.Column('company_id', db.Integer, db.ForeignKey("companies.id"))
 )
-
 
 class Company(db.Model):
     taggable_type = 'company'
@@ -96,7 +103,6 @@ class Company(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now,
         onupdate=db.func.now())
 
-
     def __init__(self, name, description="", url="", logo_url="", partner_lead="", ops_lead="", source="", round="", archived=False):
         self.name = name
         self.description = description
@@ -111,10 +117,19 @@ class Company(db.Model):
         self.updated_at = datetime.now()
 
     def __repr__(self):
-        return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.archived,self.id,self.name,self.description,self.url,
-            self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)
-
-
+        return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(
+            self.archived,
+            self.id,
+            self.name,
+            self.description,
+            self.url,
+            self.logo_url,
+            self.partner_lead,
+            self.ops_lead,
+            self.created_at,
+            self.updated_at
+        )
+        
 class Entry(db.Model, UserMixin):
     taggable_type = 'entry'
     __tablename__ = 'entries'
@@ -128,7 +143,6 @@ class Entry(db.Model, UserMixin):
     companies = db.relationship('Company', secondary=entry_companies, backref=db.backref('entries'), lazy='dynamic')
     persons = db.relationship('Person', secondary=entry_persons, backref=db.backref('entries'), lazy='dynamic')
 
-
     def __init__(self, user_id, content, archived=False):
         self.user_id = user_id
         self.content = content
@@ -136,10 +150,8 @@ class Entry(db.Model, UserMixin):
         self.updated_at = datetime.now()
         self.archived = archived
 
-
     def __repr__(self):
         return "id {} content {}".format(self.id, self.content)
-
 
 class Tag(db.Model):
     __tablename__ = 'tags'
@@ -149,7 +161,6 @@ class Tag(db.Model):
 
     def __init__(self, text):
         self.text = text
-
 
 class Taggable(db.Model):
     __tablename__ = 'taggable'

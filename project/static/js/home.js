@@ -1,14 +1,15 @@
 $(function() {
 
     $.ajax({
-        type: "POST",
-        url: "/users/loadentries",
-        data: JSON.stringify("initial"),
+        url: "/users/entries",
+        data:{
+          lastentry: -1
+        },
         dataType: "json",
         contentType: "application/json",
     }).then(function(response) {
         response.forEach((value, index) => {
-            $('ul').prepend(`<li class="entry" data="${response[index].entry_id}">
+            $('ul').prepend(`<li class="entry" data-id="${response[index].entry_id}">
                                 <a class="nameanchor" href="/users/${response[index].id}">
                                     <div class="name">${response[index].name}
                                     </div>
@@ -18,17 +19,18 @@ $(function() {
         })
     }).then(() => {
         let reload = () => {
-            let latest = $('ul li:first').attr('data')
+            let latest = $('ul li:first').data('id')
                 $.ajax({
-                    type: "POST",
-                    url: "/users/loadentries",
-                    data: JSON.stringify(latest),
+                    url: "/users/entries",
+                    data: {
+                      lastentry: latest
+                    },
                     dataType: "json",
                     contentType: "application/json",
                 }).then(function(response) {
                     if(Array.isArray(response) && response.length > 0){
                         response.forEach((value, index) => (
-                            $('ul').prepend(`<li class="entry" data="${response[index].entry_id}">
+                            $('ul').prepend(`<li class="entry" data-id="${response[index].entry_id}">
                                                 <a class="nameanchor" href="/users/${response[index].id}">
                                                     <div class="name">${response[index].name}
                                                     </div>
@@ -60,7 +62,7 @@ $(function() {
                         $('#tweet-message').autocomplete('hide');
                     } else {
                         start_idx = params.query.length-2;
-                        sendServer = true; 
+                        sendServer = true;
                     }
                 }
             }
@@ -75,10 +77,10 @@ $(function() {
                 }
             }).then(function(response){
                     lookupResults = jQuery.parseJSON(response);
-                    done(lookupResults);         
+                    done(lookupResults);
             });
         },
-    });        
+    });
 
 
 

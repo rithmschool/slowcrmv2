@@ -3,14 +3,15 @@
 
 <!-- Prepare all future AJAX with CSRF token -->
 <script type="text/javascript">
-  var csrf_token = "{{ csrf_token() }}";
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrf_token);
-      }
-    }
-  });
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
 
 </script>
 
@@ -18,26 +19,26 @@
 <div id="invite-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
-              <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
+            <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
             <div class="model-header">
                 <h4 class="modal-heading">Invite New User</h4>
             </div>
-        <div class="modal-body text-center">
-            <form class="invite-modal-form" action="#">
-                <div class="form-group">
-                    <input id="invite-name" label="Name" name="name" type="text" placeholder="Name"></input>
-                    <input id="invite-email" label="Email" name="email" type="text" placeholder="Email Address"></input>
-                    <button label= "submit" class="button-hover" id="invite-modal-submit">Submit</button>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <div id="modal-message" class="text-center"></div>
-        </div>
+            <div class="modal-body text-center">
+                <form class="invite-modal-form" action="#">
+                    <div class="form-group">
+                        <input id="invite-name" label="Name" name="name" type="text" placeholder="Name"></input>
+                        <input id="invite-email" label="Email" name="email" type="text" placeholder="Email Address"></input>
+                        <button label="submit" class="btn btn-primary" id="invite-modal-submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div id="modal-message" class="text-center"></div>
+            </div>
         </div>
     </div>
-  </div>
 </div>
+
 
 <div class="container-fluid">
     <div class="row">
@@ -73,10 +74,10 @@
         </div>
         <!-- Posts container -->
         <div class="col-md-12">
-            <h3 class="">{{user.name}}'s Entries</h3>
+            <h3 class="">{{user.name}}'s Archived Entries</h3>
             {% if formatted_entries[0] %}
             {% for entry in formatted_entries[::-1] %}
-            {% if not entry["archived"]%}
+            {% if entry["archived"]%}
             <div class="entry-post">
                 <p class="entry-post-content">{{entry["content"] | safe }}</p>
                 <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at
@@ -84,7 +85,7 @@
                 <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at
                     {{entry["updated_at"].strftime('%I:%M %p')}}</p>
                  <p class="entry-post-dates"><b>Archived: </b>{{entry["archived"]}}</p>
-                <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" class="btn">Archive</a>
+                <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" class="btn">Un-Archive</a>
             </div>
             {% endif %}
             {% endfor %}
@@ -92,7 +93,7 @@
             <p class="text-center">No posts to show right now</p>
             {% endif %}
         </div>
-        <a href="{{ url_for('users.show_archived',  id=user.id) }}" class="btn">Show Archived Entries</a>
+        <a href="{{ url_for('users.show', id=user.id) }}" class="btn">Show Un-Archived Entries</a>
     </div>
 
     <!-- Search container -->
@@ -107,6 +108,7 @@
 
 <!-- End container -->
 </div>
+
 
 {% else %}
 
@@ -141,5 +143,4 @@
 </div>
 
 {% endif %}
-
 {%  endblock  %}
