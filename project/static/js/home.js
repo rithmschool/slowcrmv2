@@ -19,7 +19,6 @@ $(function() {
     }).then(function(response) {
         response.forEach((value, index) => {
           prependLiToHome($('ul'), response[index].entry_id, response[index].name, response[index].data);
-
         })
     }).then(() => {
         let reload = () => {
@@ -41,7 +40,6 @@ $(function() {
         }
         setInterval(reload, 20000)
     })
-
     //autocomplete
     var start_idx;
     var sendServer = false;
@@ -79,9 +77,6 @@ $(function() {
             });
         },
     });
-
-
-
 
     $('#entry-form').on('submit', function(e) {
         e.preventDefault()
