@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <input id="invite-name" label="Name" name="name" type="text" placeholder="Name"></input>
                     <input id="invite-email" label="Email" name="email" type="text" placeholder="Email Address"></input>
-                    <button label= "submit" class="btn btn-primary" id="invite-modal-submit">Submit</button>
+                    <button label= "submit" class="button-hover" id="invite-modal-submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -53,7 +53,7 @@
             <span class="user-header">User {{user.name}}'s Profile Page
             <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
             </span>
-            <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
+            <button type="button" class="invite-button button-hover" data-toggle="modal" data-target="#invite-modal">Invite New User</button>
         </div>
 
         <div>
@@ -63,9 +63,9 @@
             <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
             <p><b>Admin:</b> {{user.is_admin}}</p>
             <p><b>Confirmed:</b> {{user.confirmed}}</p>
-            <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
+            <a href="/users/{{user.id}}/editpassword" class="button-hover">Update Password</a>
         </div>
-    
+
 <!-- end top row -->
     </div>
 </div>
@@ -78,7 +78,7 @@
                     <p class="entry-post-content">{{entry["content"] | safe }}</p>
                     <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}}</p>
                     <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}</p>
-                
+
                 </div>
                     {%  endfor  %}
             {%  else  %}

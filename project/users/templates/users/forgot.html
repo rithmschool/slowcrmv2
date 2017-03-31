@@ -2,7 +2,7 @@
 {% block content%}
   {% for message in get_flashed_messages() %}
     <p class="flashwarning">{{ message }}</p>
-  {% endfor %} 
+  {% endfor %}
 <div class="container-fluid">
 <div class="editform">
   <h2>Enter Your Email and We Will Send You A Link to Reset Your Password</h2>
@@ -21,7 +21,7 @@
       <div class="col-10">
       {{ form.email(class="editfield", id="mail") }}
       </div></div>
-      <button type="submit" class="btn btn-default">Submit</button>      
+      <button type="submit" class="button-hover">Submit</button>      
       </div></div></div>
   </form>
 </div>
@@ -34,4 +34,3 @@
   </div>
 </div>
 {% endblock %}
-

@@ -1,76 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet'>
     <title>Slow CRM</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/new.css') }}">
     <script src="//code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/jquery.devbridge-autocomplete.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
-
+    <script src="https://use.fontawesome.com/6c7cf6fe39.js"></script>
 </head>
-
-<body>
-    <div class="mynav">
-
-        <div class="mytitle">
-            <a href="/users/home"><span class="mytitletext">SLOW</span></a>
-            <a href="/users/home"><span class="mytitletext2"><img class="rocket" src="//i.imgur.com/OdbD2CO.png" alt="rocket ship icon"></span></a>
-            <a href="/users/home"><span class="mytitletext3">ventures</span></a>
+  <body>
+      <script type="text/javascript">
+          var csrf_token = "{{ csrf_token() }}";
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                  }
+              }
+          });
+      </script>
+      <div id="new-modal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+              <div class="modal-content">
+              <div class="modal-body text-center">
+                  <div class="entry">
+                      <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
+                          <div class="form-group">
+                              <input name="tweet-message" id="tweet-message" cols="30" rows="1" class="form-control" placeholder="update" autofocus></input>
+                          </div>
+                          <div class="flashes"></div>
+                          <div class="inline">
+                            <div class="legend">
+                                <span>$<i class="legend-word"> company </i>$</span>
+                                <span>|<i class="legend-word"> person </i>|</span>
+                                <span>*<i class="legend-word"> tag </i>*</span>
+                            </div>
+                              <button id="tweet-button" type="submit" class="button-hover">Post</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
         </div>
-        <div class="mypages">
-        {% if current_user.is_authenticated %}
-            <a href="{{url_for('companies.index')}}"><span class="mynavitems">Portfolio</span></a>
-            <a href="{{url_for('tags.details', id=1)}}"><span class="mynavitems">New Leads</span></a>
-            <a href="{{url_for('tags.details', id=2)}}"><span class="mynavitems">Live Deals</span></a>
-            <a href="{{url_for('tags.details', id=3)}}"><span class="mynavitems">Needs Discussion</span></a>
-            <a href="{{url_for('users.show', id=current_user.id)}}"><span class="mynavitems">My Profile</span></a>
-            <a href="{{url_for('users.logout')}}"><span class="mynavitems">Logout</span></a>
-        {% else %}
-        {% endif %}
+    </div>
+</div>
+    <!-- NAVBAR -->
+      <div class="mynav">
+        <!-- LOGO -->
+        <a href="/users/home" class="logo"><img class="button-hover" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
+        <!-- NEW -->
+        <div class="new">
+            <a class="" data-toggle="modal" data-target="#new-modal"><i class="fa fa-plus-square fa-3x button-hover" aria-hidden="true"></i></a>
         </div>
-        <div class="mysearch">
-        {% if current_user.is_authenticated %}
+
+        <!-- USER DROPDOWN -->
+        <div class="right">
             <form action="{{url_for('users.search')}}" class="myform">
-                <input class="myinput" type="text" name="search">
+                <input class="myinput search" placeholder="&#xF002;" type="text" name="search">
             </form>
-        {% else %}
-        {% endif %}
-        </div>
-        <div class="mobilenav">
-            {% if current_user.is_authenticated %}
-            <img class="hamburgericon" src="//www.clipartkid.com/images/775/search-icon-clip-art-at-clker-com-vector-clip-art-online-royalty-643l5L-clipart.png" alt="search icon">
-            <img class="searchicon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Menu%2C_Web_Fundamentals_(White).svg/2000px-Menu%2C_Web_Fundamentals_(White).svg.png" alt="hamburger">
-            {% else %}
-            {% endif %}
-        </div>
+            <!-- NAV / TAG / ICON -->
+                <div role="tab" class="" id="headingThree">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        <div class=""><i class="fa user fa-tags fa-3x button-hover" aria-hidden="true"></i></div>
+                    </a>
+                </div>
+              <div id="collapseThree" class="collapse" role="tabpanel">
+              <!-- NAV / TAG / CURRENT_USER -->
+                  <div>
+                      <h3 class="text-right drop">
+                          {% if current_user.is_authenticated %}
+                              <p><a href="{{url_for('tags.details', id=1)}}"><span class="">New Leads</span></a></p>
+                              <p><a href="{{url_for('tags.details', id=2)}}"><span class="">Live Deals</span></a></p>
+                              <p><a href="{{url_for('tags.details', id=3)}}"><span class="">Needs Discussion</span></a></p>
+                      <!-- NAV / TAGS / NO_USER -->
+                          {% else %}
+                              <a href="{{url_for('users.login')}}">Login</a>
+                      </h3>
+                          {% endif%}
+                  </div>
+          </div>
+      <!-- NAV / USER / ICON -->
+          <div role="tab" id="headingTwo">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <div><i class="fa user fa-user-circle-o fa-3x button-hover" aria-hidden="true"></i></div>
+              </a>
+          </div>
+          <div id="collapseTwo" class="collapse" role="tabpanel">
+          <!-- NAV / USER / CURRENT_USER -->
+              <div>
+                  <h3 class="text-right drop">
+                      {% if current_user.is_authenticated %}
+                          <p><a href="{{url_for('companies.index')}}">Portfolio</a></p>
+                          <p><a href="{{url_for('users.show', id=current_user.id)}}">Profile</a></p>
+                          <p><a href="{{url_for('users.logout')}}">Logout</a></p>
+          <!-- NAV / USER / NO_USER -->
+                      {% else %}
+                          <a href="{{url_for('users.login')}}">Login</a>
+                  </h3>
+                      {% endif%}
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- CONTENT -->
+    <div class="content">
+      {% block content %} {% endblock %}
     </div>
-    <div class="mobilenavpages">
-        <a><span class="mobilenavitems">Portfolio</span></a>
-        <a><span class="mobilenavitems">New Leads</span></a>
-        <a><span class="mobilenavitems">Live Deals</span></a>
-        <a><span class="mobilenavitems">Needs Discussion</span></a>
-        <a><span class="mobilenavitems">My Profile</span></a>
-        <a href="{{url_for('users.logout')}}"><span class="mynavitems">Logout</span></a>
-    </div>
-    <div class="mobilesearch">
-        <form action="{{url_for('users.search')}}" class="mobileform">
-            <input class="mobileinput" type="text" name="search" placeholder="Search...">
-        </form>
-    </div>
-
-<div class="content">
-    {% block content %} {% endblock %}
-    </div>
-</body>
-
+  </body>
 </html>

@@ -13,7 +13,7 @@
             <span class="user-header">{{company.name}}
             <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
             </span>
-            <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+            <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
         </div>
 
         <div>
@@ -29,8 +29,8 @@
             <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
         </div>
-        
-    </div>    
+
+    </div>
    <div class="col-md-12">
         <h3 class="">{{company.name}}'s Entries</h3>
               {%  for entry in entries  %}
@@ -55,7 +55,7 @@
                 <div class="form-group">
                     {{form.hidden_tag()}}
                     {{form.tag}}
-                    <button label= "submit" class="btn btn-primary" id="company-tag-submit">Add</button>
+                    <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
                 </div>
             </form>
         </div>

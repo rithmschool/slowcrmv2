@@ -110,10 +110,10 @@
         {{ form.archived.label }}
     <div>
         {{ form.archived(value=company.archived) }}
-    </div></div>                                  
+    </div></div>
 
-<button class='btn btn-default' type='submit'>Save</button>
-<a href="{{ url_for('companies.show', id=company.id) }}" class="btn btn-danger">Cancel</a>
+<button class='button-hover' type='submit'>Save</button>
+<a href="{{ url_for('companies.show', id=company.id) }}" class="button-hover">Cancel</a>
 
 </form>
 

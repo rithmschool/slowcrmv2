@@ -38,7 +38,7 @@
         {{ form.email.label }}
     <div>
         {{ form.email(class="editfield", id="mail") }}
-    </div></div>    
+    </div></div>
 {% if form.phone.errors %}
 	{% for error in form.phone.errors %}
 	<span class="text-danger">
@@ -100,8 +100,8 @@
         {{ form.archived }}
     </div></div>
 
-<button type='submit' class='btn btn-default'>Add New Person</button>
-<a href="{{ url_for('users.home') }}" class="btn btn-danger">Cancel</a>
+<button type='submit' class='button-hover'>Add New Person</button>
+<a href="{{ url_for('users.home') }}" class="button-hover">Cancel</a>
 
 </form>
 

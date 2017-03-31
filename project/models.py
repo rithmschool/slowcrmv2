@@ -105,14 +105,14 @@ class Company(db.Model):
         self.partner_lead = partner_lead
         self.ops_lead = ops_lead
         self.source = source
-        self.round = round 
+        self.round = round
         self.archived = archived
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
     def __repr__(self):
         return "{},{},{},{},{},{},{},{},Created:{}, Updated:{}".format(self.archived,self.id,self.name,self.description,self.url,
-            self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)    
+            self.logo_url,self.partner_lead,self.ops_lead, self.created_at,self.updated_at)
 
 
 class Entry(db.Model, UserMixin):
@@ -160,12 +160,7 @@ class Taggable(db.Model):
     taggable_type = db.Column(db.String)
     tags = db.relationship('Tag', backref=db.backref('taggable'))
 
-
     def __init__(self, taggable_id, tag_id, taggable_type):
         self.tag_id = tag_id
         self.taggable_id = taggable_id
         self.taggable_type = taggable_type
-
-
-
-

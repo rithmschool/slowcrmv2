@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block content%} 
+{% block content%}
 <div class="container">
 <div class="editform">
 {% for message in get_flashed_messages() %}
@@ -50,8 +50,8 @@
       <p>To confirm changes, enter your password:</p>
       {{ form.password(placeholder="password", id="pw", class="editfield") }}
       <br><br>
-	    <button type="submit" class="btn btn-default">Save</button>
-      <a href="{{ url_for('users.show', id=user.id) }}" class="btn btn-danger">Cancel</a>
+	    <button type="submit" class="button-hover">Save</button>
+      <a href="{{ url_for('users.show', id=user.id) }}" class="button-hover">Cancel</a>
       </div></div>
 	</form>
 </div>
