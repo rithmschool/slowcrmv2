@@ -47,7 +47,7 @@ def index():
         if form.validate():
             tag_text = request.form['tag']
             tag_exists = Tag.query.filter_by(text=tag_text).first()
-            if(not tag_exists):
+            if not tag_exists:
                 tag = Tag(tag_text)
                 db.session.add(tag)
                 db.session.commit()
@@ -66,4 +66,19 @@ def new():
     term = ''
     if 'term' in request.args:
         term = request.args['term']
-    return render_template('tags/new.html', form=form, term=term)    
+    return render_template('tags/new.html', form=form, term=term)
+
+@tags_blueprint.route('/<int:id>/archive', methods=['GET'])
+@login_required
+def archive_tag(id):
+    tag = Tag.query.get(id)
+    if tag.archived:
+        tag.archived = False
+    else:
+        tag.archived = True
+    db.session.add(tag)
+    db.session.commit()
+    Taggable.query.filter_by(tag_id=tag.id).delete()
+    db.session.commit()
+    tags = Tag.query.order_by(Tag.text).all()
+    return render_template('tags/index.html', tags=tags)

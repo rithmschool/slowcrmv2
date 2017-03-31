@@ -158,9 +158,11 @@ class Tag(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String)
+    archived = db.Column(db.Boolean, default=False)
 
-    def __init__(self, text):
+    def __init__(self, text, archived=False):
         self.text = text
+        self.archived = archived
 
 class Taggable(db.Model):
     __tablename__ = 'taggable'

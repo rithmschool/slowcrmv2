@@ -5,7 +5,9 @@
 <div class="container-fluid">
     <div class = "col-md-12 col-xs-12">
         <h4 class="tag-detail-index-btn"><a href="{{url_for('tags.index')}}">Back To Tag Index</a></h4>
-        <h2><span class="glyphicon glyphicon-tag"><b></span>{{tag_name.text}}</h2></b>
+        <h2><span class="glyphicon glyphicon-tag"></span><b>{{tag_name.text}}</b></h2>
+        <a class="pull-right" href="{{url_for('tags.archive_tag', id=tag_name.id)}}">Archive Tag</a>
+    </div>
     
 
     <div class = "col-md-12">

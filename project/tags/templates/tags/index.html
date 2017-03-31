@@ -7,9 +7,10 @@
 	<div class="container-fluid">
 		<div class="tagtitle">Tags Index</div><br><br>
 	{% for tag in tags %}
-	
-	<span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>
-
-	{% endfor %}
+		{% if not tag.archived %}
+			<span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>
+		{% endif %}
+		{% endfor %}
+		<a href="">Archived Tags</a>
 	</div>
 {% endblock %}
