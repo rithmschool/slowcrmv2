@@ -1,7 +1,7 @@
 $(function() {
-    function prependLiToHome($ul, entry_id, name, data) {
+    function prependLiToHome($ul, id, entry_id, name, data) {
       $ul.prepend(`<li class="entry" data-id="${entry_id}">
-                          <a class="nameanchor" href="/users/${entry_id}">
+                          <a class="nameanchor" href="/users/${id}">
                               <div class="name">${name}
                               </div>
                           </a>
@@ -17,8 +17,11 @@ $(function() {
         dataType: "json",
         contentType: "application/json",
     }).then(function(response) {
+      console.log(response)
         response.forEach((value, index) => {
-          prependLiToHome($('ul'), response[index].entry_id, response[index].name, response[index].data);
+          prependLiToHome($('ul'), response[index].id,
+          response[index].entry_id, response[index].name,
+          response[index].data);
         })
     }).then(() => {
         let reload = () => {
@@ -33,7 +36,8 @@ $(function() {
                 }).then(function(response) {
                     if(Array.isArray(response) && response.length > 0){
                         response.forEach((value, index) => (
-                          prependLiToHome($('ul'), response[index].entry_id, response[index].name, response[index].data)
+                          prependLiToHome($('ul'), response[index].id,
+                          response[index].entry_id, response[index].name, response[index].data)
                         ))
                     }
                 })
