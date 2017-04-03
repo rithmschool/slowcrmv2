@@ -313,7 +313,7 @@ def entry():
     elif request.method =="GET":
             lastentry = request.args.get('lastentry')
             if int(lastentry) < 0:
-                entries = Entry.query.all()
+                entries = Entry.query.order_by(asc(Entry.id)).all()
                 return json.dumps([{
                      'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
                      'entry_id': entry.id,

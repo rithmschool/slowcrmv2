@@ -1,71 +1,68 @@
-$(function () {
+$(function() {
+    function prependLiToHome($ul, entry_id, name, data) {
+      $ul.prepend(`<li class="entry" data-id="${entry_id}">
+                          <a class="nameanchor" href="/users/${entry_id}">
+                              <div class="name">${name}
+                              </div>
+                          </a>
+                          <div class="text">${data}</div>
+                      </li>`);
+    }
 
     $.ajax({
         url: "/users/entries",
-        data: {
-            lastentry: -1
+        data:{
+          lastentry: -1
         },
         dataType: "json",
-        contentType: "application/json"
-    }).then(function (response) {
+        contentType: "application/json",
+    }).then(function(response) {
         response.forEach((value, index) => {
-            if (!value.archived) {
-                $('ul').prepend(`<li class="entry" data-id="${response[index].entry_id}">
-                <a class="nameanchor" href="/users/${response[index].id}">
-                                    <div class="name">${response[index].name}
-                                    </div>
-                                </a>
-                                <div class="text">${response[index].data}</div>
-                            </li>`)
-            }
+        console.log(response)
+         if (!value.archived) {
+          prependLiToHome($('ul'), response[index].entry_id, response[index].name, response[index].data);
+          }
         })
     }).then(() => {
         let reload = () => {
             let latest = $('ul li:first').data('id')
-            $.ajax({
-                url: "/users/entries",
-                data: {
-                    lastentry: latest
-                },
-                dataType: "json",
-                contentType: "application/json",
-            }).then(function (response) {
-                if (Array.isArray(response) && response.length > 0) {
-                    response.forEach((value, index) => {
-                        if (!value.archived) {
-                            $('ul').prepend(`<li class="entry" data-id="${response[index].entry_id}">
-                                                <a class="nameanchor" href="/users/${response[index].id}">
-                                                    <div class="name">${response[index].name}
-                                                    </div>
-                                                </a>
-                                                <div class="text">${response[index].data}</div>
-                                            </li>`)
-                        }
-                    })
-                }
-            })
+                $.ajax({
+                    url: "/users/entries",
+                    data: {
+                      lastentry: latest
+                    },
+                    dataType: "json",
+                    contentType: "application/json",
+                }).then(function(response) {
+                    if(Array.isArray(response) && response.length > 0){
+                        response.forEach((value, index) => {
+                         if (!value.archived) {
+                          prependLiToHome($('ul'), response[index].id, response[index].name, response[index].data)
+                          }
+                        })
+                    }
+                })
         }
         setInterval(reload, 20000)
     })
-
     //autocomplete
     var start_idx;
     var sendServer = false;
     var lookupResults;
     $('#tweet-message').autocomplete({
         ajaxSettings: {
-            beforeSend: function (xhr) {
+            beforeSend: function(xhr) {
                 xhr.setRequestHeader('X-Requested-With', 'XMLHTTPRequest');
             }
         },
-        onSearchStart: function (params) {
-            if (params.query.length == 2) {
-                if (['|', '$', '*'].includes(params.query.slice(-2, -1))) {
-                    if (sendServer) {
+        onSearchStart: function(params) {
+            if(params.query.length == 2){
+                if(['|', '$', '*'].includes(params.query.slice(-2,-1))) {
+                    if(sendServer){
                         sendServer = false;
                         $('#tweet-message').autocomplete('hide');
                     } else {
-                        start_idx = params.query.length - 2;
+                        start_idx = params.query.length-2;
                         sendServer = true;
                     }
                 }
@@ -73,20 +70,20 @@ $(function () {
             return sendServer;
         },
         delimiter: ' ',
-        lookup: function (query, done) {
+        lookup: function(query, done){
             $.ajax({
                 url: '/users/search/autocomplete',
                 data: {
                     params: query.slice(start_idx)
                 }
-            }).then(function (response) {
-                lookupResults = jQuery.parseJSON(response);
-                done(lookupResults);
+            }).then(function(response){
+                    lookupResults = jQuery.parseJSON(response);
+                    done(lookupResults);
             });
         },
     });
 
-    $('#entry-form').on('submit', function (e) {
+    $('#entry-form').on('submit', function(e) {
         e.preventDefault()
         if ($('#tweet-message').val() === "") {
             $('.flashes').prepend('<div>please enter person, company or tag</div>')
@@ -99,7 +96,7 @@ $(function () {
                 }),
                 dataType: "json",
                 contentType: "application/json",
-            }).then(function (response) {
+            }).then(function(response) {
                 $('#tweet-message').val('')
                 $('ul').prepend(`<li class="entry" data="${response.entry_id}">
                                     <a class="nameanchor" href="/users/${response.id}">
@@ -108,9 +105,10 @@ $(function () {
                                     </a>
                                     <div class="text">${response.data}</div>
                                 </li>`)
-            }).catch(function (error) {
+            }).catch(function(error) {
                 $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
             })
         }
     });
+
 });

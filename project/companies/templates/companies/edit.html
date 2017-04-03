@@ -1,121 +1,106 @@
-{%  extends 'base.html'  %}
-
-{%  block content  %}
+{% extends 'base.html' %} {% block content %}
 <div class="container">
-<div class="editform">
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-{% endfor %}
-<h2>Edit {{company.name}}</h2>
-
-<a href = "{{url_for('companies.show', id=company.id)}}">Back To Company Page</a>
-<br><br>
-
-<form action="{{url_for('companies.show', id=company.id)}}?_method=PATCH" , method='POST'>
-
-{{form.hidden_tag()}}
-
-{% if form.description.errors %}
-	{% for error in form.description.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.description.label }}
-    <div>
-        {{ form.description(class="editfield", value=company.description) }}
-    </div></div>
-{% if form.url.errors %}
-	{% for error in form.url.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.url.label }}
-    <div>
-        {{ form.url(class="editfield", value=company.url) }}
-    </div></div>
-{% if form.logo_url.errors %}
-	{% for error in form.logo_url.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.logo_url.label }}
-    <div>
-        {{ form.logo_url(class="editfield", value=company.logo_url) }}
-    </div></div>
-{% if form.partner_lead.errors %}
-	{% for error in form.partner_lead.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.partner_lead.label }}
-    <div>
-        {{ form.partner_lead(class="editfield", value=company.partner_lead) }}
-    </div></div>
-{% if form.ops_lead.errors %}
-	{% for error in form.ops_lead.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.ops_lead.label }}
-    <div>
-        {{ form.ops_lead(class="editfield", value=company.ops_lead) }}
-    </div></div>
-{% if form.source.errors %}
-	{% for error in form.source.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.source.label }}
-    <div>
-        {{ form.source(class="editfield", value=company.source) }}
-    </div></div>
-{% if form.round.errors %}
-	{% for error in form.round.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.round.label }}
-    <div>
-        {{ form.round(class="editfield", value=company.round) }}
-    </div></div>
-{% if form.archived.errors %}
-	{% for error in form.archived.errors %}
-	<span class="text-danger">
-        {{ error }}
-    </span>
-    {% endfor %}
-{% endif %}
-    <div class="form-group">
-        {{ form.archived.label }}
-    <div>
-        {{ form.archived(value=company.archived) }}
-    </div></div>                                  
-
-<button class='btn btn-default' type='submit'>Save</button>
-<a href="{{ url_for('companies.show', id=company.id) }}" class="btn btn-danger">Cancel</a>
-
-</form>
-
-</div></div>
-{%  endblock  %}
+    <div class="editform">
+        {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+        {% endfor %}
+            <h2>Edit {{company.name}}</h2>
+        <a href="{{url_for('companies.show', id=company.id)}}">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        </a>
+        <form action="{{url_for('companies.show', id=company.id)}}?_method=PATCH" , method='POST'>
+            {{form.hidden_tag()}}
+            {% if form.description.errors %} {% for error in form.description.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.description.label }}
+                <div>
+                    {{ form.description(class="editfield", value=company.description) }}
+                </div>
+            </div>
+            {% if form.url.errors %} {% for error in form.url.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.url.label }}
+                <div>
+                    {{ form.url(class="editfield", value=company.url) }}
+                </div>
+            </div>
+            {% if form.logo_url.errors %} {% for error in form.logo_url.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.logo_url.label }}
+                <div>
+                    {{ form.logo_url(class="editfield", value=company.logo_url) }}
+                </div>
+            </div>
+            {% if form.partner_lead.errors %} {% for error in form.partner_lead.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.partner_lead.label }}
+                <div>
+                    {{ form.partner_lead(class="editfield", value=company.partner_lead) }}
+                </div>
+            </div>
+            {% if form.ops_lead.errors %} {% for error in form.ops_lead.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.ops_lead.label }}
+                <div>
+                    {{ form.ops_lead(class="editfield", value=company.ops_lead) }}
+                </div>
+            </div>
+            {% if form.source.errors %} {% for error in form.source.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.source.label }}
+                <div>
+                    {{ form.source(class="editfield", value=company.source) }}
+                </div>
+            </div>
+            {% if form.round.errors %} {% for error in form.round.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.round.label }}
+                <div>
+                    {{ form.round(class="editfield", value=company.round) }}
+                </div>
+            </div>
+            {% if form.archived.errors %} {% for error in form.archived.errors %}
+                <span class="text-danger">
+                    {{ error }}
+                </span>
+            {% endfor %} {% endif %}
+            <div class="form-group">
+                {{ form.archived.label }}
+                <div>
+                    {{ form.archived(value=company.archived) }}
+                </div>
+            </div>
+            <button class='button-hover' type='submit'>Save</button>
+            <a href="{{ url_for('companies.show', id=company.id) }}" class="button-hover">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

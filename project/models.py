@@ -129,7 +129,7 @@ class Company(db.Model):
             self.created_at,
             self.updated_at
         )
-
+        
 class Entry(db.Model, UserMixin):
     taggable_type = 'entry'
     __tablename__ = 'entries'

@@ -82,3 +82,10 @@ def archive_tag(id):
     db.session.commit()
     tags = Tag.query.order_by(Tag.text).all()
     return render_template('tags/index.html', tags=tags)
+
+@tags_blueprint.route('/archived', methods=['GET'])
+@login_required
+def show_archived():
+    tags = Tag.query.filter_by(archived=True).all()
+    return render_template('tags/show_archived.html', tags=tags)
+    pass

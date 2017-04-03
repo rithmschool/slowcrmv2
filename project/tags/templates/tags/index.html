@@ -11,6 +11,6 @@
 			<span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>
 		{% endif %}
 		{% endfor %}
-		<a href="">Archived Tags</a>
 	</div>
+<a href="{{url_for('tags.show_archived')}}">Archived Tags</a>
 {% endblock %}

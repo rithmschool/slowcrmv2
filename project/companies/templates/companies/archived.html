@@ -3,37 +3,42 @@
 {%  block content  %}
 
 <div class="container-fluid">
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-{% endfor %}
-    <h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
-<div><h2>Archived Companies Index</h2></div><br><br>
+    {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    <h4>
+        <a href = "{{url_for('companies.index')}}">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        </a>
+    </h4>
+    <div>
+        <h2>Archived Companies Index</h2>
+    </div>
 	<div class="table-responsive">
-	<table class="table">
-		<thead>
-			<tr>
-				<th class="leftme">Company</th>
-				<th class="centerme">Description</th>
-				<th class="centerme">Partner Lead</th>
-				<th class="centerme">Operations Lead</th>
-				<th class="centerme">Source</th>
-				<th class="centerme">Round</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for company in companies %}
-			<tr>
-				<td class="leftme"><a href="{{url_for('companies.show', id=company.id)}}">{{company.name}}</a></td>
-				<td class="centerme">{{company.description}}</td>
-				<td class="centerme">{{company.partner_lead}}</td>
-				<td class="centerme">{{company.ops_lead}}</td>
-				<td class="centerme">{{company.source}}</td>
-				<td class="centerme">{{company.round}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-
-	</table>
+    	<table class="table">
+    		<thead>
+    			<tr>
+    				<th class="leftme">Company</th>
+    				<th>Description</th>
+    				<th>Partner Lead</th>
+    				<th>Operations Lead</th>
+    				<th>Source</th>
+    				<th>Round</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			{% for company in companies %}
+    			<tr>
+    				<td class="leftme"><a href="{{url_for('companies.show', id=company.id)}}">{{company.name}}</a></td>
+    				<td>{{company.description}}</td>
+    				<td>{{company.partner_lead}}</td>
+    				<td>{{company.ops_lead}}</td>
+    				<td>{{company.source}}</td>
+    				<td>{{company.round}}</td>
+    			</tr>
+    			{% endfor %}
+    		</tbody>
+    	</table>
 	</div>
 </div>
 {%  endblock  %}
