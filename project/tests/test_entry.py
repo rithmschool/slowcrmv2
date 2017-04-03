@@ -19,7 +19,6 @@ class BaseTestCase(TestCase):
         self.user = User('divya@gmail.com', 'Divya', self.password, '123456789', True, True)
         db.session.add(self.user)
         db.session.commit()
-    
         self.login_user()
 
     def tearDown(self):
@@ -29,7 +28,7 @@ class BaseTestCase(TestCase):
     def login_user(self):
         self.client.post('/users/login',
             data=dict(
-                email=self.user.email, 
+                email=self.user.email,
                 password=self.password
             )
         )
@@ -72,7 +71,6 @@ class BaseTestCase(TestCase):
         person_from_db = [p.name for p in entry.persons]
         self.assertEqual(person_from_db, [person_name])
         self.assertEqual(response.status_code, 200)
-
 
     def testNewPersonCompanyInEntry(self):
         content = "|Sundar| is a $Google$ CEO and |Satya| is a $Microsoft$ CEO"
@@ -164,6 +162,21 @@ class BaseTestCase(TestCase):
         data = response.json['data']
         self.assertTrue(data.find('<script>') == -1)
         self.assertTrue(data.find('</script>') == -1)
+
+    def testArchive(self):
+        entry1 = Entry(1, 'entry 1')
+        entry2 = Entry(1, 'entry 2')
+        db.session.add_all([entry1, entry2])
+        db.session.commit()
+        entry_1 = Entry.query.get(1)
+        entry_2 = Entry.query.get(2)
+        entry_2.archived = True
+        response1 = self.client.get('users/1/entries/1/archive')
+        response2 = self.client.get('users/1/entries/2/archive')
+        self.assertEqual(response1.status_code, 200)
+        self.assertEqual(response2.status_code, 200)
+        self.assertEqual(entry_1.archived, True)
+        self.assertEqual(entry_2.archived, False)
 
 
 if __name__ == '__main__':

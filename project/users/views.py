@@ -136,7 +136,7 @@ def show(id):
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
 
-@users_blueprint.route('/<int:id>/entries/<int:entry_id>')
+@users_blueprint.route('/<int:id>/entries/<int:entry_id>/archive')
 @login_required
 def archive(entry_id, id):
     entry = Entry.query.get(entry_id)
