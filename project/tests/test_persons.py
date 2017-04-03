@@ -127,5 +127,21 @@ class BaseTestCase(TestCase):
         self.assertEqual(Tag.query.count(),1)
         self.assertEqual(Taggable.query.count(),1)
 
+    def testArchive(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        person1 = Person('Mark Zuckerberg')
+        person2 = Person('Lars Zuc')
+        db.session.add_all([person1, person2])
+        db.session.commit()
+        person_1 = Person.query.get(1)
+        person_2 = Person.query.get(2)
+        person_2.archived = True
+        response1 = self.client.get('/persons/1/archive')
+        response2 = self.client.get('/persons/2/archive')
+        self.assertEqual(response1.status_code, 302)
+        self.assertEqual(response2.status_code, 302)
+        self.assertEqual(person_1.archived, True)
+        self.assertEqual(person_2.archived, False)
+
 if __name__ == '__main__':
     unittest.main()

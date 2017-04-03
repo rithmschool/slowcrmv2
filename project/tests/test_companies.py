@@ -113,5 +113,24 @@ class BaseTestCase(TestCase):
         self.assertEqual(Tag.query.count(),1)
         self.assertEqual(Taggable.query.count(),1)
 
+    def testArchive(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        c3 = Company(name='company3', description='Computer Chip Maker',
+                     url='intel.com', logo_url=None, partner_lead='Some guy',
+                     ops_lead='some other guy', source='no where', round='B', archived=True)
+        db.session.add(c3)
+        db.session.commit()
+        response1 = self.client.get('/companies/2/archive')
+        response2 = self.client.get('/companies/3/archive')
+        company_2 = Company.query.get(2)
+        company_3 = Company.query.get(3)
+        self.assertEqual(response1.status_code, 302)
+        self.assertEqual(response2.status_code, 302)
+        self.assertEqual(company_2.archived, True)
+        self.assertEqual(company_3.archived, False)
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
