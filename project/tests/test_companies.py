@@ -130,7 +130,5 @@ class BaseTestCase(TestCase):
         self.assertEqual(company_3.archived, False)
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

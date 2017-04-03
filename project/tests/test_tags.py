@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 import unittest
-from project.models import Tag, User
+from project.models import Tag, User, Taggable
 from project import app, db
 
 class BaseTestCase(TestCase):
@@ -55,6 +55,27 @@ class BaseTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Tag.query.count(), 1)
         self.assert_template_used('tags/index.html')
+
+    def testArchive(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        tag1 = Tag('tag 1')
+        tag2 = Tag('tag 2')
+        db.session.add_all([tag1, tag2])
+        db.session.commit()
+        taggable = Taggable(1, 1,'tag')
+        db.session.add(taggable)
+        db.session.commit()
+        tag_1 = Tag.query.get(1)
+        tag_2 = Tag.query.get(2)
+        tag_2.archived = True
+        response1 = self.client.get('tags/1/archive')
+        response2 = self.client.get('tags/2/archive')
+        self.assertEqual(response1.status_code, 200)
+        self.assertEqual(response2.status_code, 200)
+        self.assertEqual(tag_1.archived, True)
+        self.assertEqual(tag_2.archived, False)
+        self.assertEqual(Taggable.query.count(), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
