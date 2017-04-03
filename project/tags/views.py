@@ -87,5 +87,5 @@ def archive_tag(id):
 @login_required
 def show_archived():
     tags = Tag.query.filter_by(archived=True).all()
-    return render_template('tags/show_archived.html', tags=tags)
+    return render_template('tags/archived.html', tags=tags)
     pass
