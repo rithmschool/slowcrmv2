@@ -1,70 +1,70 @@
 {%  extends 'base.html'  %}
-
 {%  block content  %}
 {% for message in get_flashed_messages() %}
     <p class="flashwarning">{{ message }}</p>
-    {% endfor %}
+{% endfor %}
 <div class="container-fluid">
-<h4><a href = "{{url_for('companies.index')}}">Back To Company Index</a></h4><br>
-<div class="row">
-    <div class = "profile-box col-md-12 col-xs-12">
+    <h4>
+        <a href = "{{url_for('companies.index')}}">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        </a>
+    </h4>
+    <div class="row">
         <div class="container-fluid">
-        <div class="row user-row">
-            <span class="user-header">{{company.name}}
-            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
-            </span>
-            <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+            <div class="row user-row">
+                <span class="user-header">{{company.name}}
+                    <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
+                </span>
+                <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+            </div>
+
+            <div>
+                <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+                <p>Description: {{company.description}}</p>
+                <p>URL: {{company.url}}</p>
+                <p>Logo URL: {{company.logo_url}}</p>
+                <p>Partner Lead: {{company.partner_lead}}</p>
+                <p>Operations Lead: {{company.ops_lead}}</p>
+                <p>Source: {{company.source}}</p>
+                <p>Round: {{company.round}}</p>
+                <p>Archived: {{company.archived}}</p>
+                <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+                <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+            </div>
         </div>
 
-        <div>
-            <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
-            <p>Description: {{company.description}}</p>
-            <p>URL: {{company.url}}</p>
-            <p>Logo URL: {{company.logo_url}}</p>
-            <p>Partner Lead: {{company.partner_lead}}</p>
-            <p>Operations Lead: {{company.ops_lead}}</p>
-            <p>Source: {{company.source}}</p>
-            <p>Round: {{company.round}}</p>
-            <p>Archived: {{company.archived}}</p>
-            <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-            <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-        </div>
-
-    </div>
-   <div class="col-md-12">
-        <h3 class="">{{company.name}}'s Entries</h3>
-              {%  for entry in entries  %}
-            <div class="user-post">
-                <p class="user-post-content">{{entry.content | safe}}</p>
-                <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
-            </div>
-                {%  endfor  %}
-    </div>
-    </div>
-
-    <div id="tag-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-              <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
-            <div class="model-header">
-                <h4 class="modal-heading">Add Tag</h4>
-            </div>
-        <div class="modal-body text-center">
-            <form  action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
-                <div class="form-group">
-                    {{form.hidden_tag()}}
-                    {{form.tag}}
-                    <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
+       <div class="col-md-12">
+            <h3 class="">{{company.name}}'s Entries</h3>
+            {%  for entry in entries  %}
+                <div class="user-post">
+                    <p class="user-post-content">{{entry.content | safe}}</p>
+                    <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+                    <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <div id="modal-message" class="text-center"></div>
-        </div>
+            {%  endfor  %}
         </div>
     </div>
-</div>
-
-<script src="{{ url_for('static', filename='js/autocomplete_tag.js') }}"></script>
+        <div id="tag-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                      <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="model-header">
+                        <h4 class="modal-heading">Add Tag</h4>
+                    </div>
+                <div class="modal-body text-center">
+                    <form  action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
+                        <div class="form-group">
+                            {{form.hidden_tag()}}
+                            {{form.tag}}
+                            <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
+                        </div>
+                    </form>
+                </div>
+                    <div class="modal-footer">
+                        <div id="modal-message" class="text-center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="{{ url_for('static', filename='js/autocomplete_tag.js') }}"></script>
 {%  endblock  %}

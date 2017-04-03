@@ -1,38 +1,40 @@
-{%  extends 'base.html'  %}
-
-{%  block content  %}
+{% extends 'base.html' %} {% block content %}
 
 <div class="container-fluid">
     {% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
+        <p>{{ message }}</p>
     {% endfor %}
-    <h4><a href="{{url_for('persons.index')}}">Back To People Index</a></h4><br>
-    <div><h2>Archived People Index</h2></div>
-    <br><br>
+    <h4>
+        <a href="{{url_for('persons.index')}}">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        </a>
+    </h4>
+    <div>
+        <h2>Archived People Index</h2>
+    </div>
     <div class="table-responsive">
         <table class="table">
             <thead>
-            <tr>
-                <th class="leftme">Name</th>
-                <th class="centerme">Title</th>
-                <th class="centerme">Description</th>
-                <th class="centerme">Email</th>
-                <th class="centerme">Phone</th>
-            </tr>
+                <tr>
+                    <th class="leftme">Name</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
             </thead>
             <tbody>
-            {% for person in persons %}
-            <tr>
-                <td class="leftme"><a href="{{url_for('persons.show', id=person.id)}}">{{person.name}}</a></td>
-                <td class="centerme">{{person.title}}</td>
-                <td class="centerme">{{person.description}}</td>
-                <td class="centerme">{{person.email}}</td>
-                <td class="centerme">{{person.phone}}</td>
-            </tr>
-            {% endfor %}
+                {% for person in persons %}
+                <tr>
+                    <td class="leftme"><a href="{{url_for('persons.show', id=person.id)}}">{{person.name}}</a></td>
+                    <td>{{person.title}}</td>
+                    <td>{{person.description}}</td>
+                    <td>{{person.email}}</td>
+                    <td>{{person.phone}}</td>
+                </tr>
+                {% endfor %}
             </tbody>
-
         </table>
     </div>
 </div>
-{%  endblock  %}
+{% endblock %}
