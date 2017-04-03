@@ -85,6 +85,18 @@ def edit(id):
     form = EditCompanyForm(obj=company)
     return render_template('companies/edit.html', form=form, company=company)
 
+@companies_blueprint.route('/<int:id>/archive')
+@login_required
+def archive(id):
+    company = Company.query.get(id)
+    if company.archived == False:
+        company.archived = True
+    else:
+        company.archived = False
+    db.session.add(company)
+    db.session.commit()
+    return redirect(url_for('companies.index'))
+
 @companies_blueprint.route('/<int:id>/tags', methods=['POST'])
 @login_required
 def add_tag(id):
