@@ -19,9 +19,11 @@ $(function() {
     }).then(function(response) {
       console.log(response)
         response.forEach((value, index) => {
+         if (!value.archived) {
           prependLiToHome($('ul'), response[index].id,
           response[index].entry_id, response[index].name,
           response[index].data);
+          }
         })
     }).then(() => {
         let reload = () => {
@@ -35,10 +37,12 @@ $(function() {
                     contentType: "application/json",
                 }).then(function(response) {
                     if(Array.isArray(response) && response.length > 0){
-                        response.forEach((value, index) => (
+                        response.forEach((value, index) => {
+                         if (!value.archived) {
                           prependLiToHome($('ul'), response[index].id,
                           response[index].entry_id, response[index].name, response[index].data)
-                        ))
+                          }
+                        })
                     }
                 })
         }
@@ -109,5 +113,4 @@ $(function() {
             })
         }
     });
-
 });

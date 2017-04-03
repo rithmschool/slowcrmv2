@@ -35,6 +35,7 @@
     				<td>{{company.ops_lead}}</td>
     				<td>{{company.source}}</td>
     				<td>{{company.round}}</td>
+					<td><a href="{{url_for('companies.archive', id=company.id)}}">Un-Archive</a></td>
     			</tr>
     			{% endfor %}
     		</tbody>
