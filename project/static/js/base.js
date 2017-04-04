@@ -1,35 +1,33 @@
-$(function() {
-    $('.tags_select span').click(function() {
-        var value = $(this).text()[0];
-        var input = $('#tweet-message');
-        input.focus();
-        input.val(input.val() + value + value);
-        var position = input.val().length-1;
-        input[0].setSelectionRange(position,position);
-        return false;
+$(function(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('[autofocus]').focus();
     });
+    $(".modal").on("hidden.bs.modal", function(){
+        $("#tweet-message").val("");
+    });
+});
+
+$(function(){
+    $('.tags_select span').click(function() {
+         var value = $(this).text()[0];
+         var input = $('#tweet-message');
+         input.focus();
+         input.val(input.val() + value + value);
+         var position = input.val().length-1;
+         input[0].setSelectionRange(position,position);
+         return false;
+     });
 });
 
 $(function() {
     let $content = $('.content');
     let $searchContent = $('.searchcontent');
-    let $mobileSearch = $('.mobilesearch')
     let $modalMessage = $('#modal-message')
 
-    $searchIcon.on('click', function(e) {
-        if ($mobileNav.css('display').toLowerCase() == 'none') {
-            $mobileNav.show()
-            $content.css('margin-top', '0px')
-            $searchContent.css('margin-top', '0px')
-        } else {
-            $mobileNav.hide()
-            $content.css('margin-top', '10vw')
-            $searchContent.css('margin-top', '10vw')
-        }
-    })
-    //Invite Modal Form
+    // Invite User Modal Form
     $("#invite-modal-submit").on('click', function(e) {
-        e.preventDefault();input.focus();
+        e.preventDefault();
+        input.focus();
         $modalMessage.html('<p>One moment...</p>');
         var email = $("#invite-email").val();
         var name = $("#invite-name").val();

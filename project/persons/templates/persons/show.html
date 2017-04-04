@@ -5,67 +5,61 @@
     <p class="flashwarning">{{ message }}</p>
 {% endfor %}
 
-<div class="container-fluid">
-<h4><a href = "{{url_for('persons.index')}}">Back To People Index</a></h4><br>
-<div class="row">
-    <div class = "profile-box col-md-12 col-xs-12">
-        <div class="container-fluid">
-        <div class="row user-row">
-            <span class="user-header">{{person.name}}
-            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
-            </span>
-            <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+<div class="container">
+    <h4><a href = "{{url_for('persons.index')}}">Back To People Index</a></h4><br>
+    <div>
+        <div class = "container profile-box">
+            <div class="">
+                <div>
+                    <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+                    <p>{{person.email}}</p>
+                    <p></p>
+                    <p>{{person.phone}}</p>
+                    <p>Member Since: {{person.created_at.strftime('%m-%d-%y')}}</p>
+                    <p>Last Seen: {{person.created_at.strftime('%m-%d-%y')}}</p>
+                     <a href="{{url_for('persons.archive', id=person.id)}}">Archive Person</a>
+                </div>
+            </div>
+            <div class="user-row">
+                <span class="user-header">{{person.name}}
+                <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
+                </span>
+                <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+            </div>
         </div>
-
         <div>
-            <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
-            <p>Title: {{person.email}}</p>
-            <p>Description: {{person.description}}</p>
-            <p>Email: {{person.email}}</p>
-            <p>Phone: {{person.phone}}</p>
-            <p>Slow LP: {{person.slow_lp}}</p>
-            <p>Archived: {{person.archived}}</p>
-            <p>Created: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
-            <p>Updated: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
-             <a href="{{url_for('persons.archive', id=person.id)}}">Archive Person</a>
-        </div>
-
-    </div>
-
-<div class="col-md-12">
-        <h3 class="">{{person.name}}'s Entries</h3>
-              {%  for entry in entries  %}
+            <h3 class="">{{person.name}}'s Entries</h3>
+            {%  for entry in entries  %}
             <div class="user-post">
                 <p class="user-post-content">{{entry.content | safe}}</p>
                 <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
                 <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
             </div>
-                {%  endfor  %}
-    </div>
-    </div>
-
-    <div id="tag-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-              <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
-            <div class="model-header">
-                <h4 class="modal-heading">Add Tag</h4>
-            </div>
-        <div class="modal-body text-center">
-            <form  action="{{url_for('persons.add_tag', id=person.id)}}" method="POST">
-                <div class="form-group">
-                    {{form.hidden_tag()}}
-                    {{form.tag}}
-                    <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
+            {%  endfor  %}
+        </div>
+        <div id="tag-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="model-header">
+                        <h4 class="modal-heading">Add Tag</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <form  action="{{url_for('persons.add_tag', id=person.id)}}" method="POST">
+                            <div class="form-group">
+                                {{form.hidden_tag()}}
+                                {{form.tag}}
+                                <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="modal-message" class="text-center"></div>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <div id="modal-message" class="text-center"></div>
-        </div>
+            </div>
         </div>
     </div>
 </div>
-
 <script src="{{ url_for('static', filename='js/autocomplete_tag.js') }}"></script>
 {%  endblock  %}

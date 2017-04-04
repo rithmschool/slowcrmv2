@@ -76,7 +76,6 @@ ul {
     background: rgb(246, 246, 246);
     margin:auto;
     padding:1rem;
-    height: 100vh;
 }
 
 .entrieslist li {
@@ -197,17 +196,15 @@ div.modal-content {
 
 input.search {
     width: 20vw;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     text-align: left;
     padding-right: 1rem;
     border-radius: 0px;
 }
 
 input.myinput.search {
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
+    color:white;
+    text-align: right;
 }
 
 input.search::placeholder {
@@ -215,7 +212,15 @@ input.search::placeholder {
     font-size: 3rem;
     text-align: right;
 }
-
+.not-button{
+    padding:0px;
+    background: none;
+    margin:0px;
+    margin-left: 1rem;
+}
+.right-icon{
+    margin:0;
+}
 
 /*CONTENT
 *********
@@ -225,13 +230,12 @@ input.search::placeholder {
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap-reverse;
+    margin:2rem;
 }
 .login input{
     font-size: 3rem;
     background:rgba(0,0,0,0.1);
     padding:0.5rem;
-}
-.login div{
 }
 .new:hover {
     color: rgba(255, 255, 255, 0.8);

@@ -64,7 +64,12 @@
         <!-- USER DROPDOWN -->
         <div class="right">
             <form action="{{url_for('users.search')}}" class="myform">
-                <input class="myinput search empty" placeholder="&#xF002;" id="iconified" type="text" name="search">
+                <div class="input-group">
+                    <input class="myinput search right-icon" type="text" name="search"/>
+                    <button type="submit" class="not-button">
+                        <i class="fa fa-3x fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
             </form>
             <!-- NAV / TAG / ICON -->
                 <div role="tab" class="" id="headingThree">
