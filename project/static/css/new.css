@@ -11,7 +11,7 @@ input {
     border: none;
     font-size: 3rem;
     border-radius: 0.3rem;
-    background: white;
+    background: rgb(205, 205, 205);
     color: grey;
     text-align: left;
 }
@@ -22,7 +22,6 @@ button {
     border: none;
     color: white;
 }
-
 ul {
     padding: 0px;
     text-decoration: none;
@@ -37,9 +36,8 @@ ul {
 .inline {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-start;
 }
-
 .sh {
     background: none;
     color: #607c8b;
@@ -62,17 +60,23 @@ ul {
 }
 
 .legend span {
-    padding: 1rem;
+    margin:2px;
+    padding:2px;
+    border-radius: 0.2rem;
+    background:rgba(0,0,0,0.1);
 }
-
+.autocomplete-suggestions{
+    border-radius: 2px;
+    text-align: right;
+    padding:1rem;
+    background: white;
+}
 .display {
     border-radius: 0.2rem;
-    margin-top: -3rem;
     background: rgb(246, 246, 246);
-    padding:3rem 1rem;
-    height: 100vh;
+    margin:auto;
+    padding:1rem;
 }
-
 .entrieslist li {
     padding: 1rem;
     margin: 1rem;
@@ -134,11 +138,9 @@ div.modal-content {
 /*NAVIGATION
 *********
 */
-
 .drop {
     z-index: 20;
 }
-
 .logo {
     max-width: 2rem;
     margin: 0.2rem;
@@ -179,31 +181,27 @@ div.modal-content {
     z-index: 10;
     font-size: 1.5rem;
 }
-
 .mynav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(135deg, #3c6272, #294762);
     padding: 0 2rem;
-    margin-bottom: 1rem;
     position: relative;
     z-index: 0;
 }
 
 input.search {
-    width: 20vw;
-    background: rgba(255, 255, 255, 0.05);
+    width: 15vw;
+    background: rgba(255, 255, 255, 0.1);
     text-align: left;
     padding-right: 1rem;
     border-radius: 0px;
 }
 
 input.myinput.search {
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
+    color:white;
+    text-align: right;
 }
 
 input.search::placeholder {
@@ -211,43 +209,50 @@ input.search::placeholder {
     font-size: 3rem;
     text-align: right;
 }
-
+.not-button{
+    padding:0px;
+    background: none;
+    margin:0px;
+    margin-left: 1rem;
+}
+.right-icon{
+    margin:0;
+}
 
 /*CONTENT
 *********
 */
+.content{
+    margin:auto;
+    width:60vw;
+}
 .login {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap-reverse;
+    margin:2rem;
 }
 .login input{
     font-size: 3rem;
     background:rgba(0,0,0,0.1);
     padding:0.5rem;
 }
-.login div{
-}
-.content {
-    padding: 2rem;
-}
-
 .new:hover {
     color: rgba(255, 255, 255, 0.8);
 }
 
 /* iPhone Portrait and Landscape */
-@media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
+@media only screen and (min-device-width: 100px) and (max-device-width: 667px) {
     body {
         font-size: 1rem;
     }
     .content {
+        width: 90%;
         font-size: 2rem;
     }
     .logo img {
-        display: none;
-        max-width: 3rem;
+        max-width: 4rem;
     }
     .new {
         display: flex;
@@ -256,31 +261,21 @@ input.search::placeholder {
         font-size: 1.5rem;
     }
     .right{
-        justify-content: flex-end;
-        width:100vw;
+        justify-content: space-between;
+        width: 120vw;
     }
     .search{
         display:none;
     }
     .right * {
-        z-index: 11;
-    }
-    .mynav {
-        position: sticky;
-        top:90vh;
-        padding: 0.2rem;
-        padding-bottom: 3rem;
-        margin-bottom: -1rem;
+        z-index: 200;
     }
     .legend {
         border-radius: 0.5rem;
-        color: #607c8b;
+        color: white;
         font-size: 1.5rem;
         padding: 0px;
         text-align: left;
-    }
-    .legend span {
-        padding: 0px;
     }
     .content.login{
         width: 100%;
@@ -294,7 +289,8 @@ input.search::placeholder {
     .content.login{
         width: 100%;
     }
-    .content {
+    .display{
+        width:90%;
     }
 }
 /*Large Display*/
@@ -303,11 +299,9 @@ input.search::placeholder {
         width: 100%;
     }
     .display{
-        padding-top: 3rem;
-        margin-top: -3rem;
+        width:60%;
     }
 }
-
 /* KEYFRAMES
 *********/
 .button-hover {
