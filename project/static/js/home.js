@@ -116,7 +116,7 @@ $(function() {
         $('#tweet-message').val('')
         $('.flashes').html('');
         $('ul').prepend(
-          `<li class="entry" data="${response.entry_id}">
+          `<li class="entry" data-id="${response.entry_id}">
             <a class="nameanchor" href="/users/${response.id}">
               <div class="name">${response.name}
               </div>
