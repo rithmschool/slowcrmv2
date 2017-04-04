@@ -1,14 +1,13 @@
 $(function() {
     function prependLiToHome($ul, entry_id, name, data) {
       $ul.prepend(`<li class="entry" data-id="${entry_id}">
-                          <a class="nameanchor" href="/users/${entry_id}">
-                              <div class="name">${name}
-                              </div>
-                          </a>
-                          <div class="text">${data}</div>
-                      </li>`);
-    }
-
+                      <a class="nameanchor" href="/users/${entry_id}">
+                          <div class="name">${name}
+                          </div>
+                      </a>
+                      <div class="text">${data}</div>
+                  </li>`);
+    };
     $.ajax({
         url: "/users/entries",
         data:{
@@ -77,11 +76,10 @@ $(function() {
             });
         },
     });
-
     $('#entry-form').on('submit', function(e) {
         e.preventDefault()
         if ($('#tweet-message').val() === "") {
-            $('.flashes').prepend('<div>please enter person, company or tag</div>')
+            $('.flashes').empty().prepend('<div>please enter person, company or tag</div>')
         } else {
             $.ajax({
                 type: "POST",
@@ -101,7 +99,7 @@ $(function() {
                                     <div class="text">${response.data}</div>
                                 </li>`)
             }).catch(function(error) {
-                $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
+                $('.flashes').empty().prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
             })
         }
     });
