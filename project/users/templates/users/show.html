@@ -60,6 +60,11 @@
         Send Invite
       </button>
     </div>
+    <p></p>
+    <a href="{{ url_for('users.show_archived',  id=user.id) }}" class="b">
+    <button class="button-hover">
+      Show Archived Entries
+    </button></a>
   </div>
 
   <!-- USER ENTRIES -->
@@ -67,23 +72,23 @@
     <h2>Your Entries</h2>
     {% if formatted_entries[0] %} {% for entry in formatted_entries[::-1] %}
       {% if not entry["archived"]%}
-      <div class="entry-post">
-        <h3 class="entry-post-content">{{entry["content"] | safe }}</h3>
-        <p class="entry-post-dates">
-          {{entry["created_at"].strftime('%m-%d-%y')}}
-        </p>
-        <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" class="button">Archive</a>
-      </div>
+      <div class="entrieslist">
+          <ul class="entrieslist">
+            <div class="entry-post-content"><b>{{entry["content"] | safe }}</b>
+                <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" alt="archive" class="button">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+            </div>
+            <p class="entry-post-dates">
+              {{entry["created_at"].strftime('%m-%d-%y')}}
+            </p>
+        </ul>
+    </div>
       {% endif %}
     {% endfor %} {% else %}
       <p class="text-center">No posts to show right now</p>
     {% endif %}
   </div>
-  <a href="{{ url_for('users.show_archived',  id=user.id) }}" class="b">
-  <button class="button-hover">
-    Show Archived Entries
-  </button></a>
-
   {% else %}
 
   <!-- NON USER PROFILE -->

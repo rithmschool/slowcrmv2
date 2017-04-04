@@ -3,15 +3,15 @@
 {% for message in get_flashed_messages() %}
     <p class="flashwarning">{{ message }}</p>
 {% endfor %}
-<div class="container-fluid">
+<div>
     <h4>
         <a href = "{{url_for('companies.index')}}">
             <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
         </a>
     </h4>
     <div class="row">
-        <div class="container-fluid">
-            <div class="row user-row">
+        <div>
+            <div class="user-row">
                 <span class="user-header">{{company.name}}
                     <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
                 </span>

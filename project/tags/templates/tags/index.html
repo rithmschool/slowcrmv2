@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-	
+
 	{% for message in get_flashed_messages() %}
 		<p class="flash">{{ message }}</p>
 	{% endfor %}
-	<div class="container-fluid">
+	<div>
 		<div class="tagtitle">Tags Index</div><br><br>
 	{% for tag in tags %}
 		{% if not tag.archived %}
