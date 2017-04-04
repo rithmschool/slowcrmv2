@@ -31,41 +31,45 @@
       <div id="new-modal" class="modal fade" role="dialog">
           <div class="modal-dialog">
               <div class="modal-content">
-
-              <div class="modal-body text-center">
-                  <div class="entry">
-                      <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
-                          <div class="form-group">
-                              <input name="tweet-message" id="tweet-message" cols="30" rows="1" class="form-control" placeholder="update" autofocus></input>
-                          </div>
-                          <div class="flashes"></div>
-                          <div class="inline">
-                            <div class="legend">
-                                <span>$<i class="legend-word"> company </i>$</span>
-                                <span>|<i class="legend-word"> person </i>|</span>
-                                <span>*<i class="legend-word"> tag </i>*</span>
-                            </div>
-                              <button id="tweet-button" type="submit"class="button-hover">Post</button>
-                          </div>
-                      </form>
+                  <div class="modal-body text-center">
+                      <div class="entry">
+                          <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
+                              <div class="form-group">
+                                  <input name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus></input>
+                              </div>
+                              <div class="flashes"></div>
+                              <div class="inline">
+                                <div class="legend tags_select">
+                                    <span class="button-hover">$<i class="legend-word"> company </i>$</span>
+                                    <span class="button-hover">|<i class="legend-word"> person </i>|</span>
+                                    <span class="button-hover">*<i class="legend-word"> tag </i>*</span>
+                                </div>
+                                <button id="tweet-button" type="submit" class="button-hover">Post</button>
+                              </div>
+                          </form>
+                      </div>
                   </div>
               </div>
         </div>
     </div>
-</div>
     <!-- NAVBAR -->
       <div class="mynav">
         <!-- LOGO -->
         <a href="/users/home" class="logo"><img class="button-hover" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
         <!-- NEW -->
         <div class="new">
-            <a class="" data-toggle="modal" data-target="#new-modal"><i class="fa fa-plus-square fa-3x button-hover" aria-hidden="true"></i></a>
+            <a class="" data-toggle="modal" data-target="#new-modal"><i class="fa fa-plus-square fa-3x button-hover" aria-hidden="true" autofocus></i></a>
         </div>
 
         <!-- USER DROPDOWN -->
         <div class="right">
             <form action="{{url_for('users.search')}}" class="myform">
-                <input class="myinput search" placeholder="&#xF002;" type="text" name="search">
+                <div class="input-group">
+                    <input class="myinput search right-icon" type="text" name="search"/>
+                    <button type="submit" class="not-button">
+                        <i class="fa fa-3x fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
             </form>
             <!-- NAV / TAG / ICON -->
                 <div role="tab" class="" id="headingThree">
