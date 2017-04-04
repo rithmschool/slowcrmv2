@@ -3,3 +3,5 @@ __pycache__
 testing.db
 *.DS_Store
 .idea
+.coverage
+
