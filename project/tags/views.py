@@ -1,9 +1,10 @@
-from flask import Blueprint, redirect, render_template, flash, url_for, request
+from flask import Blueprint, redirect, render_template, flash, url_for, request, json
 from project import db
 from project.models import Tag, Taggable, Entry, Person, Company, User
 from flask_login import login_required
 from project.companies.forms import TagForm
 from project.users.views import get_links, get_pipes_dollars_tags_tuples
+from sqlalchemy import asc
 
 
 tags_blueprint = Blueprint(
@@ -19,7 +20,7 @@ def details(id):
     tag_name = Tag.query.get(id)
     formatted_entries = [{
         "content": get_links(Entry.query.get(tagged_entry.taggable_id).content,
-        get_pipes_dollars_tags_tuples(Entry.query.get(tagged_entry.taggable_id).content) 
+        get_pipes_dollars_tags_tuples(Entry.query.get(tagged_entry.taggable_id).content)
         ),
         "user_id": User.query.get((Entry.query.get(tagged_entry.taggable_id).user_id)).id,
         "user_name": User.query.get((Entry.query.get(tagged_entry.taggable_id).user_id)).name
@@ -54,9 +55,9 @@ def index():
                 flash('"{}" added as a new tag'.format(tag_text))
                 return redirect(url_for('tags.index', tags=tags))
             flash('"{}" not added since it already exists in your tags'.format(tag_text))
-            return redirect(url_for('tags.index', tags=tags))   
+            return redirect(url_for('tags.index', tags=tags))
         flash('Missing Form Data')
-        return redirect(url_for('tags.new'))    
+        return redirect(url_for('tags.new'))
     return render_template('tags/index.html', tags=tags)
 
 @tags_blueprint.route('/new', methods=['GET'])
@@ -88,4 +89,25 @@ def archive_tag(id):
 def show_archived():
     tags = Tag.query.filter_by(archived=True).all()
     return render_template('tags/archived.html', tags=tags)
-    pass
+
+@tags_blueprint.route('/autocomplete')
+@login_required
+def autocomplete():
+    result = []
+    query = request.args['params']
+    if  query[0] == '|':
+        all_person_names = Person.query.with_entities(Person.name).filter(Person.name.ilike(query[1:] + '%')).order_by(asc(Person.name)).all()
+        result = [{'value': "|" + "".join(person) + "|"} for person in all_person_names]
+    elif query[0] == '$':
+        all_company_names = Company.query.with_entities(Company.name).filter(Company.name.ilike(query[1:] + '%')).order_by(asc(Company.name)).all()
+        result = [{'value': "$" + "".join(company) + "$"} for company in all_company_names]
+    elif query[0] == '*':
+        all_tag_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[1:] + '%')).order_by(asc(Tag.text)).all()
+        result = [{'value': "*" + "".join(tag) + "*"} for tag in all_tag_text]
+    else:
+        all_tags_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[0:] + '%')).order_by(asc(Tag.text)).all()
+        result = [{'value': "" + "".join(tag)}for tag in all_tags_text]
+    return json.dumps({
+                'query': 'Unit',
+                'suggestions' : result
+            })
