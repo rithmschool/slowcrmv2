@@ -136,7 +136,7 @@ def show(id):
     } for entry in Entry.query.filter_by(user_id=id)]
     return render_template('users/show.html', user=found_user, formatted_entries=formatted_entries)
 
-@users_blueprint.route('/<int:id>/entries/<int:entry_id>')
+@users_blueprint.route('/<int:id>/entries/<int:entry_id>/archive')
 @login_required
 def archive(entry_id, id):
     entry = Entry.query.get(entry_id)
@@ -302,7 +302,6 @@ def entry():
                 return json.dumps({
                         'message': str(e)
                     }), 400
-
             return json.dumps({
                  'data' : get_links(entry.content, pipes_dollars_tuples),
                  'entry_id': entry.id,
@@ -314,12 +313,13 @@ def entry():
     elif request.method =="GET":
             lastentry = request.args.get('lastentry')
             if int(lastentry) < 0:
-                entries = Entry.query.all()
+                entries = Entry.query.order_by(asc(Entry.id)).all()
                 return json.dumps([{
                      'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
                      'entry_id': entry.id,
                      'name': entry.user.name,
-                     'id': entry.user.id
+                     'id': entry.user.id,
+                     'archived': entry.archived
                 } for entry in entries])
             else:
                 # Getting ID of latest entry in DB
@@ -333,7 +333,8 @@ def entry():
                         'data' : get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
                         'entry_id': entry.id,
                         'name': entry.user.name,
-                        'id': entry.user.id
+                        'id': entry.user.id,
+                        'archived': entry.archived
                     } for entry in new_entries])
                 else:
                     return json.dumps([])

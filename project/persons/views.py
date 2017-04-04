@@ -127,3 +127,15 @@ def tags_autocomplete():
 def show_archived():
     persons = Person.query.filter_by(archived=True).order_by(Person.name)
     return render_template('persons/archived.html', persons=persons)
+
+@persons_blueprint.route('/<int:id>/archive')
+@login_required
+def archive(id):
+    person = Person.query.get(id)
+    if person.archived == False:
+        person.archived = True
+    else:
+        person.archived = False
+    db.session.add(person)
+    db.session.commit()
+    return redirect(url_for('persons.index'))

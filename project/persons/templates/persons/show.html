@@ -27,6 +27,7 @@
             <p>Archived: {{person.archived}}</p>
             <p>Created: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
             <p>Updated: {{person.created_at.strftime('%m-%d-%y')}} at {{person.created_at.strftime('%I:%M %p')}}</p>
+             <a href="{{url_for('persons.archive', id=person.id)}}">Archive Person</a>
         </div>
 
     </div>
