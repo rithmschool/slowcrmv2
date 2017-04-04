@@ -96,13 +96,11 @@ $(function() {
       $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
       )
-    }
-    else if($('#tweet-message').val().match(re)){
+  } else if($('#tweet-message').val().match(re)){
         $('.flashes').empty().prepend(
             '<div>please enter a correct tag</div>'
         )
-    }
-    else {
+    } else {
       $.ajax({
         type: "POST",
         url: "/users/entries",

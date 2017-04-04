@@ -1,13 +1,16 @@
-$(function(){
+$(function() {
+
+    // MODAL FOCUS
     $('.modal').on('shown.bs.modal', function() {
         $(this).find('[autofocus]').focus();
     });
+
+    // MODAL CLEAR ON HIDE
     $(".modal").on("hidden.bs.modal", function(){
         $("#tweet-message").val("");
     });
-});
 
-$(function(){
+    //TAG BUTTONS//
     $('.tags_select span').click(function() {
          var value = $(this).text()[0];
          var input = $('#tweet-message');
@@ -17,9 +20,7 @@ $(function(){
          input[0].setSelectionRange(position,position);
          return false;
      });
-});
 
-$(function() {
     let $content = $('.content');
     let $searchContent = $('.searchcontent');
     let $modalMessage = $('#modal-message')
