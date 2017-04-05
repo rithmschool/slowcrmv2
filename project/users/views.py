@@ -404,42 +404,39 @@ def get_tag_link(tag_text):
 def add_person_data_db(pipes_tuples_arr, content, entry):
     for val in pipes_tuples_arr:
         person_name = content[val[0]+1 : val[1]]
-        if(not Person.query.filter_by(name=person_name).first()):
+        person = Person.query.filter_by(name=person_name).first()
+        if not person:
             person = Person(person_name)
             db.session.add(person)
             db.session.commit()
-            entry.persons.append(person)
-            db.session.commit()
-        else:
-            entry.persons.append(Person.query.filter_by(name=person_name).first())
+
+        entry.persons.append(person)
+        db.session.commit()
 
 def add_company_data_db(dollars_tuples_arr, content, entry):
     for val in dollars_tuples_arr:
         company_name = content[val[0]+1 : val[1]]
-        if(not Company.query.filter_by(name=company_name).first()):
+        company = Company.query.filter_by(name=company_name).first()
+        if not company:
             company = Company(company_name)
             db.session.add(company)
             db.session.commit()
-            entry.companies.append(company)
-            db.session.commit()
-        else:
-            entry.companies.append(Company.query.filter_by(name=company_name).first())
+
+        entry.companies.append(company)
+        db.session.commit()
 
 def add_tag_data_db(star_tuples_arr, content, entry):
     for val in star_tuples_arr:
         tag_text = content[val[0]+1 : val[1]]
-        if(not Tag.query.filter_by(text=tag_text).first()):
+        tag = Tag.query.filter_by(text=tag_text).first()
+        if not tag:
             tag = Tag(tag_text)
             db.session.add(tag)
             db.session.commit()
-            taggable = Taggable(entry.id, tag.id, entry.taggable_type)
-            db.session.add(taggable)
-            db.session.commit()
-        else:
-            tag = Tag.query.filter_by(text=tag_text).first()
-            taggable = Taggable(entry.id, tag.id, entry.taggable_type)
-            db.session.add(taggable)
-            db.session.commit()
+
+        taggable = Taggable(entry.id, tag.id, entry.taggable_type)
+        db.session.add(taggable)
+        db.session.commit()
 
 @users_blueprint.route('/logout')
 @login_required
