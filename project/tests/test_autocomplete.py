@@ -71,7 +71,6 @@ class BaseTestCase(TestCase):
         response = self.client.get(url,
             content_type='application/json'
         )
-        from IPython import embed; embed()
         person = Person.query.get(1)
         self.assertEqual(response.json['suggestions'][0]['value'], '|'+person.name+'|')
 
