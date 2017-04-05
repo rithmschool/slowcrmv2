@@ -76,7 +76,6 @@ def show(id):
         return render_template('persons/edit.html',form=form,person=person)
     return render_template('persons/show.html', person=person, form=TagForm(), entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
 
-
 @persons_blueprint.route('/<int:id>/edit', methods=["GET","PATCH"])
 @login_required
 def edit(id):
@@ -110,17 +109,6 @@ def add_tag(id):
             else:
                 flash("This person is already tagged with '{}'".format(tag_text))
                 return redirect(url_for('persons.show', id=id))
-
-@persons_blueprint.route('/tags/autocomplete')
-@login_required
-def tags_autocomplete():
-    query = request.args['params']
-    all_tags_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[0:] + '%')).order_by(asc(Tag.text)).all()
-    result = [{'value': "" + "".join(tag)}for tag in all_tags_text]
-    return json.dumps({
-                'query': 'Unit',
-                'suggestions' : result
-            })
 
 @persons_blueprint.route('/archived', methods=['GET'])
 @login_required

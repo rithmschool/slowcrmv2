@@ -1,9 +1,7 @@
 from flask_testing import TestCase
 import unittest
-from flask import json
-from project.models import User, Tag
+from project.models import User, Tag, Company, Person
 from project import app, db
-
 
 class BaseTestCase(TestCase):
     def create_app(self):
@@ -33,19 +31,48 @@ class BaseTestCase(TestCase):
     def login_user(self):
         self.client.post('/users/login',
             data=dict(
-                email=self.user.email, 
+                email=self.user.email,
                 password=self.password
             )
         )
 
-    def testPostingAutocompleteTag(self):
-        url = '/users/search/autocomplete?params=*a'
+    def test_tag_autocomplete_no_specialchars(self):
+        url = '/tags/autocomplete?params=a'
         response = self.client.get(url,
-            content_type = 'application/json'
-        ) 
+            content_type='application/json'
+        )
         tag = Tag.query.get(self.tag2.id)
-        self.assertEqual(response.json['suggestions'][0]['value'], "*"+tag.text+"*")
+        self.assertEqual(response.json['suggestions'][0]['value'], tag.text)
 
+    def test_tag_autocomplete_with_specialchars(self):
+        url = '/tags/autocomplete?params=*a&specialchars=1'
+        response = self.client.get(url,
+            content_type='application/json'
+        )
+        tag = Tag.query.get(self.tag2.id)
+        self.assertEqual(response.json['suggestions'][0]['value'], '*'+tag.text+'*')
+
+    def test_company_autocomplete(self):
+        google = Company('Google')
+        db.session.add(google)
+        db.session.commit()
+        url = '/tags/autocomplete?params=%24g&specialchars=1'
+        response = self.client.get(url,
+            content_type='application/json'
+        )
+        company = Company.query.get(1)
+        self.assertEqual(response.json['suggestions'][0]['value'], '$'+company.name+'$')
+
+    def test_person_autocomplete(self):
+        tim = Person('Tim')
+        db.session.add(tim)
+        db.session.commit()
+        url = '/tags/autocomplete?params=%7Ct&specialchars=1'
+        response = self.client.get(url,
+            content_type='application/json'
+        )
+        person = Person.query.get(1)
+        self.assertEqual(response.json['suggestions'][0]['value'], '|'+person.name+'|')
 
 if __name__ == '__main__':
-    unittest.main()        
+    unittest.main()

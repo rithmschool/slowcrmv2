@@ -17,7 +17,6 @@ class User(db.Model, UserMixin):
     entries = db.relationship('Entry', backref='user', lazy='dynamic')
 
     def __init__(self, email, name, password, phone, is_admin, confirmed, created_at=datetime.now(), updated_at=datetime.now()):
-
         self.email = email
         self.name = name
         self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
@@ -129,7 +128,7 @@ class Company(db.Model):
             self.created_at,
             self.updated_at
         )
-        
+
 class Entry(db.Model, UserMixin):
     taggable_type = 'entry'
     __tablename__ = 'entries'
