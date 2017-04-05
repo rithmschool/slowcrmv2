@@ -8,16 +8,17 @@
         <a href = "{{url_for('companies.index')}}">
             <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
         </a>
+        <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
     </h4>
     <div class="row">
         <div>
             <div class="user-row">
-                <span class="user-header">{{company.name}}
-                    <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
-                </span>
-                <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+                <h2>{{company.name}}
+                    <span class="user-header">
+                        <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
+                    </span>
+                </h2>
             </div>
-
             <div>
                 <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
                 <p>Description: {{company.description}}</p>
@@ -33,7 +34,6 @@
                  <a href="{{url_for('companies.archive', id=company.id)}}">Archive Company</a>
             </div>
         </div>
-
        <div>
             <h3 class="">{{company.name}}'s Entries</h3>
             {%  for entry in entries  %}
@@ -48,23 +48,25 @@
         <div id="tag-modal" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                      <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
-                    <div class="model-header">
-                        <h4 class="modal-heading">Add Tag</h4>
-                    </div>
-                <div class="modal-body text-center">
-                    <form  action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
-                        <div class="form-group">
-                            {{form.hidden_tag()}}
-                            {{form.tag}}
-                            <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
+                    <div class="modal-body text-center">
+                        <div class="entry">
+                            <form  id="entry-form" action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
+                                <div class="form-group">
+                                    {{form.hidden_tag()}}
+                                    {{form.tag}}
+                                </div>
+                                <div class="inline">
+                                    <i class="lead text-muted">company tag</i>
+                                    <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-                    <div class="modal-footer">
-                        <div id="modal-message" class="text-center"></div>
+                        <div class="modal-footer">
+                            <div id="modal-message" class="text-center"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {%  endblock  %}
