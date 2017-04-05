@@ -1,3 +1,4 @@
+$(function(){
 //Entry Autocomplete
 var sendServer = false;
 $('#tweet-message').autocomplete({
@@ -23,7 +24,8 @@ $('#tweet-message').autocomplete({
     $.ajax({
       url: '/tags/autocomplete',
       data: {
-        params: query.slice(0)
+        params: query.slice(0),
+        specialchars: 1
       }
     }).then(function(response){
       var lookupResults = jQuery.parseJSON(response);
@@ -66,7 +68,6 @@ $('#entry-form').on('submit', function(e) {
 });
 
 //Tag Autocomplete
-$(function(){
   $('#tag').autocomplete({
     ajaxSettings: {
       beforeSend: function(xhr) {
