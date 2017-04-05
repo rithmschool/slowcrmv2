@@ -3,7 +3,7 @@
 {%  block content  %}
 
 
-<div class="container-fluid">
+<div>
     {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
     {% endfor %}
@@ -38,6 +38,5 @@
     </div>
     <h4><a href="{{url_for('companies.show_archived')}}">Archived Companies</a></h4><br>
 </div>
-	
-{%  endblock  %}
 
+{%  endblock  %}
