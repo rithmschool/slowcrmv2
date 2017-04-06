@@ -167,12 +167,39 @@ class Taggable(db.Model):
     __tablename__ = 'taggable'
 
     id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'))
     taggable_id = db.Column(db.Integer)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'))
     taggable_type = db.Column(db.String)
     tags = db.relationship('Tag', backref=db.backref('taggable'))
 
     def __init__(self, taggable_id, tag_id, taggable_type):
-        self.tag_id = tag_id
         self.taggable_id = taggable_id
+        self.tag_id = tag_id
         self.taggable_type = taggable_type
+
+class Followable(db.Model):
+    __tablename__ = 'followable'
+
+    id = db.Column(db.Integer, primary_key=True)
+    followable_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
+    followable_type = db.Column(db.String)
+    user = db.relationship('User', backref=db.backref('followable'))
+
+    def __init__(self, followable_id, user_id, followable_type):
+        self.followable_id = followable_id
+        self.user_id = user_id
+        self.followable_type = followable_type
+
+class Notification(db.Model):
+    __tablename__ = 'notifications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
+    followable_id = db.Column(db.Integer, db.ForeignKey('followable.id', ondelete='CASCADE'))
+
+    def __init__(self, user_id, followable_id):
+        self.user_id = user_id
+        self.followable_id = followable_id
+
+

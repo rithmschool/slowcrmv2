@@ -12,6 +12,11 @@
     <div class="row">
         <div>
             <div class="user-row">
+                {% if not followable %}
+                    <a href="{{url_for('companies.follow', id=company.id)}}">Follow Company</a>
+                {% else %}
+                    <a href="{{url_for('companies.follow', id=company.id)}}">Un-Follow Company</a>
+                {% endif %}
                 <span class="user-header">{{company.name}}
                     <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
                 </span>
