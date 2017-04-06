@@ -287,7 +287,7 @@ img.slow{
 }
 
 /* iPhone Portrait and Landscape */
-@media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
+@media only screen and (min-width: 100px) and (max-width: 768px) {
     body {
         font-size: 1rem;
     }
@@ -330,7 +330,7 @@ img.slow{
     }
 }
 /*iPad and Low Res Laptop*/
-@media (min-device-width: 768px) and (max-device-width:1200px) {
+@media (min-width: 768px) and (max-width:1200px) {
 
     .content.login{
         width: 100%;
@@ -345,7 +345,7 @@ img.slow{
     }
 }
 /*Large Display*/
-@media (min-device-width: 1200px) and (max-device-width:1800px){
+@media (min-width: 1200px) and (max-width:1800px){
     .content.login{
         width: 100%;
     }
@@ -354,7 +354,7 @@ img.slow{
     }
 }
 /*CRAZY LARGE DISPLAy*/
-@media (min-device-width: 1800px) {
+@media (min-width: 1800px) {
     body{
         font-size: 2rem;
     }
