@@ -1,8 +1,7 @@
 from flask_testing import TestCase
 import unittest
-from project.models import Company, User, Tag, Taggable
+from project.models import Company, User, Tag, Taggable, Followable
 from project import app, db
-from flask import json
 
 class BaseTestCase(TestCase):
     def _login_user(self,email,password,follow_redirects=False):
@@ -27,6 +26,9 @@ class BaseTestCase(TestCase):
             url='7.com',logo_url=None,partner_lead='Some guy',
             ops_lead='some other guy',source='no where',round='Angel',archived=False)        
         db.session.add_all([c1,c2,user1,user2])
+        db.session.commit()
+        followable = Followable(2, 2, 'company')
+        db.session.add(followable)
         db.session.commit()
 
     def tearDown(self):
@@ -129,6 +131,14 @@ class BaseTestCase(TestCase):
         self.assertEqual(company_2.archived, True)
         self.assertEqual(company_3.archived, False)
 
+    def testFollow(self):
+        self._login_user('tommyhopkins@gmail.com', 'password2')
+        response2 = self.client.get('/companies/2/follow')
+        response1 = self.client.get('/companies/1/follow')
+        self.assertEqual(Followable.query.get(2), None)
+        self.assertEqual(Followable.query.get(1).followable_id, 1)
+        self.assertEqual(response1.status_code, 302)
+        self.assertEqual(response2.status_code, 302)
 
 if __name__ == '__main__':
     unittest.main()

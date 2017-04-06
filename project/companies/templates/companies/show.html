@@ -18,6 +18,11 @@
                         <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
                     </span>
                 </h2>
+                {% if not followable %}
+                    <a href="{{url_for('companies.follow', id=company.id)}}">Follow Company</a>
+                {% else %}
+                    <a href="{{url_for('companies.follow', id=company.id)}}">Un-Follow Company</a>
+                {% endif %}
             </div>
             <div>
                 <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
