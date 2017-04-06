@@ -3,32 +3,11 @@
 {% for message in get_flashed_messages() %}
     <p class="flashwarning">{{ message }}</p>
 {% endfor %}
-<div>
-    <h4>
-        <a href = "{{url_for('persons.index')}}">
-            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
-        </a>
-        <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
-    </h4>
-    <div class="row">
-        <div>
-            <div class="user-row">
-                <h2>{{person.name}}
-                    <span class="user-header">
-                        <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
-                    </span>
-                </h2>
-            </div>
-                <div>
-                    <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
-                    <p>{{person.email}}</p>
-                    <p></p>
-                    <p>{{person.phone}}</p>
-                    <p>Member Since: {{person.created_at.strftime('%m-%d-%y')}}</p>
-                    <p>Last Seen: {{person.created_at.strftime('%m-%d-%y')}}</p>
-                     <a href="{{url_for('persons.archive', id=person.id)}}">Archive Person</a>
-                </div>
-            </div>
+<div class="container">
+  <h4><a href = "{{url_for('persons.index')}}">Back To People Index</a></h4><br>
+  <div>
+    <div class = "container profile-box">
+      <div class="">
         <div>
           <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
           <p>{{person.email}}</p>
@@ -38,32 +17,47 @@
           <p>Last Seen: {{person.created_at.strftime('%m-%d-%y')}}</p>
            <a href="{{url_for('persons.archive', id=person.id)}}">Archive Person</a>
         </div>
-    </div>
-        <div id="tag-modal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <div class="entry">
-                            <form  id="entry-form" action="{{url_for('persons.add_tag', id=person.id)}}" method="POST">
-                                <div class="form-group">
-                                    {{form.hidden_tag()}}
-                                    {{form.tag}}
-                                </div>
-                                <div class="inline">
-                                    <i class="lead text-muted">person tag</i>
-                                    <button label= "submit" class="button-hover" id="persons-tag-submit">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <div id="modal-message" class="text-center"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
       </div>
+    <div class="user-row">
+      <span class="user-header">{{person.name}}
+      <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('persons.edit', id=person.id)}}"></a>
+      </span>
+      <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
     </div>
+  </div>
+  <div>
+    <h3 class="">{{person.name}}'s Entries</h3>
+    {%  for entry in entries  %}
+    <div class="user-post">
+      <p class="user-post-content">{{entry.content | safe}}</p>
+      <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+      <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+    </div>
+    {%  endfor  %}
+  </div>
+</div>
+  <div id="tag-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-body text-center">
+                  <div class="entry">
+                      <form  id="entry-form" action="{{url_for('persons.add_tag', id=person.id)}}" method="POST">
+                          <div class="form-group">
+                              {{form.hidden_tag()}}
+                              {{form.tag}}
+                          </div>
+                          <div class="inline">
+                              <i class="lead text-muted">person tag</i>
+                              <button label= "submit" class="button-hover" id="persons-tag-submit">Add</button>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <div id="modal-message" class="text-center"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
 </div>
 {%  endblock  %}
