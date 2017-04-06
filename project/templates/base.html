@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -34,18 +35,18 @@
       <div class="modal-content">
         <div class="modal-body text-center">
           <div class="entry">
-            <form id="entry-form" action="{{ url_for('users.entry') }}", method='POST'>
+            <form id="entry-form" action="{{ url_for('users.entry') }}" , method='POST'>
               <div class="form-group">
-                <input name="tweet-message" id="tweet-message" cols="30" rows="1" class="form-control" placeholder="update" autofocus></input>
+                <input name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus></input>
               </div>
               <div class="flashes"></div>
               <div class="inline">
-                <div class="legend">
-                  <span>$<i class="legend-word"> company </i>$</span>
-                  <span>|<i class="legend-word"> person </i>|</span>
-                  <span>*<i class="legend-word"> tag </i>*</span>
+                <div class="legend tags_select">
+                  <span class="button-hover">$<i class="legend-word"> company </i>$</span>
+                  <span class="button-hover">|<i class="legend-word"> person </i>|</span>
+                  <span class="button-hover">*<i class="legend-word"> tag </i>*</span>
                 </div>
-                <button id="tweet-button" type="submit"class="button-hover">Post</button>
+                <button id="tweet-button" type="submit" class="button-hover">Post</button>
               </div>
             </form>
           </div>
@@ -66,7 +67,7 @@
     <div class="right">
       <form action="{{url_for('users.search')}}" class="myform has-feedback">
         <div class="input-group">
-          <input class="myinput search right-icon" type="text" name="search"/>
+          <input class="myinput search right-icon" type="text" name="search" />
           <i class="glyphicon glyphicon-search form-control-feedback"></i>
         </div>
       </form>
@@ -117,47 +118,35 @@
 
   <!-- MOBILE NAV -->
   <div class="container-fluid">
-      <!-- LOGO -->
+    <!-- LOGO -->
     <nav class="navbar nav-small navbar-toggleable-md navbar-light bg-faded hidden-lg hidden-md hidden-sm visible-xs nav-item row">
-        <div class="col-xs-4 text-left">
-            <a href="/users/home" class="logo"><img class="button-hover" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
-        </div>
-        <!-- PLUS -->
-        {% if current_user.is_authenticated %}
-        <div class="col-xs-4 text-center">
-            <a class="nav-item col" data-toggle="modal" data-target="#new-modal"><i class="fa fa-plus-square fa-4x button-hover" aria-hidden="true" autofocus></i></a>
-        </div>
-        {% else %}
-        <div class="col-xs-4 text-center">
-        </div>
-        {%endif%}
-    <!-- NAVBUTTON -->
-        <div class="col-xs-4 text-right">
-            <i
-                type="button" data-toggle="collapse"
-                data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                class="navbar-toggler nav-item fa fa-4x fa-bars">
+      <div class="col-xs-4 text-left">
+        <a href="/users/home" class="logo"><img class="button-hover" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
+      </div>
+      <!-- PLUS -->
+      {% if current_user.is_authenticated %}
+      <div class="col-xs-4 text-center">
+        <a class="nav-item col" data-toggle="modal" data-target="#new-modal"><i class="fa fa-plus-square fa-4x button-hover" aria-hidden="true" autofocus></i></a>
+      </div>
+      {% else %}
+      <div class="col-xs-4 text-center">
+      </div>
+      {%endif%}
+      <!-- NAVBUTTON -->
+      <div class="col-xs-4 text-right">
+        <i type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler nav-item fa fa-4x fa-bars">
             </i>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <div class="nav-item dropdown">
-                <!-- PROFILE -->
-                {% if current_user.is_authenticated %}
-                <p>
-                    <i
-                        type="button" data-toggle="collapse"
-                        data-target="#profileDropdown"
-                        aria-controls="navbarNavDropdown"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                        class="navbar-toggler nav-item fa user fa-user-circle-o fa-3x button-hover">
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="nav-item dropdown">
+          <!-- PROFILE -->
+          {% if current_user.is_authenticated %}
+          <p>
+            <i type="button" data-toggle="collapse" data-target="#profileDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler nav-item fa user fa-user-circle-o fa-3x button-hover">
                     </i>
-                    <div class="collapse" id="profileDropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <h3 class="text-right"><a href="{{url_for('users.show', id=current_user.id)}}">Profile</a><h3>
+            <div class="collapse" id="profileDropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <h3 class="text-right"><a href="{{url_for('users.show', id=current_user.id)}}">Profile</a><h3>
                         </a>
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <h3 class="text-right"><a href="{{url_for('companies.index')}}">Portfolio</a><h3>
