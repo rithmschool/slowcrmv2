@@ -1,8 +1,8 @@
 from flask import Blueprint, redirect, render_template, flash, url_for, request
 from project import db
 from project.companies.forms import CompanyForm, EditCompanyForm, TagForm
-from project.models import Company, Tag, Taggable
-from flask_login import login_required
+from project.models import Company, Tag, Taggable, Followable
+from flask_login import login_required, current_user
 from project.users.views import get_links, get_pipes_dollars_tags_tuples
 from sqlalchemy import asc
 from flask import json
@@ -54,6 +54,7 @@ def show(id):
     company = Company.query.get(id)
     entries = Company.query.get(id).entries
     taggables = Taggable.query.filter_by(taggable_id=id, taggable_type='company').all()
+    followable = bool(Followable.query.filter_by(followable_id=id, user_id=current_user.id).first())
     formatted_entries = [{
         'content': get_links(entry.content, get_pipes_dollars_tags_tuples(entry.content)),
         'entry_id': entry.id,
@@ -76,7 +77,8 @@ def show(id):
             flash("Succesfully edited company")
             return redirect(url_for('companies.show', id=company.id))
         return render_template('companies/edit.html',form=form)
-    return render_template('companies/show.html', company=company, form = TagForm(), entries=reversed(formatted_entries), taggables=taggables, Tag=Tag)
+    return render_template('companies/show.html', company=company, form = TagForm(), entries=reversed(formatted_entries),
+                           taggables=taggables, Tag=Tag, followable=followable)
 
 @companies_blueprint.route('/<int:id>/edit')
 @login_required
@@ -129,3 +131,17 @@ def add_tag(id):
 def show_archived():
     companies = Company.query.filter_by(archived=True).order_by(Company.name)
     return render_template('companies/archived.html', companies=companies)
+
+@companies_blueprint.route('/<int:id>/follow', methods=['GET'])
+@login_required
+def follow(id):
+    user_id = current_user.id
+    followable = Followable.query.filter_by(followable_id=id, user_id=current_user.id).first()
+    if not bool(followable):
+        followable = Followable(id, user_id, 'company')
+        db.session.add(followable)
+        db.session.commit()
+    else:
+        db.session.delete(followable)
+        db.session.commit()
+    return redirect(url_for('companies.show', id=id))
