@@ -97,13 +97,13 @@ def autocomplete():
     query = request.args['params']
     if  request.args.get('specialchars'):
         if  query[0] == '|':
-            all_person_names = Person.query.with_entities(Person.name).filter(Person.name.ilike(query[1:-1] + '%')).order_by(asc(Person.name)).all()
+            all_person_names = Person.query.with_entities(Person.name).filter(Person.name.ilike(query[1:] + '%')).order_by(asc(Person.name)).all()
             result = [{'value': "|" + "".join(person) + "|"} for person in all_person_names]
         elif query[0] == '$':
-            all_company_names = Company.query.with_entities(Company.name).filter(Company.name.ilike(query[1:-1] + '%')).order_by(asc(Company.name)).all()
+            all_company_names = Company.query.with_entities(Company.name).filter(Company.name.ilike(query[1:] + '%')).order_by(asc(Company.name)).all()
             result = [{'value': "$" + "".join(company) + "$"} for company in all_company_names]
         elif query[0] == '*':
-            all_tag_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[1:-1] + '%')).order_by(asc(Tag.text)).all()
+            all_tag_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[1:] + '%')).order_by(asc(Tag.text)).all()
             result = [{'value': "*" + "".join(tag) + "*"} for tag in all_tag_text]
     else:
         all_tags_text = Tag.query.with_entities(Tag.text).filter(Tag.text.ilike(query[0:] + '%')).order_by(asc(Tag.text)).all()
