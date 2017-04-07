@@ -3,7 +3,13 @@ $(function() {
   $('.modal').on('shown.bs.modal', function() {
     $(this).find('[autofocus]').focus();
   });
-
+  // TEXT AREA SHIFT ENTER
+  $('#tweet-message').keyup(function(event){
+      if (event.keyCode == 13 && !event.shiftKey) {
+        $('#tweet-message').submit();
+        return false;
+      }
+  });
   // MODAL CLEAR ON HIDE
   $(".modal").on("hidden.bs.modal", function(){
     $("#tweet-message").val("");
