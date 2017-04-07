@@ -78,6 +78,12 @@ ul {
     padding:1rem;
     background: white;
 }
+
+.autocomplete-suggestions > *:hover {
+    border-radius: 2px;
+    background: #EBF4FD;
+}
+
 .display {
     border-radius: 0.2rem;
     background: rgb(246, 246, 246);
