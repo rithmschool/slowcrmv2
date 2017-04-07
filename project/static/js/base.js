@@ -1,4 +1,11 @@
 $(function() {
+    // TEXT AREA SHIFT ENTER
+    $('#tweet-message').keyup(function(event){
+			  if (event.keyCode == 13 && !event.shiftKey) {
+			  	$('#tweet-message').submit();
+			  	return false;
+			  }
+		});
 
     // MODAL FOCUS
     $('.modal').on('shown.bs.modal', function() {
