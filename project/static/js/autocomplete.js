@@ -37,11 +37,16 @@ $(function(){
   //Entry form submission error handling
   $('#entry-form').on('submit', function(e) {
     e.preventDefault()
+    var re = /\|\s*\||\$\s*\$|\*\s*\*/;
     if ($('#tweet-message').val() === "") {
-      $('.flashes').prepend(
+      $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
       )
-    } else {
+    }else if($('#tweet-message').val().match(re)){
+      $('.flashes').empty().prepend(
+        '<div>please enter a non-empty tag</div>'
+      )
+    }else {
       $.ajax({
         type: "POST",
         url: "/users/entries",
@@ -51,7 +56,7 @@ $(function(){
         dataType: "json",
         contentType: "application/json",
       }).then(function(response) {
-        $('#tweet-message').val('')
+        $('#tweet-message').val('');
         $('ul').prepend(
           `<li class="entry" data-id="${response.entry_id}">
             <a class="nameanchor" href="/users/${response.id}">
@@ -61,6 +66,8 @@ $(function(){
             <div class="text">${response.data}</div>
           </li>`
         )
+        $('#new-modal').modal('toggle');
+        $('.flashes').html("<p></p>");
       }).catch(function(error) {
         $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
       })
