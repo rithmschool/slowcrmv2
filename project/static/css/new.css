@@ -4,7 +4,7 @@ body {
 a {
     color: #607c8b;
 }
-li{
+li {
     list-style-type: none;
 }
 button a{
@@ -25,6 +25,7 @@ button {
     border: none;
     color: white;
 }
+
 ul {
     padding: 0px;
     text-decoration: none;
@@ -53,7 +54,6 @@ ul {
     justify-content: center;
     align-items: center;
 }
-
 /*NEWPOST
 *********
 */
@@ -61,12 +61,10 @@ ul {
     border-radius: 0.5rem;
     color: #607c8b;
 }
-
 .legend-word {
     color: white;
     text-shadow: 0px 2px 0px #dbdbdb;
 }
-
 .legend span {
     margin: 2px;
     padding: 4px;
@@ -96,23 +94,18 @@ ul {
     margin: 1rem;
     background: white;
 }
-
 .entrieslist li a.nameanchor {
     font-weight: bold;
 }
-
 .modal-body, .modal-body form, .modal-body textarea {
     font-size: 2rem;
 }
-
 .modal-body button {
     margin-left: 1rem;
 }
-
 #tweet-message.form-control{
     height: 10rem;
 }
-
 .modal-body button {
     padding: 1rem;
     border-radius: 0.5rem;
@@ -136,14 +129,20 @@ textarea:focus{
 .modal-body textarea:focus {
     box-shadow: none;
 }
-
 div.modal-content {
     position: relative;
     background-color: white;
     border-radius: 0.5rem;
 }
-
-
+/*USERENTRIES
+*********
+*/
+.user-entries li {
+    padding: 1rem 1rem 1px 1rem;
+    margin: 1rem;
+    background: rgb(245, 245, 245);
+    box-shadow: 0px 0.2rem 0px rgba(0, 0, 0, 0.1);
+}
 /*NAVIGATION
 *********
 */
@@ -332,7 +331,6 @@ img.slow{
 }
 /*iPad and Low Res Laptop*/
 @media (min-width: 768px) and (max-width:1200px) {
-
     .content.login{
         width: 100%;
     }
