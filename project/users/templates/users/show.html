@@ -38,7 +38,7 @@
 </div>
 
 <!-- CONTENT -->
-<div class="container">
+<div class="row">
   {% if current_user.id == user.id %}
   <!-- USER PROFILE -->
   <div>
@@ -70,25 +70,25 @@
   <!-- USER ENTRIES -->
   <div>
     <h2>Your Entries</h2>
-    {% if formatted_entries[0] %} {% for entry in formatted_entries[::-1] %}
-      {% if not entry["archived"]%}
-      <div class="entrieslist">
-          <ul class="entrieslist">
-            <div class="entry-post-content"><b>{{entry["content"] | safe }}</b>
-                <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" alt="archive" class="button">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </a>
-            </div>
-            <p class="entry-post-dates">
-              {{entry["created_at"].strftime('%m-%d-%y')}}
-            </p>
-        </ul>
-    </div>
-      {% endif %}
-    {% endfor %} {% else %}
-      <p class="text-center">No posts to show right now</p>
+      <ul class="user-entries">
+        {% if formatted_entries[0] %} {% for entry in formatted_entries[::-1] %}
+        {% if not entry["archived"]%}
+        <li>
+          <p><b>{{entry["content"] | safe }}</b></p>
+          <p>
+            {{entry["created_at"].strftime('%m-%d-%y')}}
+            <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" alt="archive" class="button">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+          </p>
+        </li>
+        {% endif %}
+        {% endfor %} {% else %}
+    </ul>
+    <p class="text-center">No posts to show right now</p>
     {% endif %}
   </div>
+
   {% else %}
 
   <!-- NON USER PROFILE -->
@@ -105,20 +105,19 @@
   <!-- NON USER ENTRIES -->
   <div>
     <h3>{{user.name}}'s Entries</h3>
+    <ul class="user-entries">
     {% if formatted_entries[0] %} {% for entry in formatted_entries[::-1] %}
-    <div class="entry-post">
-      <h4 class="entry-post-content">{{entry["content"] | safe }}</h4>
-      <p class="entry-post-dates">
-        <b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}}
-      </p>
-      <p class="entry-post-dates">
-        <b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}
-      </p>
-    </div>
-    {% endfor %} {% else %}
-      <p class="text-center">No posts to show right now</p>
-    {% endif %}
-  </div>
+      <li>
+        <p><b>{{entry["content"] | safe }}</b></p>
+        <p>
+          <b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}} <br>
+          <b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}
+        </p>
+      </li>
+      {% endfor %} {% else %}
+    </ul>
+    <p class="text-center">No posts to show right now</p>
   {% endif %}
 </div>
+{% endif %}
 {% endblock %}
