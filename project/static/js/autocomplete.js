@@ -37,14 +37,14 @@ $(function(){
   //Entry form submission error handling
   $('#entry-form').on('submit', function(e) {
     e.preventDefault()
-    var re = /[**,$$,||]{2}/;
+    var re = /\|\s*\||\$\s*\$|\*\s*\*/;
     if ($('#tweet-message').val() === "") {
       $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
       )
     }else if($('#tweet-message').val().match(re)){
       $('.flashes').empty().prepend(
-        '<div>please enter a correct tag</div>'
+        '<div>please enter a non-empty tag</div>'
       )
     }else {
       $.ajax({

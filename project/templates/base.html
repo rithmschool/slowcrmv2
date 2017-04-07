@@ -37,7 +37,7 @@
           <div class="entry">
             <form id="entry-form" action="{{ url_for('users.entry') }}" , method='POST'>
               <div class="form-group">
-                <input name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus></input>
+                <textarea wrap="soft" name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus></textarea>
               </div>
               <div class="flashes"></div>
               <div class="inline">
