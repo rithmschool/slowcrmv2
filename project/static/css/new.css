@@ -227,6 +227,7 @@ i.nav-item{
 .navbar-toggler{
     color:white;
     text-align: center;
+    cursor: pointer;
 }
 .nav-item{
     color:white;
