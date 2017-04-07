@@ -224,6 +224,7 @@ i.nav-item{
     padding: 0.5rem;
     margin-right: 2rem;
 }
+
 .navbar-toggler{
     color:white;
     text-align: center;
@@ -255,6 +256,23 @@ i.nav-item{
     margin:auto;
     width:60vw;
 }
+
+.edit-container{
+    text-align: center;
+    width: 100%;
+}
+
+#user-name-pencil-container{
+    display:flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+a.glyphicon-pencil{
+    font-size: 20px;
+}
+
 .login {
     display: flex;
     justify-content: space-around;

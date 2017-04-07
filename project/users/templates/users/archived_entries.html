@@ -49,26 +49,9 @@
 
                 {% if current_user.id == user.id %}
                 <div class="row user-row">
-            <span class="user-header">User {{user.name}}'s Profile Page
-            <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="/users/{{user.id}}/edit"></a>
-            </span>
-                    <button type="button" class="btn btn-primary invite-button pull-right" data-toggle="modal"
-                            data-target="#invite-modal">Invite New User
-                    </button>
-                </div>
-
-                <div>
-                    <p><b>Email:</b> {{user.email}}</p>
-                    <p><b>Phone:</b> {{user.phone}}</p>
-                    <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M
-                        %p')}}</p>
-                    <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M
-                        %p')}}</p>
-                    <p><b>Admin:</b> {{user.is_admin}}</p>
-                    <p><b>Confirmed:</b> {{user.confirmed}}</p>
-                    <a href="/users/{{user.id}}/editpassword" class="btn btn-info btn-sm">Update Password</a>
-                </div>
-
+                <a href="{{ url_for('users.show', id=user.id) }}" class="btn">
+                    <i class="fa fa-2x fa-arrow-circle-left" aria-hidden="true"></i>
+                </a>
                 <!-- end top row -->
             </div>
         </div>
@@ -93,13 +76,12 @@
             <p class="text-center">No posts to show right now</p>
             {% endif %}
         </div>
-        <a href="{{ url_for('users.show', id=user.id) }}" class="btn">Show Un-Archived Entries</a>
     </div>
 
     <!-- Search container -->
     <div class="searchcontent">
         <div class="myheader">
-            <div class="myheadertext">Search</div>
+            <div class="myheadertext"></div>
             <div class="myheaderbar"></div>
             <div class="mycontent"></div>
         </div>
