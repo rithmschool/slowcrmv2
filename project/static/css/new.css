@@ -63,18 +63,19 @@ ul {
 }
 
 .legend-word {
-    color: rgb(201, 201, 201);
+    color: white;
+    text-shadow: 0px 2px 0px #dbdbdb;
 }
 
 .legend span {
-    margin:2px;
-    padding:2px;
-    border-radius: 0.2rem;
-    background:rgba(0,0,0,0.1);
+    margin: 2px;
+    padding: 4px;
+    border-radius: 0.4rem;
+    background: rgba(0,0,0,0.1);
+    box-shadow: 0px 0.5rem 0px #dbdbdb;
 }
 .autocomplete-suggestions{
     border-radius: 2px;
-    text-align: right;
     padding:1rem;
     background: white;
 }
@@ -113,16 +114,25 @@ ul {
 }
 
 .modal-body button {
-    padding: 0.5rem;
-    border-radius: 1px;
+    padding: 1rem;
+    border-radius: 0.5rem;
 }
-
+.fa-plus-square{
+    text-shadow: 0px 0.3rem 0px #d9d9d9;
+}
 .modal-body textarea::placeholder {
     font-weight: lighter;
     font-style: italic;
     color: rgb(201, 201, 201);
 }
-
+button.post{
+  box-shadow: 0px 0.5rem 0px #4a6472;
+  text-shadow: 0px 3px 0px #4a6472;
+}
+textarea:focus{
+  box-shadow: none;
+  outline:none;
+}
 .modal-body textarea:focus {
     box-shadow: none;
 }
@@ -216,7 +226,6 @@ i.nav-item{
     background:#f8f8f8;
     text-align: right;
     width:100%
-
 }
 .glyphicon-search{
     color: white;
@@ -269,9 +278,6 @@ img.slow{
     font-size: 3rem;
     background:rgba(0,0,0,0.1);
     padding:0.5rem;
-}
-.new:hover {
-    color: rgba(255, 255, 255, 0.8);
 }
 .modal-footer{
     border:0px
@@ -382,9 +388,21 @@ img.slow{
     vertical-align: middle;
     transform: perspective(1px) translateZ(0);
     transition-duration: 0.3s;
-    transition-property: transform;
+    transition-property: transform box-shadow;
     transition-timing-function: ease-out;
 }
 .button-hover:hover, .button-hover:focus, .button-hover:active {
+    transform: translateY(3px);
+}
+.legend .button-hover:hover, .legend .button-hover:focus, .legend .button-hover:active {
+    box-shadow: 0px 0.2rem 0px #dbdbdb;
+    transform: translateY(3px);
+}
+#tweet-button.button-hover:hover, #tweet-button.button-hover:focus, #tweet-button.button-hover:active {
+    box-shadow: 0px 0.2rem 0px #4a6472;
+    transform: translateY(3px);
+}
+#new.button-hover:hover, #new.button-hover:focus, #new.button-hover:active {
+    text-shadow: 0px 0.2rem 0px #d9d9d9;
     transform: translateY(3px);
 }
