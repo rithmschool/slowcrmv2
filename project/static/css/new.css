@@ -111,7 +111,8 @@ ul {
     border-radius: 0.5rem;
 }
 .fa-plus-square{
-    text-shadow: 0px 0.3rem 0px #d9d9d9;
+  text-shadow: 0px 0.3rem 0px #a1a1a1, 0px 5px 20px rgba(0, 0, 0, 0.6);
+
 }
 .modal-body textarea::placeholder {
     font-weight: lighter;
@@ -420,6 +421,6 @@ img.slow{
     transform: translateY(3px);
 }
 #new.button-hover:hover, #new.button-hover:focus, #new.button-hover:active {
-    text-shadow: 0px 0.2rem 0px #d9d9d9;
+    text-shadow: 0px 0.1rem 0px #a1a1a1, 0px 5px 20px rgba(0, 0, 0, 0.6);
     transform: translateY(3px);
 }
