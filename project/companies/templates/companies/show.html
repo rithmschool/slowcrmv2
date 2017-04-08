@@ -3,75 +3,71 @@
 {% for message in get_flashed_messages() %}
     <p class="flashwarning">{{ message }}</p>
 {% endfor %}
-<div>
-    <h4>
-        <a href = "{{url_for('companies.index')}}">
-            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
-        </a>
-        <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
-    </h4>
-    <div class="row">
-        <div>
-            <div class="user-row">
-                <h2>{{company.name}}
-                    <span class="user-header">
-                        <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
-                    </span>
-                </h2>
-                {% if not followable %}
-                    <a href="{{url_for('companies.follow', id=company.id)}}">Follow Company</a>
-                {% else %}
-                    <a href="{{url_for('companies.follow', id=company.id)}}">Un-Follow Company</a>
-                {% endif %}
+<div class="row">
+  <h4>
+    <a href = "{{url_for('companies.index')}}">
+      <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+    </a>
+    <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#tag-modal">Add Tag</button>
+  </h4>
+  <div class="user-row">
+    <h2>{{company.name}}
+      <span class="user-header">
+        <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
+      </span>
+    </h2>
+    {% if not followable %}
+      <a href="{{url_for('companies.follow', id=company.id)}}">Follow Company</a>
+    {% else %}
+      <a href="{{url_for('companies.follow', id=company.id)}}">Un-Follow Company</a>
+    {% endif %}
+  </div>
+  <div>
+    <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+    <p>Description: {{company.description}}</p>
+    <p>URL: {{company.url}}</p>
+    <p>Logo URL: {{company.logo_url}}</p>
+    <p>Partner Lead: {{company.partner_lead}}</p>
+    <p>Operations Lead: {{company.ops_lead}}</p>
+    <p>Source: {{company.source}}</p>
+    <p>Round: {{company.round}}</p>
+    <p>Archived: {{company.archived}}</p>
+    <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+    <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
+     <a href="{{url_for('companies.archive', id=company.id)}}">Archive Company</a>
+  </div>
+  <div>
+    <h3 class="">{{company.name}}'s Entries</h3>
+    {%  for entry in entries  %}
+      <div class="user-post">
+        <p class="user-post-content">{{entry.content | safe}}</p>
+        <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
+        <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+      </div>
+    {%  endfor  %}
+  </div>
+</div>
+<div id="tag-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <div class="entry">
+          <form  id="entry-form" action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
+            <div class="form-group">
+              {{form.hidden_tag()}}
+              {{form.tag}}
             </div>
-            <div>
-                <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
-                <p>Description: {{company.description}}</p>
-                <p>URL: {{company.url}}</p>
-                <p>Logo URL: {{company.logo_url}}</p>
-                <p>Partner Lead: {{company.partner_lead}}</p>
-                <p>Operations Lead: {{company.ops_lead}}</p>
-                <p>Source: {{company.source}}</p>
-                <p>Round: {{company.round}}</p>
-                <p>Archived: {{company.archived}}</p>
-                <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-                <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-                 <a href="{{url_for('companies.archive', id=company.id)}}">Archive Company</a>
+            <div class="inline">
+              <i class="lead text-muted">company tag</i>
+              <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
             </div>
+          </form>
         </div>
-       <div>
-            <h3 class="">{{company.name}}'s Entries</h3>
-            {%  for entry in entries  %}
-                <div class="user-post">
-                    <p class="user-post-content">{{entry.content | safe}}</p>
-                    <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-                    <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
-                </div>
-            {%  endfor  %}
+        <div class="modal-footer">
+          <div id="modal-message" class="text-center"></div>
         </div>
+      </div>
     </div>
-        <div id="tag-modal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <div class="entry">
-                            <form  id="entry-form" action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
-                                <div class="form-group">
-                                    {{form.hidden_tag()}}
-                                    {{form.tag}}
-                                </div>
-                                <div class="inline">
-                                    <i class="lead text-muted">company tag</i>
-                                    <button label= "submit" class="button-hover" id="company-tag-submit">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <div id="modal-message" class="text-center"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
+</div>
 {%  endblock  %}
