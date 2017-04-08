@@ -12,7 +12,7 @@
   </h4>
   <div class="user-row">
     <h2>{{company.name}}
-      <span class="user-header">
+      <span>
         <a class="edit-button btn glyphicon glyphicon-pencil btn-sm" href="{{url_for('companies.edit', id=company.id)}}"></a>
       </span>
     </h2>
@@ -22,29 +22,34 @@
       <a href="{{url_for('companies.follow', id=company.id)}}">Un-Follow Company</a>
     {% endif %}
   </div>
+  <br>
   <div>
-    <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
-    <p>Description: {{company.description}}</p>
-    <p>URL: {{company.url}}</p>
-    <p>Logo URL: {{company.logo_url}}</p>
-    <p>Partner Lead: {{company.partner_lead}}</p>
-    <p>Operations Lead: {{company.ops_lead}}</p>
-    <p>Source: {{company.source}}</p>
-    <p>Round: {{company.round}}</p>
-    <p>Archived: {{company.archived}}</p>
-    <p>Created: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-    <p>Updated: {{company.created_at.strftime('%m-%d-%y')}} at {{company.created_at.strftime('%I:%M %p')}}</p>
-     <a href="{{url_for('companies.archive', id=company.id)}}">Archive Company</a>
+    <p><b>Tags:</b> {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+    <p><b>Description:</b> {{company.description}}</p>
+    <p><b>URL:</b> {{company.url}}</p>
+    <p><b>Logo URL:</b> {{company.logo_url}}</p>
+    <p><b>Partner Lead:</b> {{company.partner_lead}}</p>
+    <p><b>Operations Lead:</b> {{company.ops_lead}}</p>
+    <p><b>Source:</b> {{company.source}}</p>
+    <p><b>Round:</b> {{company.round}}</p>
+    <p><b>Archived:</b> {{company.archived}}</p>
+    <p><b>Created:</b> {{company.created_at.strftime('%m-%d-%y')}}</p>
+    <p><b>Updated:</b> {{company.created_at.strftime('%m-%d-%y')}}</p>
+    <a href="{{url_for('companies.archive', id=company.id)}}">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
   </div>
   <div>
-    <h3 class="">{{company.name}}'s Entries</h3>
-    {%  for entry in entries  %}
-      <div class="user-post">
-        <p class="user-post-content">{{entry.content | safe}}</p>
-        <p class="user-post-dates">Created On: {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}}</p>
-        <p class="user-post-dates">Updated On: {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
-      </div>
-    {%  endfor  %}
+    <h3>{{company.name}}'s Entries</h3>
+    <ul class="user-entries">
+      {%  for entry in entries  %}
+      <li>
+        <p><b>{{entry.content | safe}}</b></p>
+        <p><b>Created On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}} <br>
+        <b>Updated On:</b> {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+      </li>
+      {%  endfor  %}
+    </ul>
   </div>
 </div>
 <div id="tag-modal" class="modal fade" role="dialog">

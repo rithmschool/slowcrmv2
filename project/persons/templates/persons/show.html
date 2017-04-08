@@ -12,19 +12,20 @@
   </h4>
   <div class="user-row">
     <h2>{{person.name}}
-      <span class="user-header">
+      <span>
         <a class="edit-button btn glyphicon glyphicon-pencil btn" href="{{url_for('persons.edit', id=person.id)}}"></a>
       </span>
     </h2>
   </div>
   <div>
-    <p>Tags: {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+    <p><b>Tags:</b> {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
     <p>{{person.email}}</p>
-    <p></p>
     <p>{{person.phone}}</p>
-    <p>Member Since: {{person.created_at.strftime('%m-%d-%y')}}</p>
-    <p>Last Seen: {{person.created_at.strftime('%m-%d-%y')}}</p>
-     <a href="{{url_for('persons.archive', id=person.id)}}">Archive Person</a>
+    <p><b>Member Since:</b> {{person.created_at.strftime('%m-%d-%y')}}</p>
+    <p><b>Last Seen:</b> {{person.created_at.strftime('%m-%d-%y')}}</p>
+     <a href="{{url_for('persons.archive', id=person.id)}}">
+       <i class="fa fa-trash" aria-hidden="true"></i>
+     </a>
   </div>
 </div>
 <div id="tag-modal" class="modal fade" role="dialog">
