@@ -1,22 +1,22 @@
 {% extends 'base.html' %} {% block content %}
 <div>
     <div>
-        <h4 class="tag-detail-index-btn"><a href="{{url_for('tags.index')}}">Back To Tag Index</a></h4>
-        <h2><span class="glyphicon glyphicon-tag"></span><b>{{tag_name.text}}</b></h2>
+        <h4 class="tag-detail-index-btn"><a href="{{url_for('tags.index')}}">See All Tags</a></h4>
+        <h2><span class="glyphicon glyphicon-tag"></span>&nbsp; {{tag_name.text}}</h2>
         <a href="{{url_for('tags.archive_tag', id=tag_name.id)}}">Archive Tag</a>
         <div>
             <div>
                 <div>
-                    <span class="">Entries</span>
+                    <span >Entries</span>
                     <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#entries">
                         <i class="fa fa-minus" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div id="entries" class="collapse in">
                     {% for entry in formatted_entries %}
-                    <div class="entry-post">
+                    <div class="entry entry-post">
                         <div class="entry-post-content">
-                            <b><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></b>
+                            <strong><a href="/users/{{entry['user_id']}}">{{entry["user_name"]}}</a></strong>
                             <p>{{ entry["content"] | safe }}</p>
                         </div>
                     </div>

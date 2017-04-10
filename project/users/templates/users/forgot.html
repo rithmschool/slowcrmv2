@@ -1,8 +1,6 @@
-{% extends 'base.html' %} {% block content%} {% for message in get_flashed_messages() %}
-<p class="flashwarning">{{ message }}</p>
-{% endfor %}
-<div>
-    <div class="editform">
+{% extends 'base.html' %}
+{% block content%}
+    <div class="col-sm-8">
         <h2>Enter Your Email and We Will Send You A Link to Reset Your Password</h2>
             <br>
         <form action="{{url_for('users.reset')}}" method="POST">
@@ -11,22 +9,10 @@
                     {{ error }}
                 </span> {% endfor %} {% endif %}
             <div class="form-group">
-            {{ form.email.label }}
-                <div class="col-10">
-                    {{ form.email(class="editfield", id="mail") }}
-                </div>
+                {{ form.email.label }}
+                {{ form.email(class="form-control", id="mail") }}
             </div>
             <button type="submit" class="button-hover">Submit</button>
+        </form>
     </div>
-</div>
-</form>
-</div>
-<div class="searchcontent">
-    <div class="myheader">
-        <div class="myheadertext">Search</div>
-        <div class="myheaderbar"></div>
-        <div class="mycontent">
-        </div>
-    </div>
-</div>
 {% endblock %}

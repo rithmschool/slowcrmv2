@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
 {% block content%}
 <div class="container edit-container">
-<div class="editform">
-{% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-    {% endfor %}
+<div class="col-sm-8">
 	<h2>Update Your Account Info</h2>
   <br>
 	<form action="{{url_for('users.edit', id=user.id)}}?_method=PATCH" method="POST">
@@ -19,7 +16,7 @@
       <div class="form-group">
       {{ form.email.label }}
       <div>
-      {{ form.email(value=user.email, id="mail", class="editfield") }}
+      {{ form.email(value=user.email, id="mail", class="form-control") }}
       </div></div>
       {% if form.name.errors %}
       {% for error in form.name.errors %}
@@ -31,7 +28,7 @@
       <div class="form-group">
       {{ form.name.label }}
       <div>
-      {{ form.name(value=user.name, class="editfield") }}
+      {{ form.name(value=user.name, class="form-control") }}
       </div></div>
       {% if form.phone.errors %}
       {% for error in form.phone.errors %}
@@ -43,12 +40,12 @@
       <div class="form-group">
       {{ form.phone.label }}
       <div>
-      {{ form.phone(value=user.phone, class="editfield") }}
+      {{ form.phone(value=user.phone, class="form-control") }}
       </div></div>
       <div class="form-group">
       <div>
       <p>To confirm changes, enter your password:</p>
-      {{ form.password(placeholder="password", id="pw", class="editfield") }}
+      {{ form.password(placeholder="password", id="pw", class="form-control") }}
       <br><br>
 	    <button type="submit" class="button-hover">Save</button>
       <a href="{{ url_for('users.show', id=user.id) }}" class="button-hover">Cancel</a>
@@ -57,9 +54,9 @@
 </div>
 </div>
 <div class="searchcontent">
-    <div class="myheader">
-        <div class="myheadertext"></div>
-        <div class="myheaderbar"></div>
+    <div >
+        <div ></div>
+        <div ></div>
     	<div class="mycontent">
     	</div>
 	</div>

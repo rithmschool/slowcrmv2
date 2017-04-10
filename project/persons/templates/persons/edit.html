@@ -1,9 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-    <div class="">
-        {% for message in get_flashed_messages() %}
-            <p>{{ message }}</p>
-        {% endfor %}
+    <div class="col-sm-8">
         <h2>Edit {{person.name}}</h2>
         <a href="{{url_for('persons.show',id=person.id)}}">
             <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
@@ -17,7 +14,7 @@
             <div class="form-group">
                 {{ form.email.label }}
                 <div>
-                    {{ form.email(class="editfield", id="mail", value=person.email) }}
+                    {{ form.email(class="form-control", id="mail", value=person.email) }}
                 </div>
             </div>
             {% if form.phone.errors %} {% for error in form.phone.errors %}
@@ -28,7 +25,7 @@
             <div class="form-group">
                 {{ form.phone.label }}
                 <div>
-                    {{ form.phone(class="editfield", value=person.phone) }}
+                    {{ form.phone(class="form-control", value=person.phone) }}
                 </div>
             </div>
             {% if form.title.errors %} {% for error in form.title.errors %}
@@ -39,7 +36,7 @@
             <div class="form-group">
                 {{ form.title.label }}
                 <div>
-                    {{ form.title(class="editfield", value=person.title) }}
+                    {{ form.title(class="form-control", value=person.title) }}
                 </div>
             </div>
             {% if form.description.errors %} {% for error in form.description.errors %}
@@ -50,7 +47,7 @@
             <div class="form-group">
                 {{ form.description.label }}
                 <div>
-                    {{ form.description(class="editfield", value=person.description) }}
+                    {{ form.description(class="form-control", value=person.description) }}
                 </div>
             </div>
             {% if form.slow_lp.errors %} {% for error in form.slow_lp.errors %}
@@ -59,10 +56,7 @@
                 </span>
             {% endfor %} {% endif %}
             <div class="form-group">
-                {{ form.slow_lp.label }}
-                <div>
-                    {{ form.slow_lp(value=person.slow_lp) }}
-                </div>
+                {{ form.slow_lp.label }} {{ form.slow_lp(value=person.slow_lp) }}
             </div>
             {% if form.archived.errors %} {% for error in form.archived.errors %}
                 <span class="text-danger">
@@ -70,10 +64,7 @@
                 </span>
             {% endfor %} {% endif %}
             <div class="form-group">
-                {{ form.archived.label }}
-                <div>
-                    {{ form.archived(value=person.archived) }}
-                </div>
+                {{ form.archived.label }} {{ form.archived(value=person.archived) }}
             </div>
             <button type='submit' class='button-hover'>Save</button>
             <a href="{{ url_for('persons.show', id=person.id) }}" class="button-hover">Cancel</a>

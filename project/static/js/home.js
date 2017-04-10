@@ -20,7 +20,7 @@ $(function() {
   }).then(function(response) {
     response.forEach((value, index) => {
      if (!value.archived) {
-      prependLiToHome($('ul'), response[index].id,
+      prependLiToHome($('ul.entrieslist'), response[index].id,
       response[index].entry_id, response[index].name,
       response[index].data);
       }

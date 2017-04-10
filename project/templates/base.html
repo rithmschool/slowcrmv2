@@ -55,143 +55,67 @@
     </div>
   </div>
   <!-- NAVBAR -->
-  <div class="mynav hidden-xs">
-    <!-- LOGO -->
-    <a href="/users/home" class="logo"><img class="button-hover" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
-    <!-- NEW -->
-    {% if current_user.is_authenticated %}
-    <div class="new">
-      <a data-toggle="modal" data-target="#new-modal">
-        <i id="new" class="fa fa-plus-square fa-3x button-hover" aria-hidden="true" autofocus></i>
-      </a>
-    </div>
-    {%endif%}
-    <!-- USER DROPDOWN -->
-    <div class="right">
-      <form action="{{url_for('users.search')}}" class="myform has-feedback">
-        <div class="input-group">
-          <input class="myinput search right-icon" type="text" name="search" />
-          <i class="glyphicon glyphicon-search form-control-feedback"></i>
-        </div>
-      </form>
-      <!-- NAV / TAG / ICON -->
-      <div role="tab" class="" id="headingThree">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-          <div class=""><i class="fa user fa-tags fa-3x button-hover" aria-hidden="true"></i></div>
+  <nav class="navbar navbar-default mynav navbar-nav-center">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/users/home" class="logo"><img class="button-hover pull-left" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
+        <a class="navbar-center" data-toggle="modal" data-target="#new-modal">
+          <i id="new" class="fa fa-plus-square fa-3x button-hover" aria-hidden="true" autofocus></i>
         </a>
       </div>
-      <div id="collapseThree" class="collapse" role="tabpanel">
-        <!-- NAV / TAG / CURRENT_USER -->
-        <div>
-          <h3 class="text-right drop">
-          {% if current_user.is_authenticated %}
-            <p><a href="{{url_for('tags.details', id=1)}}"><span class="">New Leads</span></a></p>
-            <p><a href="{{url_for('tags.details', id=2)}}"><span class="">Live Deals</span></a></p>
-            <p><a href="{{url_for('tags.details', id=3)}}"><span class="">Needs Discussion</span></a></p>
-        <!-- NAV / TAGS / NO_USER -->
-          {% else %}
-            <a href="{{url_for('users.login')}}">Login</a>
-          </h3>
-          {% endif%}
-        </div>
-      </div>
-      <!-- NAV / USER / ICON -->
-      <div role="tab" id="headingTwo">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <div><i class="fa user fa-user-circle-o fa-3x button-hover" aria-hidden="true"></i></div>
-        </a>
-      </div>
-      <div id="collapseTwo" class="collapse" role="tabpanel">
-        <!-- NAV / USER / CURRENT_USER -->
-        <div>
-          <h3 class="text-right drop">
-          {% if current_user.is_authenticated %}
-            <p><a href="{{url_for('companies.index')}}">Portfolio</a></p>
-            <p><a href="{{url_for('users.show', id=current_user.id)}}">Profile</a></p>
-            <p><a href="{{url_for('users.logout')}}">Logout</a></p>
-        <!-- NAV / USER / NO_USER -->
-          {% else %}
-            <a href="{{url_for('users.login')}}">Login</a>
-          </h3>
-          {% endif%}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MOBILE NAV -->
-  <div class="container-fluid">
-    <!-- LOGO -->
-    <nav class="navbar nav-small navbar-toggleable-md navbar-light bg-faded hidden-lg hidden-md hidden-sm visible-xs nav-item row">
-      <div class="col-xs-4 text-left">
-        <a href="/users/home" class="logo"><img class="button-hover" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
-      </div>
-      <!-- PLUS -->
-      {% if current_user.is_authenticated %}
-      <div class="col-xs-4 text-center">
-        <a class="nav-item col" data-toggle="modal" data-target="#new-modal"><i class="fa fa-plus-square fa-4x button-hover" aria-hidden="true" autofocus></i></a>
-      </div>
-      {% else %}
-      <div class="col-xs-4 text-center">
-      </div>
-      {%endif%}
-      <!-- NAVBUTTON -->
-      <div class="col-xs-4 text-right">
-        <i type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler nav-item fa fa-4x fa-bars">
-            </i>
-      </div>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <div class="nav-item dropdown">
-          <!-- PROFILE -->
-          {% if current_user.is_authenticated %}
-          <p>
-            <i type="button" data-toggle="collapse" data-target="#profileDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler nav-item fa user fa-user-circle-o fa-3x button-hover">
-                    </i>
-            <div class="collapse" id="profileDropdown">
-              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <h3 class="text-right"><a href="{{url_for('users.show', id=current_user.id)}}">Profile</a><h3>
-                        </a>
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <h3 class="text-right"><a href="{{url_for('companies.index')}}">Portfolio</a><h3>
-                        </a>
-                    </div>
-                </p>
-                <!-- TAGS -->
-                <p>
-                    <i
-                        type="button" data-toggle="collapse"
-                        data-target="#tagsDropdown"
-                        aria-controls="navbarNavDropdown"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                        class="navbar-toggler nav-item fa user fa-tags fa-3x button-hover">
-                    </i>
-                    <div class="collapse" id="tagsDropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <h3 class="text-right"><a href="{{url_for('tags.details', id=3)}}"><span class="">Needs Discussion</span></a><h3>
-                        </a>
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <h3 class="text-right"><a href="{{url_for('tags.details', id=2)}}"><span class="">Live Deals</span></a><h3>
-                        </a>
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <h3 class="text-right"><a href="{{url_for('tags.details', id=1)}}"><span class="">New Leads</span></a><h3>
-                        </a>
-                    </div>
-                </p>
-              <!-- LOGOUT -->
-                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <h3 class="text-right"><a href="{{url_for('users.logout')}}">Logout</a><h3>
-                  </a>
-              {%else%}
-                  <h3><a href="{{url_for('users.login')}}">Login</a></h3>
-              {%endif%}
-              </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <form action="{{url_for('users.search')}}" class="navbar-form navbar-nav">
+            <div class="form-group col-sm-8">
+              <input class="form-control search-input" type="text" name="search" placeholder="Search companies, people, tags"/>
             </div>
-        </nav>
-    </div>
+          </form>
+              <div class="btn-group">
+            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div ><i class="fa user fa-tags fa-3x button-hover" aria-hidden="true"></i></div>
+            </button>
+            <ul class="dropdown-menu">
+                {% if current_user.is_authenticated %}
+                  <li><a href="{{url_for('tags.details', id=1)}}">New Leads</a></li>
+                  <li><a href="{{url_for('tags.details', id=2)}}">Live Deals</a></li>
+                  <li><a href="{{url_for('tags.details', id=3)}}">Needs Discussion</a></li>
+              <!-- NAV / TAGS / NO_USER -->
+                {% else %}
+                  <a href="{{url_for('users.login')}}">Login</a>
+                {% endif%}
+            </ul>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div><i class="fa user fa-user-circle-o fa-3x button-hover" aria-hidden="true"></i></div>
+            </button>
+            <ul class="dropdown-menu">
+                {% if current_user.is_authenticated %}
+                  <li><a href="{{url_for('companies.index')}}">Companies</a></li>
+                  <li><a href="{{url_for('users.show', id=current_user.id)}}">Profile</a></li>
+                  <li><a href="{{url_for('users.logout')}}">Logout</a></li>
+                {% else %}
+                  <a href="{{url_for('users.login')}}">Login</a>
+                {% endif%}
+            </ul>
+          </div>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </nav>
+
+
   <!-- CONTENT -->
   <div class="content">
-    {% block content %} {% endblock %}
+    {% block content %}
+
+    {% endblock %}
   </div>
 </body>
 <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>

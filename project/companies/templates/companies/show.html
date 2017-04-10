@@ -1,8 +1,5 @@
 {%  extends 'base.html'  %}
 {%  block content  %}
-{% for message in get_flashed_messages() %}
-    <p class="flashwarning">{{ message }}</p>
-{% endfor %}
 <div class="row">
   <h4>
     <a href = "{{url_for('companies.index')}}">
@@ -24,17 +21,17 @@
   </div>
   <br>
   <div>
-    <p><b>Tags:</b> {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
-    <p><b>Description:</b> {{company.description}}</p>
-    <p><b>URL:</b> {{company.url}}</p>
-    <p><b>Logo URL:</b> {{company.logo_url}}</p>
-    <p><b>Partner Lead:</b> {{company.partner_lead}}</p>
-    <p><b>Operations Lead:</b> {{company.ops_lead}}</p>
-    <p><b>Source:</b> {{company.source}}</p>
-    <p><b>Round:</b> {{company.round}}</p>
-    <p><b>Archived:</b> {{company.archived}}</p>
-    <p><b>Created:</b> {{company.created_at.strftime('%m-%d-%y')}}</p>
-    <p><b>Updated:</b> {{company.created_at.strftime('%m-%d-%y')}}</p>
+    <p><strong>Tags:</strong> {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+    <p><strong>Description:</strong> {{company.description}}</p>
+    <p><strong>URL:</strong> {{company.url}}</p>
+    <p><strong>Logo URL:</strong> {{company.logo_url}}</p>
+    <p><strong>Partner Lead:</strong> {{company.partner_lead}}</p>
+    <p><strong>Operations Lead:</strong> {{company.ops_lead}}</p>
+    <p><strong>Source:</strong> {{company.source}}</p>
+    <p><strong>Round:</strong> {{company.round}}</p>
+    <p><strong>Archived:</strong> {{company.archived}}</p>
+    <p><strong>Created:</strong> {{company.created_at.strftime('%m-%d-%y')}}</p>
+    <p><strong>Updated:</strong> {{company.created_at.strftime('%m-%d-%y')}}</p>
     <a href="{{url_for('companies.archive', id=company.id)}}">
       <i class="fa fa-trash" aria-hidden="true"></i>
     </a>
@@ -44,9 +41,9 @@
     <ul class="user-entries">
       {%  for entry in entries  %}
       <li>
-        <p><b>{{entry.content | safe}}</b></p>
-        <p><b>Created On:</b> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}} <br>
-        <b>Updated On:</b> {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
+        <p><strong>{{entry.content | safe}}</strong></p>
+        <p><strong>Created On:</strong> {{entry.created_at.strftime('%m-%d-%y')}} at {{entry.created_at.strftime('%I:%M %p')}} <br>
+        <strong>Updated On:</strong> {{entry.updated_at.strftime('%m-%d-%y')}} at {{entry.updated_at.strftime('%I:%M %p')}}</p>
       </li>
       {%  endfor  %}
     </ul>
@@ -57,10 +54,10 @@
     <div class="modal-content">
       <div class="modal-body text-center">
         <div class="entry">
-          <form  id="entry-form" action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
+          <form id="entry-form" action="{{url_for('companies.add_tag', id=company.id)}}" method="POST">
             <div class="form-group">
               {{form.hidden_tag()}}
-              {{form.tag}}
+              {{form.tag(autofocus=true)}}
             </div>
             <div class="inline">
               <i class="lead text-muted">company tag</i>

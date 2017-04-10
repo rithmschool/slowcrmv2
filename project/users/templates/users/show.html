@@ -14,7 +14,7 @@
 <!-- MODAL-->
 <div id="invite-modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="padding:20px;">
       <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
       <div class="model-header">
         <h4 class="modal-heading">Invite New User</h4>
@@ -23,8 +23,10 @@
         <div>
           <form class="invite-modal-form" action="#">
             <div class="form-group">
-              <input id="invite-name" label="Name" name="name" type="text" placeholder="Name"></input>
-              <input id="invite-email" label="Email" name="email" type="text" placeholder="Email Address"></input>
+              <input id="invite-name" class="form-control" name="name" type="text" placeholder="Name"></input>
+            </div>
+            <div class="form-group">
+              <input id="invite-email" class="form-control" name="email" type="text" placeholder="Email Address"></input>
             </div>
             <button label="submit" class="button-hover" id="invite-modal-submit">Submit</button>
           </form>
@@ -46,24 +48,28 @@
     <span><a class="edit-button btn glyphicon glyphicon-pencil btn" href="/users/{{user.id}}/edit"></a></span>
   </h2>
   <div>
-    <p>{{user.email}}</p>
-    <p>{{user.phone}}</p>
-    <p><b>Joined:</b> {{user.created_at.strftime('%m/%y')}}</p>
-    <p><b>Admin:</b> {{user.is_admin}}</p>
-    <a href="/users/{{user.id}}/editpassword">
-    <button class="button-hover">
-      Update Password
-    </button></a>
-    <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#invite-modal">
-      Send Invite
-    </button>
+    <p><strong>Email: </strong>{{user.email}}</p>
+    <p><strong>Phone: </strong>{{user.phone}}</p>
+    <p><strong>Joined: </strong> {{user.created_at.strftime('%m/%y')}}</p>
+    <p><strong>Admin: </strong> {{user.is_admin}}</p>
+    <p>
+      <a href="/users/{{user.id}}/editpassword">
+        <button class="button-hover">
+          Update Password
+        </button>
+      </a>
+    </p>
+    <p>
+      <button type="button" class="button-hover invite-button" data-toggle="modal" data-target="#invite-modal">
+        Send Invite
+      </button>
+      </p>
   </div>
   <p></p>
   <a href="{{ url_for('users.show_archived',  id=user.id) }}" class="b">
   <button class="button-hover">
     Show Archived Entries
   </button></a>
-</div>
 
 <!-- USER ENTRIES -->
 <div>
@@ -72,7 +78,7 @@
       {% if formatted_entries[0] %} {% for entry in formatted_entries[::-1] %}
       {% if not entry["archived"]%}
       <li>
-        <p><b>{{entry["content"] | safe }}</b></p>
+        <p><strong>{{entry["content"] | safe }}</strong></p>
         <p>
           {{entry["created_at"].strftime('%m-%d-%y')}}
           <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" alt="archive" class="button">
@@ -95,8 +101,8 @@
   <div>
     <p>{{user.email}}</p>
     <p>{{user.phone}}</p>
-    <p><b>Member Since </b> {{user.created_at.strftime('%m/%y')}}</p>
-    <p><b>Last Active</b> {{user.created_at.strftime('%m-%d-%y')}}</p>
+    <p><strong>Member Since </strong> {{user.created_at.strftime('%m/%y')}}</p>
+    <p><strong>Last Active</strong> {{user.created_at.strftime('%m-%d-%y')}}</p>
   </div>
 </div>
 
@@ -106,10 +112,10 @@
   <ul class="user-entries">
   {% if formatted_entries[0] %} {% for entry in formatted_entries[::-1] %}
     <li>
-      <p><b>{{entry["content"] | safe }}</b></p>
+      <p><strong>{{entry["content"] | safe }}</strong></p>
       <p>
-        <b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}} <br>
-        <b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}
+        <strong>Created On:</strong> {{entry["created_at"].strftime('%m-%d-%y')}} at {{entry["created_at"].strftime('%I:%M %p')}} <br>
+        <strong>Updated On:</strong> {{entry["updated_at"].strftime('%m-%d-%y')}} at {{entry["updated_at"].strftime('%I:%M %p')}}
       </p>
     </li>
     {% endfor %} {% else %}
@@ -119,3 +125,4 @@
 </div>
 {% endif %}
 {% endblock %}
+</div>

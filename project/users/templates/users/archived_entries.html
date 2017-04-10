@@ -15,7 +15,7 @@
 <!-- Invite User Modal with AJAX -->
 <div id="invite-modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="padding:20px;">
       <button label="close" id="close-button" type="button" class="close" data-dismiss="modal">&times;</button>
       <div class="model-header">
         <h4 class="modal-heading">Invite New User</h4>
@@ -23,8 +23,8 @@
       <div class="modal-body text-center">
         <form class="invite-modal-form" action="#">
           <div class="form-group">
-            <input id="invite-name" label="Name" name="name" type="text" placeholder="Name"/>
-            <input id="invite-email" label="Email" name="email" type="text" placeholder="Email Address"/>
+            <input id="invite-name" class="form-control" name="name" type="text" placeholder="Name"/>
+            <input id="invite-email" class="form-control" name="email" type="email" placeholder="Email Address"/>
             <button label="submit" class="btn btn-primary" id="invite-modal-submit">Submit</button>
           </div>
         </form>
@@ -54,17 +54,17 @@
         </div>
         <!-- Posts container -->
         <div class="col-md-12">
-            <h3 class="">{{user.name}}'s Archived Entries</h3>
+            <h3 >{{user.name}}'s Archived Entries</h3>
             {% if formatted_entries[0] %}
             {% for entry in formatted_entries[::-1] %}
             {% if entry["archived"]%}
             <div class="entry-post">
                 <p class="entry-post-content">{{entry["content"] | safe }}</p>
-                <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at
+                <p class="entry-post-dates"><strong>Created On:</strong> {{entry["created_at"].strftime('%m-%d-%y')}} at
                     {{entry["created_at"].strftime('%I:%M %p')}}</p>
-                <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at
+                <p class="entry-post-dates"><strong>Updated On:</strong> {{entry["updated_at"].strftime('%m-%d-%y')}} at
                     {{entry["updated_at"].strftime('%I:%M %p')}}</p>
-                 <p class="entry-post-dates"><b>Archived: </b>{{entry["archived"]}}</p>
+                 <p class="entry-post-dates"><strong>Archived: </strong>{{entry["archived"]}}</p>
                 <a href="{{ url_for('users.archive', entry_id=entry['entry_id'], id=user.id) }}" class="btn">Un-Archive</a>
             </div>
             {% endif %}
@@ -83,24 +83,24 @@
 
 <h2>User {{user.name}}'s Profile Page</h2>
 <div>
-  <p><b>Email:</b> {{user.email}}</p>
-  <p><b>Phone:</b> {{user.phone}}</p>
-  <p><b>Created On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-  <p><b>Updated On:</b> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
-  <p><b>Admin:</b> {{user.is_admin}}</p>
-  <p><b>Confirmed:</b> {{user.confirmed}}</p>
+  <p><strong>Email:</strong> {{user.email}}</p>
+  <p><strong>Phone:</strong> {{user.phone}}</p>
+  <p><strong>Created On:</strong> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+  <p><strong>Updated On:</strong> {{user.created_at.strftime('%m-%d-%y')}} at {{user.created_at.strftime('%I:%M %p')}}</p>
+  <p><strong>Admin:</strong> {{user.is_admin}}</p>
+  <p><strong>Confirmed:</strong> {{user.confirmed}}</p>
 </div>
 
 <!-- Posts container -->
 <div class="col-md-12">
-  <h3 class="">{{user.name}}'s Entries</h3>
+  <h3 >{{user.name}}'s Entries</h3>
   {% if formatted_entries[0] %}
   {% for entry in formatted_entries[::-1] %}
   <div class="entry-post">
     <p class="entry-post-content">{{entry["content"] | safe }}</p>
-    <p class="entry-post-dates"><b>Created On:</b> {{entry["created_at"].strftime('%m-%d-%y')}} at
+    <p class="entry-post-dates"><strong>Created On:</strong> {{entry["created_at"].strftime('%m-%d-%y')}} at
     {{entry["created_at"].strftime('%I:%M %p')}}</p>
-    <p class="entry-post-dates"><b>Updated On:</b> {{entry["updated_at"].strftime('%m-%d-%y')}} at
+    <p class="entry-post-dates"><strong>Updated On:</strong> {{entry["updated_at"].strftime('%m-%d-%y')}} at
     {{entry["updated_at"].strftime('%I:%M %p')}}</p>
   </div>
   {% endfor %}

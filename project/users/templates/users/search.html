@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 {% block content%}
-<div class="myheader">
-  <div class="myheadertext">Search</div>
-  <div class="myheaderbar"></div>
-  <div class="mycontent">
+<div>
+  <div class="row">
+  <h1>Search Results</h1>
     {% if count > 0 %}
     {% if company_exact|length > 0 %}
-      <div class="row user-row">
-            <span class="header2">Companies:
-            </span>
+      <div>
+            <h3>Companies:</h3>
             {% for company in company_exact %}
             <div>
             <tr>
@@ -21,9 +19,8 @@
         </div>
       {% endif %}
       {% if person_exact|length > 0 %}
-      <div class="row user-row">
-            <span class="header2">People:
-            </span>
+      <div>
+            <h3>People:</h3>
             {% for person in person_exact %}
             <div>
               <tr>
@@ -34,9 +31,8 @@
         </div>
       {% endif %}
       {% if entry_exact|length > 0 %}
-      <div class="row user-row">
-            <span class="header2">Entries:
-            </span>
+      <div>
+            <h3>Entries:</h3>
             {% for entry in entry_exact %}
             <li class="entry" data="{{entry.id}}">
               <a class="nameanchor" href="/users/{{entry.user.id}}">
@@ -49,10 +45,9 @@
         </div>
       {% endif %}
       {% if tag_exact|length > 0 %}
-      <div class="row user-row">
-            <span class="header2">Tags:
-            </span>
-            {% for tag in tag_exact %} 
+      <div>
+            <h3>Tags:</h3>
+            {% for tag in tag_exact %}
             <div>
               <span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>
             </div>
@@ -64,16 +59,16 @@
     {% endif %}
       <div>
         <h3>Not what you were looking for?</h3>
-          {% if company_exists == False %}
-          <p><a href="{{url_for('companies.new', term=term)}}">+ '{{term}}' as new company...</a></p>
+          {% if not company_exists %}
+          <p><a href="{{url_for('companies.new', term=term)}}">+ Add '{{term}}' as new company...</a></p>
           {% else %}
           {% endif %}
-          {% if person_exists == False %}
-          <p><a href="{{url_for('persons.new', term=term)}}">+ '{{term}}' as new person...</a></p>
+          {% if not person_exists %}
+          <p><a href="{{url_for('persons.new', term=term)}}">+ Add '{{term}}' as new person...</a></p>
           {% else %}
           {% endif %}
-          {% if tag_exists == False %}
-          <p><a href="{{url_for('tags.new', term=term)}}">+ '{{term}}' as new tag...</a></p>
+          {% if not tag_exists %}
+          <p><a href="{{url_for('tags.new', term=term)}}">+ Add '{{term}}' as new tag...</a></p>
           {% else %}
           {% endif %}
       </div>

@@ -1,8 +1,5 @@
 {%  extends 'base.html'  %}
 {%  block content  %}
-{% for message in get_flashed_messages() %}
-  <p class="flashwarning">{{ message }}</p>
-{% endfor %}
 <div class="row">
   <h4>
     <a href = "{{url_for('persons.index')}}">
@@ -18,11 +15,11 @@
     </h2>
   </div>
   <div>
-    <p><b>Tags:</b> {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
+    <p><strong>Tags:</strong> {% for taggable in taggables %} {% set tag = Tag.query.get(taggable.tag_id) %} <a href="/tags/{{tag.id}}">#{{tag.text}}</a> {% endfor %}</p>
     <p>{{person.email}}</p>
     <p>{{person.phone}}</p>
-    <p><b>Member Since:</b> {{person.created_at.strftime('%m-%d-%y')}}</p>
-    <p><b>Last Seen:</b> {{person.created_at.strftime('%m-%d-%y')}}</p>
+    <p><strong>Member Since:</strong> {{person.created_at.strftime('%m-%d-%y')}}</p>
+    <p><strong>Last Seen:</strong> {{person.created_at.strftime('%m-%d-%y')}}</p>
      <a href="{{url_for('persons.archive', id=person.id)}}">
        <i class="fa fa-trash" aria-hidden="true"></i>
      </a>

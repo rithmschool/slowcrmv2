@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-
-	{% for message in get_flashed_messages() %}
-		<p class="flash">{{ message }}</p>
-	{% endfor %}
-	<div>
-		<div class="tagtitle">Tags Index</div><br><br>
+	<div class="row">
+	<h1>All Tags</h1>
 	{% for tag in tags %}
 		{% if not tag.archived %}
-			<span class="taglist"><a href="/tags/{{tag.id}}">#{{tag.text}}</a></span>
+			<p>
+				<a href="/tags/{{tag.id}}">#{{tag.text}}</a>
+			</p>
 		{% endif %}
-		{% endfor %}
+	{% endfor %}
+	<hr>
+	<a href="{{url_for('tags.show_archived')}}">See Archived Tags</a>
 	</div>
-<a href="{{url_for('tags.show_archived')}}">Archived Tags</a>
 {% endblock %}

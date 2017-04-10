@@ -1,11 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-    <div class="editform">
-        {% for message in get_flashed_messages() %}
-        <p>{{ message }}</p>
-        {% endfor %}
-        <h2>Add A New Person</h2>
+    <div class="col-sm-8">
         <a href="{{url_for('persons.index')}}">See All People</a>
+        <h2>Add A New Person</h2>
         <form action="{{url_for('persons.index')}}" method='POST'>
             {{form.hidden_tag()}} {% if form.name.errors %} {% for error in form.name.errors %}
             <span class="text-danger">
@@ -14,7 +11,7 @@
             <div class="form-group">
                 {{ form.name.label }}
                 <div>
-                    {{ form.name(value=term, class="editfield") }}
+                    {{ form.name(value=term, class="form-control") }}
                 </div>
             </div>
             {% if form.email.errors %} {% for error in form.email.errors %}
@@ -24,7 +21,7 @@
             <div class="form-group">
                 {{ form.email.label }}
                 <div>
-                    {{ form.email(class="editfield", id="mail") }}
+                    {{ form.email(class="form-control", id="mail") }}
                 </div>
             </div>
             {% if form.phone.errors %} {% for error in form.phone.errors %}
@@ -34,7 +31,7 @@
             <div class="form-group">
                 {{ form.phone.label }}
                 <div>
-                    {{ form.phone(class="editfield") }}
+                    {{ form.phone(class="form-control") }}
                 </div>
             </div>
             {% if form.title.errors %} {% for error in form.title.errors %}
@@ -44,7 +41,7 @@
             <div class="form-group">
                 {{ form.title.label }}
                 <div>
-                    {{ form.title(class="editfield") }}
+                    {{ form.title(class="form-control") }}
                 </div>
             </div>
             {% if form.description.errors %} {% for error in form.description.errors %}
@@ -54,7 +51,7 @@
             <div class="form-group">
                 {{ form.description.label }}
                 <div>
-                    {{ form.description(class="editfield") }}
+                    {{ form.description(class="form-control") }}
                 </div>
             </div>
             {% if form.slow_lp.errors %} {% for error in form.slow_lp.errors %}
@@ -62,20 +59,14 @@
                 {{ error }}
             </span> {% endfor %} {% endif %}
             <div class="form-group">
-                {{ form.slow_lp.label }}
-                <div>
-                    {{ form.slow_lp }}
-                </div>
+                {{ form.slow_lp.label }} {{ form.slow_lp }}
             </div>
             {% if form.archived.errors %} {% for error in form.archived.errors %}
             <span class="text-danger">
                 {{ error }}
             </span> {% endfor %} {% endif %}
             <div class="form-group">
-                {{ form.archived.label }}
-                <div>
-                    {{ form.archived }}
-                </div>
+                {{ form.archived.label }} {{ form.archived }}
             </div>
             <button type='submit' class='button-hover'>Add New Person</button>
             <a href="{{ url_for('users.home') }}" class="button-hover">Cancel</a>
