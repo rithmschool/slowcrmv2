@@ -110,6 +110,9 @@
     </div><!--/.container-fluid -->
   </nav>
 
+  {% for message in get_flashed_messages() %}
+    <p class="text-center text-danger">{{ message }}</p>
+  {% endfor %}
 
   <!-- CONTENT -->
   <div class="content">
