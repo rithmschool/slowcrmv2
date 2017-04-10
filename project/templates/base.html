@@ -58,17 +58,20 @@
   <nav class="navbar navbar-default mynav navbar-nav-center">
     <div class="container-fluid">
       <div class="navbar-header">
+        <a href="/users/home" class="logo"><img class="button-hover pull-left" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
+        {% if current_user.is_authenticated %}
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="/users/home" class="logo"><img class="button-hover pull-left" src="{{ url_for('static', filename='images/logo3.png') }}" alt="home"></a>
         <a class="navbar-center" data-toggle="modal" data-target="#new-modal">
           <i id="new" class="fa fa-plus-square fa-3x button-hover" aria-hidden="true" autofocus></i>
         </a>
+        {% endif %}
       </div>
+      {% if current_user.is_authenticated %}
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           <form action="{{url_for('users.search')}}" class="navbar-form navbar-nav">
@@ -107,6 +110,7 @@
           </div>
         </ul>
       </div><!--/.nav-collapse -->
+      {% endif %}
     </div><!--/.container-fluid -->
   </nav>
 
