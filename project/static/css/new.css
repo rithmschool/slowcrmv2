@@ -272,12 +272,12 @@ i.nav-item{
     width: 100%;
 }
 
-#user-name-pencil-container{
+/*#user-name-pencil-container{
     display:flex;
     width: 100%;
     align-items: center;
     justify-content: center;
-}
+}*/
 
 a.glyphicon-pencil{
     font-size: 20px;
