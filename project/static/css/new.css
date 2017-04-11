@@ -55,18 +55,19 @@ ul {
 */
 .legend {
     border-radius: 0.5rem;
-    color: #607c8b;
+    color: #b4b4b4;
 }
 .legend-word {
-    color: #797979;
+    color: #b4b4b4;
 }
 .legend span {
     margin: 2px;
     padding: 4px;
     border-radius: 0.4rem;
-    background: rgba(0,0,0,0.1);
-    box-shadow: 0px 0.5rem 0px #c9c9c9;
+    background: white;
+    box-shadow: 0px 0.5rem 0px rgba(180, 180, 180, 0.32);
 }
+
 .autocomplete-suggestions{
     border-radius: 2px;
     padding:1rem;
@@ -122,6 +123,7 @@ ul {
     color: rgb(201, 201, 201);
 }
 button.post{
+  background: linear-gradient(150deg,#256f99,#5b7f93);
   box-shadow: 0px 0.5rem 0px #4a6472;
   text-shadow: 0px 3px 0px #4a6472;
 }

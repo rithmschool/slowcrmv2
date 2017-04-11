@@ -73,7 +73,7 @@
       </div>
       {% if current_user.is_authenticated %}
       <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
+        <div class="nav navbar-nav navbar-right">
           <form action="{{url_for('users.search')}}" class="navbar-form navbar-nav">
             <div class="form-group col-sm-8">
               <input class="form-control search-input" type="text" name="search" placeholder="Search companies, people, tags"/>
@@ -108,7 +108,7 @@
                 {% endif%}
             </ul>
           </div>
-        </ul>
+        </div>
       </div><!--/.nav-collapse -->
       {% endif %}
     </div><!--/.container-fluid -->
