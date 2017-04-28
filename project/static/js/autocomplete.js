@@ -38,6 +38,7 @@ $(function(){
   $('#entry-form').on('submit', function(e) {
     e.preventDefault()
     var re = /\|\s*\||\$\s*\$|\*\s*\*/;
+    var reg = /([*|$][a-zA-Z]+[*|$])/g;
     if ($('#tweet-message').val() === "") {
       $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
@@ -71,6 +72,12 @@ $(function(){
       }).catch(function(error) {
         $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
       })
+      // If user is not on home page, redirect to home page on post
+      var checkHref = window.location.href.split('').reverse().join('').slice(0,10).split('').reverse().join('');
+      if(checkHref !== "users/home"){
+        window.location.href = "http://localhost:3001/users/home"
+      };
+
     }
   });
 
