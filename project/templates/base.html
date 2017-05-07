@@ -17,6 +17,8 @@
   <script src="//use.fontawesome.com/6c7cf6fe39.js"></script>
   <script src="{{ url_for('static', filename='js/jquery.devbridge-autocomplete.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+  <script src="{{url_for('static', filename='js/typeahead.js')}}"></script>
+
 </head>
 <body>
   <script type="text/javascript">
@@ -37,7 +39,7 @@
           <div class="entry">
             <form id="entry-form" action="{{ url_for('users.entry') }}" , method='POST'>
               <div class="form-group">
-                <textarea wrap="soft" name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus></textarea>
+                <textarea wrap="soft" name="tweet-message" id="tweet-message" class="form-control typeahead" placeholder="update" autofocus></textarea>
               </div>
               <div class="flashes"></div>
               <div class="inline">
@@ -80,8 +82,8 @@
             </div>
           </form>
               <div class="btn-group">
-            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div ><i class="fa user fa-tags fa-3x button-hover" aria-hidden="true"></i></div>
+            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+              <div ><i class="fa user fa-tags fa-3x button-hover" aria-hidden="false"></i></div>
             </button>
             <ul class="dropdown-menu">
                 {% if current_user.is_authenticated %}

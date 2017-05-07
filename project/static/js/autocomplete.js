@@ -37,8 +37,7 @@ $(function(){
   //Entry form submission error handling
   $('#entry-form').on('submit', function(e) {
     e.preventDefault()
-    var re = /\|\s*\||\$\s*\$|\*\s*\*/;
-    var reg = /([*|$][a-zA-Z]+[*|$])/g;
+    var re = /\B\*\s\*\B|\B\|\s\|\B|\B\$\s\$\B/;
     if ($('#tweet-message').val() === "") {
       $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
@@ -79,6 +78,7 @@ $(function(){
 
     }
   });
+
 
   //Tag Autocomplete
   $('#tag').autocomplete({
