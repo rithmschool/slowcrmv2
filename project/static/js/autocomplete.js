@@ -20,6 +20,8 @@ $(function(){
       }
     },
     delimiter: ' ',
+    tabDisabled: false,
+    autoSelectFirst: true,
     lookup: function(query, done){
       $.ajax({
         url: '/tags/autocomplete',
