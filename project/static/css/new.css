@@ -308,11 +308,8 @@ a.glyphicon-pencil{
 .button-hover {
     cursor: pointer;
     display: inline-block;
-/*    vertical-align: middle;
-    transform: perspective(1px) translateZ(0);
-    transition-duration: 0.3s;
-    transition-property: transform box-shadow;
-    transition-timing-function: ease-out;*/
+    vertical-align: middle;
+
 }
 .button-hover:hover, .button-hover:focus, .button-hover:active {
     transform: translateY(3px);
