@@ -2,6 +2,7 @@ $(function(){
   //Entry Autocomplete
   var sendServer = false;
   $('#tweet-message').autocomplete({
+    deferRequestBy: 200,
     ajaxSettings: {
       beforeSend: function(xhr) {
         xhr.setRequestHeader('X-Requested-With', 'XMLHTTPRequest');
