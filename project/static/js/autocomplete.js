@@ -39,7 +39,7 @@ $(function(){
   //Entry form submission error handling
   $('#entry-form').on('submit', function(e) {
     e.preventDefault()
-    var re = /\B\*\s+\*\B|\B\|\s+\|\B|\B\$\s+\$\B/;
+    var re = /\B\*\s*\*\B|\B\|\s*\|\B|\B\$\s*\$\B/;
     if ($('#tweet-message').val() === "") {
       $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
