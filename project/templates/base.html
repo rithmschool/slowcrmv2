@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <script src="//use.fontawesome.com/6c7cf6fe39.js"></script>
+  <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet'>
   <title>Slow CRM</title>
@@ -14,9 +16,11 @@
   <script src="//code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script src="//use.fontawesome.com/6c7cf6fe39.js"></script>
   <script src="{{ url_for('static', filename='js/jquery.devbridge-autocomplete.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+
+
+
 </head>
 <body>
   <script type="text/javascript">
@@ -37,7 +41,7 @@
           <div class="entry">
             <form id="entry-form" action="{{ url_for('users.entry') }}" , method='POST'>
               <div class="form-group">
-                <textarea wrap="soft" name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus></textarea>
+                <textarea wrap="soft" name="tweet-message" id="tweet-message" class="form-control" placeholder="update" autofocus autocomplete="off" spellcheck="false"></textarea>
               </div>
               <div class="flashes"></div>
               <div class="inline">
@@ -80,8 +84,8 @@
             </div>
           </form>
               <div class="btn-group">
-            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div ><i class="fa user fa-tags fa-3x button-hover" aria-hidden="true"></i></div>
+            <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+              <div ><i class="fa user fa-tags fa-3x button-hover" aria-hidden="false"></i></div>
             </button>
             <ul class="dropdown-menu">
                 {% if current_user.is_authenticated %}

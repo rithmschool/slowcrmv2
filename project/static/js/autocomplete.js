@@ -20,6 +20,8 @@ $(function(){
       }
     },
     delimiter: ' ',
+    tabDisabled: false,
+    autoSelectFirst: true,
     lookup: function(query, done){
       $.ajax({
         url: '/tags/autocomplete',
@@ -37,7 +39,7 @@ $(function(){
   //Entry form submission error handling
   $('#entry-form').on('submit', function(e) {
     e.preventDefault()
-    var re = /\|\s*\||\$\s*\$|\*\s*\*/;
+    var re = /\B\*\s*\*\B|\B\|\s*\|\B|\B\$\s*\$\B/;
     if ($('#tweet-message').val() === "") {
       $('.flashes').empty().prepend(
         '<div>please enter person, company, or tag</div>'
@@ -57,7 +59,7 @@ $(function(){
         contentType: "application/json",
       }).then(function(response) {
         $('#tweet-message').val('');
-        $('ul').prepend(
+        $('.entrieslist').prepend(
           `<li class="entry" data-id="${response.entry_id}">
             <a class="nameanchor" href="/users/${response.id}">
               <div class="name">${response.name}
@@ -71,8 +73,14 @@ $(function(){
       }).catch(function(error) {
         $('.flashes').prepend('<div>' + JSON.parse(error.responseText).message + '</div>')
       })
+      // If user is not on home page, redirect to home page on post
+      if(window.location.pathname !== "/users/home"){
+        window.location.pathname = "/users/home";
+      };
+
     }
   });
+
 
   //Tag Autocomplete
   $('#tag').autocomplete({
