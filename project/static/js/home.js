@@ -12,7 +12,7 @@ $(function() {
      if (!value.archived) {
       prependLiToHome($('ul.entrieslist'), response[index].id,
       response[index].entry_id, response[index].name,
-      response[index].data);
+      response[index].data, response[index].time);
       }
     })
   }).then(() => {
@@ -30,7 +30,7 @@ $(function() {
           response.forEach((value, index) => {
            if (!value.archived) {
             prependLiToHome($('ul.entrieslist'), response[index].id,
-            response[index].entry_id, response[index].name, response[index].data)
+            response[index].entry_id, response[index].name, response[index].data, response[index].time)
             }
           })
         }
@@ -39,7 +39,7 @@ $(function() {
     setInterval(reload, 20000)
   })
 
-  function prependLiToHome($ul, id, entry_id, name, data) {
+  function prependLiToHome($ul, id, entry_id, name, data, time) {
     $ul.prepend(
       `<li class="entry" data-id="${entry_id}">
         <a class="nameanchor" href="/users/${id}">
@@ -47,8 +47,9 @@ $(function() {
           </div>
         </a>
         <div class="text">${data}</div>
+        <div class="date">${time}</div>
       </li>`
     );
   }
-  
+
 });

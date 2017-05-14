@@ -1,4 +1,5 @@
 $(function(){
+
   //Entry Autocomplete
   var sendServer = false;
   $('#tweet-message').autocomplete({
@@ -67,6 +68,7 @@ $(function(){
               </div>
             </a>
             <div class="text">${response.data}</div>
+            <div class="date">${response.time}</div>
           </li>`
         )
         $('#new-modal').modal('toggle');
