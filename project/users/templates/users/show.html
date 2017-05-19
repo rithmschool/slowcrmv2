@@ -97,10 +97,10 @@
 
 <!-- NON USER PROFILE -->
 <div>
-  <h2><span class="user-header">User {{user.name}}</span></h2>
+  <h2><span class="user-header">{{user.name}}</span></h2>
   <div>
-    <p>{{user.email}}</p>
-    <p>{{user.phone}}</p>
+    <p><img class="contact-icon" src="{{ url_for('static', filename='images/mail.png') }}"><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+    <p><img class="contact-icon" src="{{ url_for('static', filename='images/phone.png') }}"><a href="tel:{{user.phone}}">{{user.phone}}</a></p>
     <p><strong>Member Since </strong> {{user.created_at.strftime('%m/%y')}}</p>
     <p><strong>Last Active</strong> {{user.created_at.strftime('%m-%d-%y')}}</p>
   </div>
