@@ -7,10 +7,10 @@
         <div>
             <div>
                 <div>
-                    <span >Entries</span>
                     <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#entries">
                         <i class="fa fa-minus" aria-hidden="true"></i>
                     </button>
+                    <span >Entries</span>
                 </div>
                 <div id="entries" class="collapse in">
                     {% for entry in formatted_entries %}
@@ -24,10 +24,10 @@
                 </div>
                 <div>
                     <div>
-                        <span>Companies</span>
                         <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#companies">
                             <i class="fa fa-minus" aria-hidden="true"></i>
                         </button>
+                        <span>Companies</span>
                     </div>
                     <div id="companies" class="collapse in">
                         {% for company in formatted_companies %}
@@ -47,10 +47,10 @@
                 </div>
                 <div>
                     <div>
-                        <span>People</span>
                         <button type="button" class="sh button-hover" data-toggle="collapse" data-target="#persons">
                             <i class="fa fa-minus" aria-hidden="true"></i>
                         </button>
+                        <span>People</span>
                     </div>
                     <div id="persons" class="collapse in">
                         {% for person in formatted_persons %}
