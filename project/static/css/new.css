@@ -36,11 +36,25 @@ ul {
     text-decoration: none;
     list-style: none;
 }
-.inline {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
+
+/*RESPONSIVE*/
+
+@media screen and (min-width: 434px) {      
+    .inline {      
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+     } 
+} 
+
+@media screen and (min-width: : 434px) {
+    #tweet-resp {
+        margin-top: 3%;
+    }  
 }
+
+
+
 .sh {
     background: none;
     color: #607c8b;
@@ -338,3 +352,6 @@ a.glyphicon-pencil{
 .contact-icon {
     height: 35px;
 }
+
+
+

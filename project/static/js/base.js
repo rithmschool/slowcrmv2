@@ -33,7 +33,6 @@ $(function() {
   // Invite User Modal Form
   $("#invite-modal-submit").on('click', function(e) {
     e.preventDefault();
-    input.focus();
     $modalMessage.html('<p>One moment...</p>');
     var email = $("#invite-email").val();
     var name = $("#invite-name").val();
