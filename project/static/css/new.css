@@ -37,21 +37,9 @@ ul {
     list-style: none;
 }
 
-/*RESPONSIVE*/
 
-@media screen and (min-width: 434px) {      
-    .inline {      
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-     } 
-} 
 
-@media screen and (min-width: : 434px) {
-    #tweet-resp {
-        margin-top: 3%;
-    }  
-}
+
 
 
 
@@ -317,6 +305,23 @@ a.glyphicon-pencil{
         font-size: 3.5rem;
     }
 }
+
+/*Entry form small screen*/
+
+@media (min-width: 434px) {      
+    .inline {      
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+     } 
+} 
+
+@media (max-width: 435px){    
+    #tweet-button {
+        margin-top: 3%;
+    } 
+}
+
 /* KEYFRAMES
 *********/
 .button-hover {

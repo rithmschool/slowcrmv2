@@ -56,4 +56,8 @@ $(function() {
       }
     })
   });
+
+  //switch minus sign to plus sign on minimize
+
+  // $("#persons").parent().children().children().button().children()[0]
 });
