@@ -358,5 +358,9 @@ a.glyphicon-pencil{
     height: 35px;
 }
 
+/*Disable button highlighting*/
 
+button:focus {
+    outline: none;
+}
 

@@ -104,4 +104,27 @@ $(function(){
       });
     }
   });
+
+
+
+  // toggle +/- on collapse
+
+  $(".people-button").click(function(){
+    if($("#persons").hasClass("collapsing") !== true){
+      $(this).find('i').toggleClass('fa-plus fa-minus')
+    }
+  })
+
+  $(".companies-button").click(function(){
+    if($("#companies").hasClass("collapsing") !== true){
+      $(this).find('i').toggleClass('fa-plus fa-minus')
+    }
+  })
+
+  $(".entries-button").click(function(){
+    if($("#entries").hasClass("collapsing") !== true){
+      $(this).find('i').toggleClass('fa-plus fa-minus')
+    }
+  })
+
 });
