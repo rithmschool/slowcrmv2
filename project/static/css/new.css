@@ -36,11 +36,13 @@ ul {
     text-decoration: none;
     list-style: none;
 }
-.inline {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-}
+
+
+
+
+
+
+
 .sh {
     background: none;
     color: #607c8b;
@@ -303,6 +305,23 @@ a.glyphicon-pencil{
         font-size: 3.5rem;
     }
 }
+
+/*Entry form small screen*/
+
+@media (min-width: 434px) {      
+    .inline {      
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+     } 
+} 
+
+@media (max-width: 435px){    
+    #tweet-button {
+        margin-top: 3%;
+    } 
+}
+
 /* KEYFRAMES
 *********/
 .button-hover {
@@ -326,3 +345,22 @@ a.glyphicon-pencil{
     text-shadow: 0px 0.1rem 0px #a1a1a1, 0px 5px 20px rgba(0, 0, 0, 0.6);
     transform: translateY(3px);
 }
+
+.date {
+    float: right;
+    margin: -12px;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+
+.contact-icon {
+    height: 35px;
+}
+
+/*Disable button highlighting*/
+
+button:focus {
+    outline: none;
+}
+

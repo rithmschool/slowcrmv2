@@ -1,4 +1,5 @@
 $(function(){
+
   //Entry Autocomplete
   var sendServer = false;
   $('#tweet-message').autocomplete({
@@ -67,6 +68,7 @@ $(function(){
               </div>
             </a>
             <div class="text">${response.data}</div>
+            <div class="date">${response.time}</div>
           </li>`
         )
         $('#new-modal').modal('toggle');
@@ -102,4 +104,27 @@ $(function(){
       });
     }
   });
+
+
+
+  // toggle +/- on collapse
+
+  $(".people-button").click(function(){
+    if($("#persons").hasClass("collapsing") !== true){
+      $(this).find('i').toggleClass('fa-plus fa-minus')
+    }
+  })
+
+  $(".companies-button").click(function(){
+    if($("#companies").hasClass("collapsing") !== true){
+      $(this).find('i').toggleClass('fa-plus fa-minus')
+    }
+  })
+
+  $(".entries-button").click(function(){
+    if($("#entries").hasClass("collapsing") !== true){
+      $(this).find('i').toggleClass('fa-plus fa-minus')
+    }
+  })
+
 });

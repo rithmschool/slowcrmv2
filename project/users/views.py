@@ -9,6 +9,7 @@ from flask import json
 from werkzeug.datastructures import ImmutableMultiDict # for converting JSON to ImmutableMultiDict
 from sqlalchemy import desc, asc
 from jinja2 import Template
+from datetime import datetime
 
 users_blueprint = Blueprint(
     'users',
@@ -20,6 +21,7 @@ regular_text = Template('{{text|e}}')
 tag_template = Template('<a href="/tags/{{tag_id}}">{{tag_text|e}}</a>')
 companies_template = Template('<a href="/companies/{{company_id}}">{{company_name|e}}</a>')
 person_template = Template('<a href="/persons/{{person_id}}">{{person_name|e}}</a>')
+
 
 @users_blueprint.route('/home', methods=['GET', 'POST'])
 def home():
@@ -298,6 +300,7 @@ def entry():
                 add_company_data_db(pipes_dollars_tuples[1], content, entry)
                 add_person_data_db(pipes_dollars_tuples[0], content, entry)
                 add_tag_data_db(pipes_dollars_tuples[2], content, entry)
+
             except ValueError as e:
                 return json.dumps({
                         'message': str(e)
@@ -306,7 +309,8 @@ def entry():
                  'data' : get_links(entry.content, pipes_dollars_tuples),
                  'entry_id': entry.id,
                  'name': current_user.name,
-                 'id': current_user.id
+                 'id': current_user.id,
+                 'time': entry.created_at
             })
         else:
             raise ValueError('content is empty')
@@ -319,7 +323,8 @@ def entry():
                      'entry_id': entry.id,
                      'name': entry.user.name,
                      'id': entry.user.id,
-                     'archived': entry.archived
+                     'archived': entry.archived,
+                     'time': entry.created_at
                 } for entry in entries])
             else:
                 # Getting ID of latest entry in DB
@@ -334,7 +339,8 @@ def entry():
                         'entry_id': entry.id,
                         'name': entry.user.name,
                         'id': entry.user.id,
-                        'archived': entry.archived
+                        'archived': entry.archived,
+                        'time': entry.created_at
                     } for entry in new_entries])
                 else:
                     return json.dumps([])

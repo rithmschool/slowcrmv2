@@ -33,7 +33,6 @@ $(function() {
   // Invite User Modal Form
   $("#invite-modal-submit").on('click', function(e) {
     e.preventDefault();
-    input.focus();
     $modalMessage.html('<p>One moment...</p>');
     var email = $("#invite-email").val();
     var name = $("#invite-name").val();
@@ -57,4 +56,8 @@ $(function() {
       }
     })
   });
+
+  //switch minus sign to plus sign on minimize
+
+  // $("#persons").parent().children().children().button().children()[0]
 });
